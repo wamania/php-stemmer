@@ -31,5 +31,6 @@ In your controller :
 ``` php
 use Wamania\Snowball\French;
 
-$stem = French::stem('anticonstitutionnellement');
+$stemmer = new French();
+$stem = $stemmer->stem('anticonstitutionnellement');
 ```
