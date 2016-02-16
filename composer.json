@@ -1,0 +1,21 @@
+{
+	"name": "wamania/php-stemmer",
+	"description": "Native PHP5 Stemmer",
+	"keywords": ["stemmer", "porter", "php"],
+	"licence": "MIT",
+	"authors": [
+		{
+			"name": "Wamania",
+			"homepage": "http://wamania.com"
+		}
+	],
+    "require": {
+		"php": ">=5.3.0",
+		"phpunit/phpunit": "^4.8"
+    },
+	"autoload": {
+        "psr-0": {
+            "Wamania":        "src/"
+        }
+    }
+}
