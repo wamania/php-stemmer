@@ -1,6 +1,26 @@
 # php-stemmer
 Native PHP5 Stemmer
 
+Available : 
+
+- English
+- French
+- German
+- Italian
+- Spanish
+- Portuguese
+- Romanian
+
+Next :
+- Dutch
+
+Soon :
+ - Swedish 
+ - Norwegian
+ - Danish 
+ - Russian 
+ - Finnish 
+
 PHP native implementation of Snowball stemmer
 http://snowball.tartarus.org/
 
