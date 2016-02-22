@@ -5,8 +5,13 @@ http://snowball.tartarus.org/
 
 Accept only UTF-8
 
-Available : 
+* [Languages](#languages)
+* [Installation](#installation)
+* [Usage](#usage)
 
+Languages
+------------
+Available : 
 - English
 - French
 - German
@@ -24,10 +29,6 @@ Soon :
  - Danish 
  - Russian 
  - Finnish 
-
-* [Installation](#installation)
-* [Usage](#usage)
-
 
 Installation
 ------------
