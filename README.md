@@ -1,5 +1,9 @@
 # php-stemmer
-Native PHP5 Stemmer
+
+PHP5 native implementation of Snowball stemmer
+http://snowball.tartarus.org/
+
+Accept only UTF-8
 
 Available : 
 
@@ -20,9 +24,6 @@ Soon :
  - Danish 
  - Russian 
  - Finnish 
-
-PHP native implementation of Snowball stemmer
-http://snowball.tartarus.org/
 
 * [Installation](#installation)
 * [Usage](#usage)
