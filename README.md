@@ -19,12 +19,12 @@ Available :
 - Spanish
 - Portuguese
 - Romanian
-
-Next :
 - Dutch
 
-Soon :
- - Swedish 
+Next :
+- Swedish
+
+Soon : 
  - Norwegian
  - Danish 
  - Russian 
@@ -48,7 +48,7 @@ into your `composer.json` file:
 Usage
 -----
 
-In your controller :
+In your code:
 
 ``` php
 use Wamania\Snowball\French;
