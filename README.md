@@ -20,12 +20,12 @@ Available :
 - Portuguese
 - Romanian
 - Dutch
-
-Next :
 - Swedish
 
+Next :
+- Norwegian
+
 Soon : 
- - Norwegian
  - Danish 
  - Russian 
  - Finnish 
