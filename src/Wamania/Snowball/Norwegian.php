@@ -3,16 +3,16 @@ namespace Wamania\Snowball;
 
 /**
  *
- * @link http://snowball.tartarus.org/algorithms/swedish/stemmer.html
+ * @link http://snowball.tartarus.org/algorithms/norwegian/stemmer.html
  * @author wamania
  *
  */
-class Swedish extends Stem
+class Norwegian extends Stem
 {
     /**
-     * All swedish vowels
+     * All norwegian vowels
      */
-    protected static $vowels = array('a', 'e', 'i', 'o', 'u', 'y', 'ä', 'å', 'ö');
+    protected static $vowels = array('a', 'e', 'i', 'o', 'u', 'y', 'æ', 'å', 'ø');
 
     /**
      * Main function to get the STEM of a word
@@ -59,7 +59,16 @@ class Swedish extends Stem
     private function hasValidSEnding($word)
     {
         $lastLetter = Utf8::substr($word, -1, 1);
-        return in_array($lastLetter, array('b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 't', 'v', 'y'));
+        if (in_array($lastLetter, array('b', 'c', 'd', 'f', 'g', 'h', 'j', 'l', 'm', 'n', 'o', 'p', 'r', 't', 'v', 'y', 'z'))) {
+            return true;
+        }
+        if ($lastLetter == 'k') {
+            $beforeLetter = Utf8::substr($word, -2, 1);
+            if (!in_array($beforeLetter, self::$vowels)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -68,14 +77,18 @@ class Swedish extends Stem
      */
     private function step1()
     {
-        // a   arna   erna   heterna   orna   ad   e   ade   ande   arne   are   aste   en   anden   aren   heten
-        // ern   ar   er   heter   or   as   arnas   ernas   ornas   es   ades   andes   ens   arens   hetens
-        // erns   at   andet   het   ast
+        //  erte   ert
+        //      replace with er
+        if ( ($position = $this->searchIfInR1(array('erte', 'ert'))) !== false) {
+            $this->word = preg_replace('#(erte|ert)$#u', 'er', $this->word);
+            return true;
+        }
+
+         // a   e   ede   ande   ende   ane   ene   hetene   en   heten   ar   er   heter   as   es   edes   endes   enes   hetenes   ens   hetens   ers   ets   et   het   ast
         //      delete
         if ( ($position = $this->searchIfInR1(array(
-            'heterna', 'hetens', 'ornas', 'andes', 'arnas', 'heter', 'ernas', 'anden', 'heten', 'andet', 'arens',
-            'orna', 'arna', 'erna', 'aren', 'ande', 'ades', 'arne', 'erns', 'aste', 'ade', 'ern', 'het',
-            'ast', 'are', 'ens', 'or', 'es', 'ad', 'en', 'at', 'ar', 'as', 'er', 'a', 'e'
+            'hetenes', 'hetene', 'hetens', 'heten', 'endes', 'heter', 'ande', 'ende', 'enes', 'edes', 'ede', 'ane',
+            'ene', 'het', 'ers', 'ets', 'ast', 'ens', 'en', 'ar', 'er', 'as', 'es', 'et', 'a', 'e'
         ))) !== false) {
             $this->word = Utf8::substr($this->word, 0, $position);
             return true;
@@ -88,46 +101,32 @@ class Swedish extends Stem
             if ($this->hasValidSEnding($word)) {
                 $this->word = $word;
             }
+            return true;
         }
     }
 
     /**
      * Step 2
-     * Search for one of the following suffixes in R1, and if found delete the last letter.
+     * If the word ends dt or vt in R1, delete the t.
      */
     private function step2()
     {
-        // dd   gd   nn   dt   gt   kt   tt
-        if ($this->searchIfInR1(array('dd', 'gd', 'nn', 'dt', 'gt', 'kt', 'tt')) !== false) {
+        if ($this->searchIfInR1(array('dt', 'vt')) !== false) {
             $this->word = Utf8::substr($this->word, 0, -1);
         }
     }
 
     /**
      * Step 3:
-     * Search for the longest among the following suffixes in R1, and perform the action indicated.
+     * Search for the longest among the following suffixes in R1, and if found, delete.
      */
     private function step3()
     {
-        // lig   ig   els
-        //      delete
-        if ( ($position = $this->searchIfInR1(array('lig', 'ig', 'els'))) !== false) {
+        // leg   eleg   ig   eig   lig   elig   els   lov   elov   slov   hetslov
+        if ( ($position = $this->searchIfInR1(array(
+            'hetslov', 'eleg', 'elov', 'slov', 'elig', 'eig', 'lig', 'els', 'lov', 'leg', 'ig'
+        ))) !== false) {
             $this->word = Utf8::substr($this->word, 0, $position);
-            return true;
-        }
-
-        // löst
-        //      replace with lös
-        if ( ($this->searchIfInR1(array('löst'))) !== false) {
-            $this->word = Utf8::substr($this->word, 0, -1);
-            return true;
-        }
-
-        // fullt
-        //      replace with full
-        if ( ($this->searchIfInR1(array('fullt'))) !== false) {
-            $this->word = Utf8::substr($this->word, 0, -1);
-            return true;
         }
     }
 }

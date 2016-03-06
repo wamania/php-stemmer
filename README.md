@@ -21,12 +21,12 @@ Available :
 - Romanian
 - Dutch
 - Swedish
-
-Next :
 - Norwegian
 
+Next :
+- Danish
+
 Soon : 
- - Danish 
  - Russian 
  - Finnish 
 
