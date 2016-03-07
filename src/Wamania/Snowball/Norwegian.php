@@ -51,7 +51,8 @@ class Norwegian extends Stem
 
     /**
      * Define a valid s-ending as one of
-     * b   c   d   f   g   h   j   k   l   m   n   o   p   r   t   v   y
+     * b   c   d   f   g   h   j   l   m   n   o   p   r   t   v   y   z,
+     * or k not preceded by a vowel
      *
      * @param string $ending
      * @return boolean
