@@ -22,12 +22,12 @@ Available :
 - Dutch
 - Swedish
 - Norwegian
-
-Next :
 - Danish
 
+Next :
+- Russian
+
 Soon : 
- - Russian 
  - Finnish 
 
 Installation
