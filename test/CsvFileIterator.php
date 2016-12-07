@@ -1,4 +1,5 @@
 <?php
+namespace Wamania\Snowball\Tests;
 
 class CsvFileIterator implements \Iterator
 {

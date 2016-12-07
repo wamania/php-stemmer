@@ -1,7 +1,5 @@
 <?php
-namespace Tests\SnowBall;
-
-require_once 'CsvFileIterator.php';
+namespace Wamania\Snowball\Tests;
 
 use Wamania\Snowball\French;
 
@@ -21,6 +19,6 @@ class FrenchTest extends \PHPUnit_Framework_TestCase
 
     public function load()
     {
-        return new \CsvFileIterator('test/files/fr.txt');
+        return new CsvFileIterator('test/files/fr.txt');
     }
 }

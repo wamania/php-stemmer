@@ -1,18 +1,16 @@
 <?php
-namespace Tests\SnowBall;
+namespace Wamania\Snowball\Tests;
 
-require_once 'CsvFileIterator.php';
+use Wamania\Snowball\Danish;
 
-use Wamania\Snowball\German;
-
-class GermanTest extends \PHPUnit_Framework_TestCase
+class DanishTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider load
      */
     public function testStem($word, $stem)
     {
-        $o = new German();
+        $o = new Danish();
 
         $snowballStem = $o->stem($word);
 
@@ -21,6 +19,6 @@ class GermanTest extends \PHPUnit_Framework_TestCase
 
     public function load()
     {
-        return new \CsvFileIterator('test/files/de.txt');
+        return new CsvFileIterator('test/files/dk.txt');
     }
 }
