@@ -20,12 +20,7 @@ class English extends Stem
     protected static $liEnding = array('c', 'd', 'e', 'g', 'h', 'k', 'm', 'n', 'r', 't');
 
     /**
-     * Main function to get the STEM of a word
-     * The word in param MUST BE IN UTF-8
-     *
-     * @param string $word
-     * @throws \Exception
-     * @return NULL|string
+     * {@inheritdoc}
      */
     public function stem($word)
     {

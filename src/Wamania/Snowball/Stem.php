@@ -1,7 +1,7 @@
 <?php
 namespace Wamania\Snowball;
 
-abstract class Stem
+abstract class Stem implements Stemmer
 {
     protected static $vowels = array('a', 'e', 'i', 'o', 'u', 'y');
 

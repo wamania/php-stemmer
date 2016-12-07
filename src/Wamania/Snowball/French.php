@@ -15,12 +15,7 @@ class French extends Stem
     protected static $vowels = array('a', 'e', 'i', 'o', 'u', 'y', 'â', 'à', 'ë', 'é', 'ê', 'è', 'ï', 'î', 'ô', 'û', 'ù');
 
     /**
-     * Main function to get the STEM of a word
-     * The word in param MUST BE IN UTF-8
-     *
-     * @param string $word
-     * @throws \Exception
-     * @return NULL|string
+     * {@inheritdoc}
      */
     public function stem($word)
     {
