@@ -14,3 +14,4 @@
 /.settings/
 /.buildpath
 /.project
+/composer.lock

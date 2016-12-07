@@ -15,19 +15,13 @@ class Danish extends Stem
     protected static $vowels = array('a', 'e', 'i', 'o', 'u', 'y', 'æ', 'å', 'ø');
 
     /**
-     * Main function to get the STEM of a word
-     * The word in param MUST BE IN UTF-8
-     *
-     * @param string $word
-     * @throws \Exception
-     * @return NULL|string
+     * {@inheritdoc}
      */
     public function stem($word)
     {
         // we do ALL in UTF-8
         if (! Utf8::check($word)) {
             throw new \Exception('Word must be in UTF-8');
-            return null;
         }
 
         $this->word = Utf8::strtolower($word);

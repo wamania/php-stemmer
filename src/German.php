@@ -19,19 +19,13 @@ class German extends Stem
     protected static $stEndings = array('b', 'd', 'f', 'g', 'h', 'k', 'l', 'm', 'n', 't');
 
     /**
-     * Main function to get the STEM of a word
-     * The word in param MUST BE IN UTF-8
-     *
-     * @param string $word
-     * @throws \Exception
-     * @return NULL|string
+     * {@inheritdoc}
      */
     public function stem($word)
     {
         // we do ALL in UTF-8
         if (! Utf8::check($word)) {
             throw new \Exception('Word must be in UTF-8');
-            return null;
         }
 
         $this->plainVowels = implode('', self::$vowels);
