@@ -12,17 +12,11 @@ class PortugueseTest extends \PHPUnit_Framework_TestCase
      */
     public function testStem($word, $stem)
     {
-        /*$words = array(
-            'viciados' => 'vic',
-        );*/
+        $o = new Portuguese();
 
-        //foreach ($words as $word => $stem) {
-            $o = new Portuguese();
+        $snowballStem = $o->stem($word);
 
-            $snowballStem = $o->stem($word);
-
-            $this->assertEquals($stem, $snowballStem);
-        //}
+        $this->assertEquals($stem, $snowballStem);
     }
 
     public function load()

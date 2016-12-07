@@ -12,17 +12,11 @@ class SwedishTest extends \PHPUnit_Framework_TestCase
      */
     public function testStem($word, $stem)
     {
-        /*$words = array(
-            'paguen' => 'pag',
-        );*/
+        $o = new Swedish();
 
-        //foreach ($words as $word => $stem) {
-            $o = new Swedish();
+        $snowballStem = $o->stem($word);
 
-            $snowballStem = $o->stem($word);
-
-            $this->assertEquals($stem, $snowballStem);
-        //}
+        $this->assertEquals($stem, $snowballStem);
     }
 
     public function load()

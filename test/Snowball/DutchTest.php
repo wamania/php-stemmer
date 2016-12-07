@@ -12,17 +12,11 @@ class DutchTest extends \PHPUnit_Framework_TestCase
      */
     public function testStem($word, $stem)
     {
-        /*$words = array(
-            'paguen' => 'pag',
-        );*/
+        $o = new Dutch();
 
-        //foreach ($words as $word => $stem) {
-            $o = new Dutch();
+        $snowballStem = $o->stem($word);
 
-            $snowballStem = $o->stem($word);
-
-            $this->assertEquals($stem, $snowballStem);
-        //}
+        $this->assertEquals($stem, $snowballStem);
     }
 
     public function load()

@@ -12,17 +12,11 @@ class DanishTest extends \PHPUnit_Framework_TestCase
      */
     public function testStem($word, $stem)
     {
-        /*$words = array(
-            'paguen' => 'pag',
-        );*/
+        $o = new Danish();
 
-        //foreach ($words as $word => $stem) {
-            $o = new Danish();
+        $snowballStem = $o->stem($word);
 
-            $snowballStem = $o->stem($word);
-
-            $this->assertEquals($stem, $snowballStem);
-        //}
+        $this->assertEquals($stem, $snowballStem);
     }
 
     public function load()
