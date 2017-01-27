@@ -23,11 +23,9 @@ Available :
 - Swedish
 - Norwegian
 - Danish
-
-Next :
 - Russian
 
-Soon : 
+Next : 
  - Finnish 
 
 Installation
