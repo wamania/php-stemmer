@@ -49,11 +49,10 @@ class Finnish extends Stem
         if ( ($position = $this->searchIfInR1(array(
             'kin', 'kaan', 'kään', 'ko', 'kö', 'han', 'hän', 'pa', 'pä'
         ))) !== false) {
-            $word = Utf8::substr($this->word, 0, $position);
-            $lastLetter = substr($word, -1, 1);
+            $lastLetter = Utf8::substr($this->word, ($position-1), 1);
 
             if (in_array($lastLetter, array_merge(['t', 'n'], self::$vowels))) {
-                $this->word = $word;
+                $this->word = Utf8::substr($this->word, 0, $position);
             }
 
             return true;
@@ -76,7 +75,29 @@ class Finnish extends Stem
      */
     private function step2()
     {
+        // si
+        //  delete if not preceded by k
+        if ( ($position = $this->searchIfInR1(array('si'))) !== false) {
+            $lastLetter = Utf8::substr($this->word, ($position-1), 1);
 
+            if ($lastLetter === 'k') {
+                $this->word = Utf8::substr($this->word, 0, $position);
+            }
+
+            return true;
+        }
+
+        // ni
+        //  delete if preceded by kse, replace with ksi
+        if ( ($position = $this->searchIfInR1(array('ni'))) !== false) {
+            $lastLetter = Utf8::substr($this->word, ($position-1), 1);
+
+            if ($lastLetter === 'k') {
+                $this->word = Utf8::substr($this->word, 0, $position);
+            }
+
+            return true;
+        }
     }
 
     /**
