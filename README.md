@@ -31,9 +31,7 @@ Next :
 Installation
 ------------
 
-Require [`wamania/php-stemmer`](https://packagist.org/packages/wamania/php-stemmer)
-into your `composer.json` file:
-
+With composer :
 
 ``` bash
 composer require wamania/php-stemmer
