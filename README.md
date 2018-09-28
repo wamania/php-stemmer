@@ -35,12 +35,8 @@ Require [`wamania/php-stemmer`](https://packagist.org/packages/wamania/php-stemm
 into your `composer.json` file:
 
 
-``` json
-{
-    "require": {
-        "wamania/php-stemmer": "dev-master"
-    }
-}
+``` bash
+composer require wamania/php-stemmer
 ```
 
 Usage
