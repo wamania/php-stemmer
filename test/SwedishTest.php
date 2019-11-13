@@ -1,7 +1,7 @@
 <?php
 namespace Wamania\Snowball\Tests;
 
-use Wamania\Snowball\Swedish;
+use Wamania\Snowball\Stemmer\Swedish;
 
 class SwedishTest extends \PHPUnit_Framework_TestCase
 {

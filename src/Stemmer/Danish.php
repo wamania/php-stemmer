@@ -1,5 +1,8 @@
 <?php
-namespace Wamania\Snowball;
+
+namespace Wamania\Snowball\Stemmer;
+
+use voku\helper\UTF8;
 
 /**
  *
@@ -17,14 +20,14 @@ class Danish extends Stem
     /**
      * {@inheritdoc}
      */
-    public function stem($word)
+    public function stem($word): string
     {
         // we do ALL in UTF-8
-        if (! Utf8::check($word)) {
+        if (!UTF8::is_utf8($word)) {
             throw new \Exception('Word must be in UTF-8');
         }
 
-        $this->word = Utf8::strtolower($word);
+        $this->word = UTF8::strtolower($word);
 
         // R2 is not used: R1 is defined in the same way as in the German stemmer
         $this->r1();
@@ -32,7 +35,7 @@ class Danish extends Stem
         // then R1 is adjusted so that the region before it contains at least 3 letters.
         if ($this->r1Index < 3) {
             $this->r1Index = 3;
-            $this->r1 = Utf8::substr($this->word, 3);
+            $this->r1 = UTF8::substr($this->word, 3);
         }
 
         // Do each of steps 1, 2 3 and 4.
@@ -53,7 +56,7 @@ class Danish extends Stem
      */
     private function hasValidSEnding($word)
     {
-        $lastLetter = Utf8::substr($word, -1, 1);
+        $lastLetter = UTF8::substr($word, -1, 1);
         return in_array($lastLetter, array('a', 'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 't', 'v', 'y', 'z', 'å'));
     }
 
@@ -71,14 +74,14 @@ class Danish extends Stem
             'erens', 'ered', 'ende', 'erne', 'eres', 'eren', 'eret', 'erer', 'enes', 'heds',
             'ens', 'ene', 'ere', 'ers', 'ets', 'hed', 'es', 'et', 'er', 'en', 'e'
         ))) !== false) {
-            $this->word = Utf8::substr($this->word, 0, $position);
+            $this->word = UTF8::substr($this->word, 0, $position);
             return true;
         }
 
         // s
         //      delete if preceded by a valid s-ending
         if ( ($position = $this->searchIfInR1(array('s'))) !== false) {
-            $word = Utf8::substr($this->word, 0, $position);
+            $word = UTF8::substr($this->word, 0, $position);
             if ($this->hasValidSEnding($word)) {
                 $this->word = $word;
             }
@@ -94,7 +97,7 @@ class Danish extends Stem
     private function step2()
     {
         if ($this->searchIfInR1(array('gd', 'dt', 'gt', 'kt')) !== false) {
-            $this->word = Utf8::substr($this->word, 0, -1);
+            $this->word = UTF8::substr($this->word, 0, -1);
         }
     }
 
@@ -105,14 +108,14 @@ class Danish extends Stem
     {
         // If the word ends igst, remove the final st.
         if ($this->search(array('igst')) !== false) {
-            $this->word = Utf8::substr($this->word, 0, -2);
+            $this->word = UTF8::substr($this->word, 0, -2);
         }
 
         // Search for the longest among the following suffixes in R1, and perform the action indicated.
         //  ig   lig   elig   els
         //      delete, and then repeat step 2
         if ( ($position = $this->searchIfInR1(array('elig', 'lig', 'ig', 'els'))) !== false) {
-            $this->word = Utf8::substr($this->word, 0, $position);
+            $this->word = UTF8::substr($this->word, 0, $position);
             $this->step2();
             return true;
         }
@@ -120,7 +123,7 @@ class Danish extends Stem
         //  løst
         //      replace with løs
         if ($this->searchIfInR1(array('løst')) !== false) {
-            $this->word = Utf8::substr($this->word, 0, -1);
+            $this->word = UTF8::substr($this->word, 0, -1);
         }
     }
 
@@ -130,19 +133,19 @@ class Danish extends Stem
      */
     private function step4()
     {
-        $length = Utf8::strlen($this->word);
+        $length = UTF8::strlen($this->word);
         if (!$this->inR1(($length-1))) {
             return false;
         }
 
-        $lastLetter = Utf8::substr($this->word, -1, 1);
+        $lastLetter = UTF8::substr($this->word, -1, 1);
         if (in_array($lastLetter, self::$vowels)) {
             return false;
         }
-        $beforeLastLetter = Utf8::substr($this->word, -2, 1);
+        $beforeLastLetter = UTF8::substr($this->word, -2, 1);
 
         if ($lastLetter == $beforeLastLetter) {
-            $this->word = Utf8::substr($this->word, 0, -1);
+            $this->word = UTF8::substr($this->word, 0, -1);
         }
         return true;
     }

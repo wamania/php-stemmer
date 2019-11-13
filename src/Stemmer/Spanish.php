@@ -1,5 +1,8 @@
 <?php
-namespace Wamania\Snowball;
+
+namespace Wamania\Snowball\Stemmer;
+
+use voku\helper\UTF8;
 
 /**
  *
@@ -20,11 +23,11 @@ class Spanish extends Stem
     public function stem($word)
     {
         // we do ALL in UTF-8
-        if (! Utf8::check($word)) {
+        if (!UTF8::is_utf8($word)) {
             throw new \Exception('Word must be in UTF-8');
         }
 
-        $this->word = Utf8::strtolower($word);
+        $this->word = UTF8::strtolower($word);
 
         $this->rv();
         $this->r1();
@@ -68,7 +71,7 @@ class Spanish extends Stem
     private function step0()
     {
         if ( ($position = $this->searchIfInRv(array('selas', 'selos', 'las', 'los', 'les', 'nos', 'selo', 'sela', 'me', 'se', 'la', 'le', 'lo' ))) != false) {
-            $suffixe = Utf8::substr($this->word, $position);
+            $suffixe = UTF8::substr($this->word, $position);
 
             // a
             $a = array('iéndo', 'ándo', 'ár', 'ér', 'ír');
@@ -77,11 +80,11 @@ class Spanish extends Stem
             }, $a);
 
             if ( ($position2 = $this->searchIfInRv($a)) !== false) {
-                $suffixe2 = Utf8::substr($this->word, $position2);
-                $suffixe2 = Utf8::deaccent($suffixe2, -1);
-                $this->word = Utf8::substr($this->word, 0, $position2);
+                $suffixe2 = UTF8::substr($this->word, $position2);
+                $suffixe2 = UTF8::deaccent($suffixe2, -1);
+                $this->word = UTF8::substr($this->word, 0, $position2);
                 $this->word .= $suffixe2;
-                $this->word = Utf8::substr($this->word, 0, $position);
+                $this->word = UTF8::substr($this->word, 0, $position);
                 return true;
             }
 
@@ -92,15 +95,15 @@ class Spanish extends Stem
             }, $b);
 
             if ( ($position2 = $this->searchIfInRv($b)) !== false) {
-                $this->word = Utf8::substr($this->word, 0, $position);
+                $this->word = UTF8::substr($this->word, 0, $position);
                 return true;
             }
 
             // c
             if ( ($position2 = $this->searchIfInRv(array('yendo' . $suffixe))) != false) {
-                $before = Utf8::substr($this->word, ($position2-1), 1);
+                $before = UTF8::substr($this->word, ($position2-1), 1);
                 if ( (isset($before)) && ($before == 'u') ) {
-                    $this->word = Utf8::substr($this->word, 0, $position);
+                    $this->word = UTF8::substr($this->word, 0, $position);
                     return true;
                 }
             }
@@ -122,7 +125,7 @@ class Spanish extends Stem
             'ible', 'ables', 'able', 'ismos', 'ismo', 'icas', 'icos', 'ica', 'ico', 'anzas', 'anza'))) != false) {
 
             if ($this->inR2($position)) {
-                $this->word = Utf8::substr($this->word, 0, $position);
+                $this->word = UTF8::substr($this->word, 0, $position);
             }
             return true;
         }
@@ -134,11 +137,11 @@ class Spanish extends Stem
             'adoras', 'adora', 'aciones', 'ación', 'adores', 'ador', 'antes', 'ante', 'ancias', 'ancia'))) != false) {
 
             if ($this->inR2($position)) {
-                $this->word = Utf8::substr($this->word, 0, $position);
+                $this->word = UTF8::substr($this->word, 0, $position);
             }
 
             if ( ($position2 = $this->searchIfInR2(array('ic')))) {
-                $this->word = Utf8::substr($this->word, 0, $position2);
+                $this->word = UTF8::substr($this->word, 0, $position2);
             }
             return true;
         }
@@ -178,19 +181,19 @@ class Spanish extends Stem
 
             // delete if in R1
             if ($this->inR1($position)) {
-                $this->word = Utf8::substr($this->word, 0, $position);
+                $this->word = UTF8::substr($this->word, 0, $position);
             }
 
             // if preceded by iv, delete if in R2 (and if further preceded by at, delete if in R2), otherwise,
             if ( ($position2 = $this->searchIfInR2(array('iv'))) !== false) {
-                $this->word = Utf8::substr($this->word, 0, $position2);
+                $this->word = UTF8::substr($this->word, 0, $position2);
                 if ( ($position3 = $this->searchIfInR2(array('at'))) !== false) {
-                    $this->word = Utf8::substr($this->word, 0, $position3);
+                    $this->word = UTF8::substr($this->word, 0, $position3);
                 }
 
             // if preceded by os, ic or ad, delete if in R2
             } elseif ( ($position4 = $this->searchIfInR2(array('os', 'ic', 'ad'))) != false) {
-                $this->word = Utf8::substr($this->word, 0, $position4);
+                $this->word = UTF8::substr($this->word, 0, $position4);
             }
             return true;
         }
@@ -202,12 +205,12 @@ class Spanish extends Stem
 
             // delete if in R2
             if ($this->inR2($position)) {
-                $this->word = Utf8::substr($this->word, 0, $position);
+                $this->word = UTF8::substr($this->word, 0, $position);
             }
 
             // if preceded by ante, able or ible, delete if in R2
             if ( ($position2 = $this->searchIfInR2(array('ante', 'able', 'ible'))) != false) {
-                $this->word = Utf8::substr($this->word, 0, $position2);
+                $this->word = UTF8::substr($this->word, 0, $position2);
             }
             return true;
         }
@@ -219,12 +222,12 @@ class Spanish extends Stem
 
             // delete if in R2
             if ($this->inR2($position)) {
-                $this->word = Utf8::substr($this->word, 0, $position);
+                $this->word = UTF8::substr($this->word, 0, $position);
             }
 
             // if preceded by abil, ic or iv, delete if in R2
             if ( ($position2 = $this->searchIfInR2(array('abil', 'ic', 'iv'))) != false) {
-                $this->word = Utf8::substr($this->word, 0, $position2);
+                $this->word = UTF8::substr($this->word, 0, $position2);
             }
             return true;
         }
@@ -236,12 +239,12 @@ class Spanish extends Stem
 
             // delete if in R2
             if ($this->inR2($position)) {
-                $this->word = Utf8::substr($this->word, 0, $position);
+                $this->word = UTF8::substr($this->word, 0, $position);
             }
 
             // if preceded by at, delete if in R2
             if ( ($position2 = $this->searchIfInR2(array('at'))) != false) {
-                $this->word = Utf8::substr($this->word, 0, $position2);
+                $this->word = UTF8::substr($this->word, 0, $position2);
             }
             return true;
         }
@@ -259,9 +262,9 @@ class Spanish extends Stem
         if ( ($position = $this->searchIfInRv(array(
             'yamos', 'yendo', 'yeron', 'yan', 'yen', 'yais', 'yas', 'yes', 'yo', 'yó', 'ya', 'ye'))) != false) {
 
-            $before = Utf8::substr($this->word, ($position-1), 1);
+            $before = UTF8::substr($this->word, ($position-1), 1);
             if ( (isset($before)) && ($before == 'u') ) {
-                $this->word = Utf8::substr($this->word, 0, $position);
+                $this->word = UTF8::substr($this->word, 0, $position);
                 return true;
             }
         }
@@ -286,17 +289,17 @@ class Spanish extends Stem
             'aré', 'erá', 'eré', 'áis', 'ías', 'irá', 'iré', 'aba', 'ían', 'ada', 'ara', 'ase', 'ida', 'ado', 'ido', 'ará',
             'ad', 'ed', 'id', 'ís', 'ió', 'ar', 'er', 'ir', 'as', 'ía', 'an'
         ))) != false) {
-            $this->word = Utf8::substr($this->word, 0, $position);
+            $this->word = UTF8::substr($this->word, 0, $position);
             return true;
         }
 
         // en   es   éis   emos
         //      delete, and if preceded by gu delete the u (the gu need not be in RV)
         if ( ($position = $this->searchIfInRv(array('éis', 'emos', 'en', 'es'))) != false) {
-            $this->word = Utf8::substr($this->word, 0, $position);
+            $this->word = UTF8::substr($this->word, 0, $position);
 
             if ( ($position2 = $this->search(array('gu'))) != false) {
-                $this->word = Utf8::substr($this->word, 0, ($position2+1));
+                $this->word = UTF8::substr($this->word, 0, ($position2+1));
             }
 
 
@@ -313,19 +316,19 @@ class Spanish extends Stem
         // os   a   o   á   í   ó
         //      delete if in RV
         if ( ($position = $this->searchIfInRv(array('os', 'a', 'o', 'á', 'í', 'ó'))) != false) {
-            $this->word = Utf8::substr($this->word, 0, $position);
+            $this->word = UTF8::substr($this->word, 0, $position);
             return true;
         }
 
         // e   é
         //      delete if in RV, and if preceded by gu with the u in RV delete the u
         if ( ($position = $this->searchIfInRv(array('e', 'é'))) != false) {
-            $this->word = Utf8::substr($this->word, 0, $position);
+            $this->word = UTF8::substr($this->word, 0, $position);
 
             if ( ($position2 = $this->searchIfInRv(array('u'))) != false) {
-                $before = Utf8::substr($this->word, ($position2-1), 1);
+                $before = UTF8::substr($this->word, ($position2-1), 1);
                 if ( (isset($before)) && ($before == 'g') ) {
-                    $this->word = Utf8::substr($this->word, 0, $position2);
+                    $this->word = UTF8::substr($this->word, 0, $position2);
                     return true;
                 }
             }
@@ -340,6 +343,6 @@ class Spanish extends Stem
      */
     private function finish()
     {
-        $this->word = Utf8::str_replace(array('á', 'í', 'ó', 'é', 'ú'), array('a', 'i', 'o', 'e', 'u'), $this->word);
+        $this->word = UTF8::str_replace(array('á', 'í', 'ó', 'é', 'ú'), array('a', 'i', 'o', 'e', 'u'), $this->word);
     }
 }
