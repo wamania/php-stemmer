@@ -88,13 +88,33 @@ class Finnish extends Stem
         }
 
         // ni
-        //  delete if preceded by kse, replace with ksi
+        //  delete
         if ( ($position = $this->searchIfInR1(array('ni'))) !== false) {
-            $lastLetter = Utf8::substr($this->word, ($position-1), 1);
 
-            if ($lastLetter === 'k') {
-                $this->word = Utf8::substr($this->word, 0, $position);
+            // if preceded by kse, replace with ksi
+            if ( ($position = $this->search(array('kse'))) !== false) {
+                $this->word = preg_replace('#(kse)$#u', 'ksi', $this->word);
             }
+
+            return true;
+        }
+
+        // nsa   nsä   mme   nne
+        //  delete
+        if ( ($position = $this->search(array('nsa', 'nsä', 'mme', 'nne'))) !== false) {
+            $this->word = Utf8::substr($this->word, 0, $position);
+
+            return true;
+        }
+
+        // an
+        //  delete if preceded by one of   ta   ssa   sta   lla   lta   na
+        if ( ($position = $this->search(array('an'))) !== false) {
+            $word = Utf8::substr($this->word, 0, $position);
+
+            /*if ( ($position = $this->search(array('ta', 'ssa', 'sta', 'lla', 'lta', 'na'))) !== false) {
+                $this->word = $word;
+            }*/
 
             return true;
         }
