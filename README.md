@@ -12,18 +12,18 @@ Accept only UTF-8
 Languages
 ------------
 Available : 
+- Danish
+- Dutch
 - English
 - French
 - German
 - Italian
-- Spanish
+- Norwegian
 - Portuguese
 - Romanian
-- Dutch
-- Swedish
-- Norwegian
-- Danish
 - Russian
+- Spanish
+- Swedish
 
 Next : 
  - Finnish 
@@ -31,20 +31,41 @@ Next :
 Installation
 ------------
 
-With composer :
+For PHP5, use 1.3
+```
+composer require wamania/php-stemmer "^1.3"
+```
 
-``` bash
-composer require wamania/php-stemmer
+For PHP7 use 2.x (branch 2.x is backward compatible with 1.x)
+```
+composer require wamania/php-stemmer "^2.0"
 ```
 
 Usage
 -----
 
-In your code:
+For 2.x, you should use the factory
+```php
+// use ISO_639 (2 or 3 letters) or language name in english
+$stemmer = StemmerFactory::create('fr');
+$stemmer = StemmerFactory::create ('spanish');
 
-``` php
+// then 
+$stem = $stemmer->stem('automóvil');
+```
+
+Or the manager
+```php
+$manager = new StemmerManager();
+$stem = $manager->stem('automóvil', 'es');
+```
+
+In 1.3, you must instantiate manually
+
+```php
 use Wamania\Snowball\French;
 
 $stemmer = new French();
 $stem = $stemmer->stem('anticonstitutionnellement');
 ```
+

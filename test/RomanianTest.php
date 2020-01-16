@@ -1,7 +1,7 @@
 <?php
 namespace Wamania\Snowball\Tests;
 
-use Wamania\Snowball\Romanian;
+use Wamania\Snowball\Stemmer\Romanian;
 
 class RomanianTest extends \PHPUnit_Framework_TestCase
 {

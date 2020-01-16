@@ -1,7 +1,7 @@
 <?php
 namespace Wamania\Snowball\Tests;
 
-use Wamania\Snowball\French;
+use Wamania\Snowball\Stemmer\French;
 
 class FrenchTest extends \PHPUnit_Framework_TestCase
 {
