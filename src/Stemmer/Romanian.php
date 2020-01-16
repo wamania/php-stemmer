@@ -67,7 +67,7 @@ class Romanian extends Stem
      * Search for the longest among the following suffixes, and, if it is in R1, perform the action indicated.
      * @return boolean
      */
-    public function step0()
+    private function step0()
     {
         // ul   ului
         //      delete
@@ -145,7 +145,7 @@ class Romanian extends Stem
      * Then repeat this step until no replacement occurs.
      * @return boolean
      */
-    public function step1()
+    private function step1()
     {
         // abilitate   abilitati   abilităi   abilităţi
         //      replace with abil
@@ -211,7 +211,7 @@ class Romanian extends Stem
      * Search for the longest among the following suffixes, and, if it is in R2, perform the action indicated.
      * @return boolean
      */
-    public function step2()
+    private function step2()
     {
         // atori   itate   itati, ităţi, abila   abile   abili   abilă, ibila   ibile   ibili   ibilă
         // anta, ante, anti, antă, ator, ibil, oasa   oasă   oase, ităi, abil
@@ -262,7 +262,7 @@ class Romanian extends Stem
      * Do step 3 if no suffix was removed either by step 1 or step 2.
      * @return boolean
      */
-    public function step3()
+    private function step3()
     {
         // are   ere   ire   âre   ind   ând   indu   ându   eze   ească   ez   ezi   ează   esc   eşti
         // eşte   ăsc   ăşti   ăşte   am   ai   au   eam   eai   ea   eaţi   eau   iam   iai   ia   iaţi
@@ -310,7 +310,7 @@ class Romanian extends Stem
     /**
      * Step 4: Removal of final vowel
      */
-    public function step4()
+    private function step4()
     {
         // Search for the longest among the suffixes "a   e   i   ie   ă " and, if it is in RV, delete it.
         if ( ($position = $this->search(array('a', 'ie', 'e', 'i', 'ă'))) !== false) {
@@ -326,7 +326,7 @@ class Romanian extends Stem
      * Finally
      * Turn I, U back into i, u
      */
-    public function finish()
+    private function finish()
     {
         // Turn I, U back into i, u
         $this->word = UTF8::str_replace(array('I', 'U'), array('i', 'u'), $this->word);

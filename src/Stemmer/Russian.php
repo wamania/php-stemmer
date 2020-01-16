@@ -82,7 +82,7 @@ class Russian extends Stem
      * Otherwise try and remove a REFLEXIVE ending, and then search in turn for (1) an ADJECTIVAL, (2) a VERB or (3) a NOUN ending.
      * As soon as one of the endings (1) to (3) is found remove it, and terminate step 1.
      */
-    public function step1()
+    private function step1()
     {
         // Search for a PERFECTIVE GERUND ending.
         // group 1
@@ -159,7 +159,7 @@ class Russian extends Stem
     /**
      * Step 2: If the word ends with и (i), remove it.
      */
-    public function step2()
+    private function step2()
     {
         if ( ($position = $this->searchIfInRv(array('и'))) !== false) {
             if ($this->inRv($position)) {
@@ -174,7 +174,7 @@ class Russian extends Stem
      * Step 3: Search for a DERIVATIONAL ending in R2 (i.e. the entire ending must lie in R2),
      * and if one is found, remove it.
      */
-    public function step3()
+    private function step3()
     {
         if ( ($position = $this->searchIfInRv(self::$derivational)) !== false) {
             if ($this->inR2($position)) {
@@ -188,7 +188,7 @@ class Russian extends Stem
      *  Step 4: (1) Undouble н (n), or, (2) if the word ends with a SUPERLATIVE ending, remove it
      *  and undouble н (n), or (3) if the word ends ь (') (soft sign) remove it.
      */
-    public function step4()
+    private function step4()
     {
         // (2) if the word ends with a SUPERLATIVE ending, remove it
         if ( ($position = $this->searchIfInRv(self::$superlative)) !== false) {

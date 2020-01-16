@@ -81,7 +81,7 @@ class Spanish extends Stem
 
             if ( ($position2 = $this->searchIfInRv($a)) !== false) {
                 $suffixe2 = UTF8::substr($this->word, $position2);
-                $suffixe2 = UTF8::deaccent($suffixe2, -1);
+                $suffixe2 = UTF8::to_utf8(UTF8::to_ascii($suffixe2)); // unaccent
                 $this->word = UTF8::substr($this->word, 0, $position2);
                 $this->word .= $suffixe2;
                 $this->word = UTF8::substr($this->word, 0, $position);

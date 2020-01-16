@@ -355,7 +355,7 @@ class English extends Stem
      * Step 3:
      * Search for the longest among the following suffixes, and, if found and in R1, perform the action indicated.
      */
-    public function step3()
+    private function step3()
     {
         // ational+:   replace by ate
         if ($this->searchIfInR1(array('ational')) !== false) {
@@ -400,7 +400,7 @@ class English extends Stem
      * Step 4
      * Search for the longest among the following suffixes, and, if found and in R2, perform the action indicated.
      */
-    public function step4()
+    private function step4()
     {
         //    ement  ance   ence  able ible   ant  ment   ent   ism   ate   iti   ous   ive   ize al  er   ic
         //      delete
@@ -434,7 +434,7 @@ class English extends Stem
      * Step 5: *
      * Search for the the following suffixes, and, if found, perform the action indicated.
      */
-    public function step5()
+    private function step5()
     {
         // e
         //      delete if in R2, or in R1 and not preceded by a short syllable
@@ -467,7 +467,7 @@ class English extends Stem
         return false;
     }
 
-    public function finish()
+    private function finish()
     {
         $this->word = UTF8::str_replace('Y', 'y', $this->word);
     }
