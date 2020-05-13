@@ -1,6 +1,6 @@
 # php-stemmer
 
-PHP5 native implementation of Snowball stemmer
+PHP7 native implementation of Snowball stemmer
 http://snowball.tartarus.org/
 
 Accept only UTF-8
