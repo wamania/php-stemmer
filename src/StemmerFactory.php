@@ -3,6 +3,7 @@
 namespace Wamania\Snowball;
 
 use voku\helper\UTF8;
+use Wamania\Snowball\Stemmer\Catalan;
 use Wamania\Snowball\Stemmer\Danish;
 use Wamania\Snowball\Stemmer\Dutch;
 use Wamania\Snowball\Stemmer\English;
@@ -20,6 +21,7 @@ use Wamania\Snowball\Stemmer\Swedish;
 class StemmerFactory
 {
     const LANGS = [
+        Catalan::class    => ['ca', 'cat', 'catalan'],
         Danish::class     => ['da', 'dan', 'danish'],
         Dutch::class      => ['nl', 'dut', 'nld', 'dutch'],
         English::class    => ['en', 'eng', 'english'],
