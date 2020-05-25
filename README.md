@@ -12,6 +12,7 @@ Accept only UTF-8
 Languages
 ------------
 Available : 
+- Catalan (by Orestes Sanchez Benavente orestes@estotienearreglo.es)
 - Danish
 - Dutch
 - English
