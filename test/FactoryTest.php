@@ -9,6 +9,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testFactory()
     {
         $isoCodes = [
+            'ca' => 'Wamania\\Snowball\\Stemmer\\Catalan',
+            'cat' => 'Wamania\\Snowball\\Stemmer\\Catalan',
+            'catalan' => 'Wamania\\Snowball\\Stemmer\\Catalan',
             'da' => 'Wamania\\Snowball\\Stemmer\\Danish',
             'dan' => 'Wamania\\Snowball\\Stemmer\\Danish',
             'danish' => 'Wamania\\Snowball\\Stemmer\\Danish',
