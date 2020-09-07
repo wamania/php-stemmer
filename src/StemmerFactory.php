@@ -49,6 +49,6 @@ class StemmerFactory
             }
         }
 
-        throw new NotFoundException(sprintf('Stemmer not found for %', $code));
+        throw new NotFoundException(sprintf('Stemmer not found for %s', $code));
     }
 }
