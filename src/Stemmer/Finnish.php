@@ -49,6 +49,7 @@ class Finnish extends Stem
         $this->step3();
         $this->step4();
         $this->step5();
+        $this->step6();
 
         return $this->word;
     }
@@ -199,7 +200,7 @@ class Finnish extends Stem
 
         // ta   tä   ssa   ssä   sta   stä   lla   llä   lta   ltä   lle   na   nä   ksi   ine
         // delete
-        if (($position = $this->searchIfInR1(array('ta', 'tä', 'ssa', 'ssä', 'sta', 'stä', 'lla', 'llä', 'lta', 'ltä', 'lle', 'na', 'nä', 'ksi', 'ine'))) !== false) {
+        if (($position = $this->searchIfInR1(array('ssa', 'ssä', 'sta', 'stä', 'lla', 'llä', 'lta', 'ltä', 'lle', 'ksi', 'na', 'nä', 'ine', 'ta', 'tä'))) !== false) {
             $this->word = Utf8::substr($this->word, 0, $position);
             $this->_removedInStep3 = true;
             return true;
@@ -294,15 +295,49 @@ class Finnish extends Stem
      */
     private function step6()
     {
-        // a) If R1 ends LV delete the last letter
+        // a) If R1 ends LV
+        // delete the last letter
         if (($position = $this->searchIfInR1(self::$longVowels)) !== false) {
             $this->word = Utf8::substr($this->word, 0, $position+1);
         }
 
-        // b) If R1 ends cX, c a consonant and X one of   a   ä   e   i, delete the last letter
+        // b) If R1 ends cX, c a consonant and X one of   a   ä   e   i,
+        // delete the last letter
+        $lastLetter = Utf8::substr($this->word, -1, 1);
+        $secondToLastLetter = Utf8::substr($this->word, -2, 1);
+        if (in_array($secondToLastLetter, self::$consonants, true) && in_array($lastLetter, array('a', 'e', 'i', 'ä'))) {
+            $this->word = Utf8::substr($this->word, 0, -1);
+        }
 
+        // c) If R1 ends oj or uj
+        // delete the last letter
+        $twoLastLetters = Utf8::substr($this->word, -2, 2);
+        if (in_array($twoLastLetters, array('oj', 'uj'))) {
+            $this->word = Utf8::substr($this->word, 0, -1);
+        }
 
-        // c) If R1 ends oj or uj delete the last letter
-        // d) If R1 ends jo delete the last letter
+        // d) If R1 ends jo
+        // delete the last letter
+        $twoLastLetters = Utf8::substr($this->word, -2, 2);
+        if ($twoLastLetters === 'jo') {
+            $this->word = Utf8::substr($this->word, 0, -1);
+        }
+
+        // e) If the word ends with a double consonant followed by zero or more vowels,
+        // remove the last consonant (so eläkk -> eläk, aatonaatto -> aatonaato)
+        $endVowels = '';
+        for ($i = Utf8::strlen($this->word) - 1; $i > 0; $i--) {
+            $letter = Utf8::substr($this->word, $i, 1);
+            if (in_array($letter, self::$vowels, true)) {
+                $endVowels = $letter . $endVowels;
+            } else {
+                // check for double consonant
+                $prevLetter = Utf8::substr($this->word, $i-1, 1);
+                if ($prevLetter === $letter) {
+                    $this->word = Utf8::substr($this->word, 0, $i) . $endVowels;
+                }
+                break;
+            }
+        }
     }
 }
