@@ -1,13 +1,18 @@
 <?php
+/**
+ * Finnish Snowball Stemmer.
+ *
+ * @author msaari <mikko@mikkosaari.fi>
+ */
 namespace Wamania\Snowball\Stemmer;
 
 use voku\helper\UTF8;
 
 /**
+ * Finnish Snowball Stemmer.
  *
  * @link http://snowball.tartarus.org/algorithms/finnish/stemmer.html
- * @author wamania
- *
+ * @author msaari
  */
 class Finnish extends Stem
 {
@@ -16,7 +21,8 @@ class Finnish extends Stem
      */
     protected static $vowels = array('a', 'e', 'i', 'o', 'u', 'y', 'ä', 'ö');
 
-    protected static $consonants = array('b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'z');
+    protected static $consonants = array('b', 'c', 'd', 'f', 'g', 'h', 'j',
+    'k', 'l', 'm', 'n', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'z');
 
     protected static $restrictedVowels = array('a', 'e', 'i', 'o', 'u', 'ä', 'ö');
 
@@ -52,34 +58,22 @@ class Finnish extends Stem
         $this->step5();
         $this->step6();
 
-/*
-        $this->step1();
-        echo "Step 1: $this->word\n";
-        $this->step2();
-        echo "Step 2: $this->word\n";
-        $this->step3();
-        echo "Step 3: $this->word\n";
-        $this->step4();
-        echo "Step 4: $this->word\n";
-        $this->step5();
-        echo "Step 5: $this->word\n";
-        $this->step6();
-        echo "Step 6: $this->word\n";
-*/
         return $this->word;
     }
 
     /**
      * Step 1
-     * Search for the longest among the following suffixes in R1, and perform the action indicated
+     *
+     * Search for the longest among the following suffixes in R1, and perform
+     * the action indicated.
+     *
+     * @return boolean True when something is done.
      */
     private function step1()
     {
         // (a) kin   kaan   kään   ko   kö   han   hän   pa   pä
         //      delete if preceded by n, t or a vowel
-        if ( ($position = $this->searchIfInR1(array(
-            'kaan', 'kään', 'kin', 'han', 'hän', 'ko', 'kö', 'pa', 'pä'
-        ))) !== false) {
+        if ($position = $this->searchIfInR1(array('kaan', 'kään', 'kin', 'han', 'hän', 'ko', 'kö', 'pa', 'pä')) !== false) {
             $lastLetter = Utf8::substr($this->word, ($position-1), 1);
 
             if (in_array($lastLetter, array_merge(['t', 'n'], self::$vowels))) {
@@ -105,14 +99,18 @@ class Finnish extends Stem
     }
 
     /**
-     * Step 2: possessives
-     * Search for the longest among the following suffixes in R1, and perform the action indicated
+     * Step 2: possessives.
+     *
+     * Search for the longest among the following suffixes in R1, and perform
+     * the action indicated.
+     *
+     * @return boolean True when something is done.
      */
     private function step2()
     {
         // si
         //  delete if not preceded by k
-        if ( ($position = $this->searchIfInR1(array('si'))) !== false) {
+        if (($position = $this->searchIfInR1(array('si'))) !== false) {
             $lastLetter = Utf8::substr($this->word, ($position-1), 1);
 
             if ($lastLetter !== 'k') {
@@ -125,7 +123,7 @@ class Finnish extends Stem
 
         // ni
         //  delete
-        if ( ($position = $this->searchIfInR1(array('ni'))) !== false) {
+        if (($position = $this->searchIfInR1(array('ni'))) !== false) {
             $this->word = Utf8::substr($this->word, 0, $position);
             // if preceded by kse, replace with ksi
             if ( ($position = $this->search(array('kse'))) !== false) {
@@ -138,7 +136,7 @@ class Finnish extends Stem
 
         // nsa   nsä   mme   nne
         //  delete
-        if ( ($position = $this->search(array('nsa', 'nsä', 'mme', 'nne'))) !== false) {
+        if (($position = $this->searchIfInR1(array('nsa', 'nsä', 'mme', 'nne'))) !== false) {
             $this->word = Utf8::substr($this->word, 0, $position);
             $this->r1();
             $this->r2();
@@ -147,7 +145,7 @@ class Finnish extends Stem
 
         // an
         //  delete if preceded by one of   ta   ssa   sta   lla   lta   na
-        if ( ($position = $this->search(array('an'))) !== false) {
+        if (($position = $this->searchIfInR1(array('an'))) !== false) {
             $word = Utf8::substr($this->word, 0, $position);
             $lastThreeLetters = Utf8::substr($word, -3, 3);
             $lastTwoLetters = Utf8::substr($word, -2, 2);
@@ -161,7 +159,7 @@ class Finnish extends Stem
 
         // än
         // delete if preceded by one of   tä   ssä   stä   llä   ltä   nä
-        if ( ($position = $this->search(array('än'))) !== false) {
+        if (($position = $this->searchIfInR1(array('än'))) !== false) {
             $word = Utf8::substr($this->word, 0, $position);
             $lastThreeLetters = Utf8::substr($word, -3, 3);
             $lastTwoLetters = Utf8::substr($word, -2, 2);
@@ -175,23 +173,27 @@ class Finnish extends Stem
 
         // en
         // delete if preceded by one of   lle   ine
-        if ( ($position = $this->search(array('en'))) !== false) {
+        if (($position = $this->searchIfInR1(array('en'))) !== false) {
             $word = Utf8::substr($this->word, 0, $position);
-
-            $lastThreeLetters = Utf8::substr($this->word, -5, 3);
-            if (in_array($lastThreeLetters, array('lle', 'ine'), true)) {
-                $this->word = $word;
-                $this->r1();
-                $this->r2();
-                return true;
+            if (Utf8::strlen($this->word) > 4) {
+                $lastThreeLetters = Utf8::substr($this->word, -5, 3);
+                if (in_array($lastThreeLetters, array('lle', 'ine'), true)) {
+                    $this->word = $word;
+                    $this->r1();
+                    $this->r2();
+                    return true;
+                }
             }
         }
     }
 
     /**
-     *
      * Step 3: cases
-     * Search for the longest among the following suffixes in R1, and perform the action indicated
+     *
+     * Search for the longest among the following suffixes in R1, and perform
+     * the action indicated.
+     *
+     * @return boolean True when something is done.
      */
     private function step3()
     {
@@ -221,11 +223,11 @@ class Finnish extends Stem
                 $nextLastLetter = Utf8::substr($this->word, ($position-2), 1);
                 if (in_array($nextLastLetter, self::$restrictedVowels, true)) {
                     $this->word = Utf8::substr($this->word, 0, $position);
+                    $this->_removedInStep3 = true;
+                    $this->r1();
+                    $this->r2();
+                    return true;
                 }
-                $this->_removedInStep3 = true;
-                $this->r1();
-                $this->r2();
-                return true;
             }
         }
 
@@ -257,7 +259,7 @@ class Finnish extends Stem
             }
         }
 
-        // ta   tä   ssa   ssä   sta   stä   lla   llä   lta   ltä   lle   na   nä   ksi   ine
+        // ta  tä  ssa  ssä  sta  stä  lla  llä  lta  ltä  lle  na  nä  ksi  ine
         // delete
         if (($position = $this->searchIfInR1(array('ssa', 'ssä', 'sta', 'stä', 'lla', 'llä', 'lta', 'ltä', 'lle', 'ksi', 'na', 'nä', 'ine', 'ta', 'tä'))) !== false) {
             $this->word = Utf8::substr($this->word, 0, $position);
@@ -301,7 +303,11 @@ class Finnish extends Stem
 
     /**
      * Step 4: other endings
-     * Search for the longest among the following suffixes in R2, and perform the action indicated
+     *
+     * Search for the longest among the following suffixes in R2, and perform
+     * the action indicated
+     *
+     * @return boolean True when something is done.
      */
     private function step4()
     {
@@ -329,9 +335,13 @@ class Finnish extends Stem
 
     /**
      * Step 5: plurals
-     * If an ending was removed in step 3, delete a final i or j if in R1; otherwise,
-     * if an ending was not removed in step 3, delete a final t in R1 if it follows a vowel,
-     * and, if a t is removed, delete a final mma or imma in R2, unless the mma is preceded by po.
+     * If an ending was removed in step 3, delete a final i or j if in R1;
+     * otherwise,
+     * if an ending was not removed in step 3, delete a final t in R1 if it
+     * follows a vowel, and, if a t is removed, delete a final mma or imma in
+     * R2, unless the mma is preceded by po.
+     *
+     * @return boolean True when something is done.
      */
     private function step5()
     {
@@ -350,14 +360,14 @@ class Finnish extends Stem
                     $this->r1();
                     $this->r2();
                     if (($position2 = $this->searchIfInR2(array('imma'))) !== false) {
-                        $this->word = Utf8::substr($this->word, 0, $position);
+                        $this->word = Utf8::substr($this->word, 0, $position2);
                         $this->r1();
                         $this->r2();
                         return true;
                     } elseif (($position2 = $this->searchIfInR2(array('mma'))) !== false) {
-                        $lastLetters = Utf8::substr($this->word, ($position-2), 2);
+                        $lastLetters = Utf8::substr($this->word, ($position2-2), 2);
                         if ($lastLetters !== 'po') {
-                            $this->word = Utf8::substr($this->word, 0, $position);
+                            $this->word = Utf8::substr($this->word, 0, $position2);
                             $this->r1();
                             $this->r2();
                             return true;
@@ -371,7 +381,9 @@ class Finnish extends Stem
 
     /**
      * Step 6: tidying up
-     * Do in turn steps (a), (b), (c), (d), restricting all tests to the region R1.
+     *
+     * Do in turn steps (a), (b), (c), (d), restricting all tests to the
+     * region R1.
      */
     private function step6()
     {
@@ -411,8 +423,9 @@ class Finnish extends Stem
             $this->r2();
         }
 
-        // e) If the word ends with a double consonant followed by zero or more vowels,
-        // remove the last consonant (so eläkk -> eläk, aatonaatto -> aatonaato)
+        // e) If the word ends with a double consonant followed by zero or more
+        // vowels, remove the last consonant (so eläkk -> eläk,
+        // aatonaatto -> aatonaato)
         $endVowels = '';
         for ($i = Utf8::strlen($this->word) - 1; $i > 0; $i--) {
             $letter = Utf8::substr($this->word, $i, 1);
