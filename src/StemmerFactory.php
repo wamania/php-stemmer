@@ -7,6 +7,7 @@ use Wamania\Snowball\Stemmer\Catalan;
 use Wamania\Snowball\Stemmer\Danish;
 use Wamania\Snowball\Stemmer\Dutch;
 use Wamania\Snowball\Stemmer\English;
+use Wamania\Snowball\Stemmer\Finnish;
 use Wamania\Snowball\Stemmer\French;
 use Wamania\Snowball\Stemmer\German;
 use Wamania\Snowball\Stemmer\Italian;
@@ -25,6 +26,7 @@ class StemmerFactory
         Danish::class     => ['da', 'dan', 'danish'],
         Dutch::class      => ['nl', 'dut', 'nld', 'dutch'],
         English::class    => ['en', 'eng', 'english'],
+        Finnish::class    => ['fi', 'fin', 'finnish'],
         French::class     => ['fr', 'fre', 'fra', 'french'],
         German::class     => ['de', 'deu', 'ger', 'german'],
         Italian::class    => ['it', 'ita', 'italian'],
