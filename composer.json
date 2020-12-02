@@ -1,5 +1,5 @@
 {
-	"name": "wamania/php-stemmer",
+	"name": "msaari/php-stemmer",
 	"description": "Native PHP Stemmer",
 	"keywords": ["stemmer", "porter", "php"],
 	"license": "MIT",
@@ -7,7 +7,7 @@
 		{
 			"name": "Wamania",
 			"homepage": "http://wamania.com"
-		}
+		},
 	],
 	"require": {
 		"php": ">=7.0",
