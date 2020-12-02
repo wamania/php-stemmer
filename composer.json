@@ -7,7 +7,7 @@
 		{
 			"name": "Wamania",
 			"homepage": "http://wamania.com"
-		},
+		}
 	],
 	"require": {
 		"php": ">=7.0",
