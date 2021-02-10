@@ -1,16 +1,16 @@
 <?php
 namespace Wamania\Snowball\Tests;
 
-use Wamania\Snowball\Stemmer\Russian;
+use Wamania\Snowball\Stemmer\Catalan;
 
-class RussianTest extends \PHPUnit_Framework_TestCase
+class CatalanTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider load
      */
     public function testStem($word, $stem)
     {
-        $o = new Russian();
+        $o = new Catalan();
 
         $snowballStem = $o->stem($word);
 
@@ -19,6 +19,6 @@ class RussianTest extends \PHPUnit_Framework_TestCase
 
     public function load()
     {
-        return new CsvFileIterator('test/files/ru.txt');
+        return new CsvFileVerboseIterator('test/files/ca.txt');
     }
 }

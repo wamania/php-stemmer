@@ -1204,6 +1204,7 @@ ahvenistolla                  ahvenisto
 ahveniston                    ahvenisto
 ahvenistonjärven              ahvenistonjärv
 ahvenistonjärveä              ahvenistonjärv
+ahvenjÄrvi                    ahvenjÄrv
 ahvenjärven                   ahvenjärv
 ahvenjärvi                    ahvenjärv
 ahvenlahden                   ahvenlahd
@@ -5657,6 +5658,8 @@ aluesarjan                    aluesarj
 aluesihteeri                  aluesihteer
 aluesuunnittelija             aluesuunnittelij
 aluesäästöpankin              aluesäästöp
+aluesäästöpankintaidekokoelmista
+                              aluesäästöpankintaidekokoelm
 aluesäästöpankista            aluesäästöpank
 aluesäästöpankki              aluesäästöpank
 aluetaidemuseon               aluetaidemuseo
@@ -6245,6 +6248,8 @@ ammattilaisille               ammattilais
 ammattilaisilta               ammattilais
 ammattilaisina                ammattilais
 ammattilaisista               ammattilais
+ammattilaisjalkapalloilijoiden
+                              ammattilaisjalkapalloilij
 ammattilaisjoukkue            ammattilaisjoukue
 ammattilaisjäille             ammattilaisj
 ammattilaiskentille           ammattilaiskent
@@ -6846,7 +6851,6 @@ andra                         andr
 andrade                       andrad
 andras                        andras
 andre                         andr
-andré                         andré
 andrea                        andr
 andreas                       andreas
 andreasgoldberger             andreasgoldberger
@@ -6864,9 +6868,7 @@ andreottille                  andreot
 andreottin                    andreot
 andreprevin                   andreprev
 andres                        andres
-andrés                        andrés
 andresen                      andres
-andrésen                      andrés
 andrettin                     andret
 andreu                        andreu
 andrew                        andrew
@@ -6883,6 +6885,9 @@ andropovin                    andropov
 andrus                        andrus
 andrzei                       andrzei
 andrzej                       andrzej
+andré                         andré
+andrés                        andrés
+andrésen                      andrés
 andström                      andström
 anduir                        anduir
 andy                          andy
@@ -6920,7 +6925,6 @@ angelica                      angelic
 angelika                      angelik
 angelin                       angel
 angelique                     angelique
-angélique                     angélique
 angelniemen                   angelniem
 angelo                        angelo
 angelopouloksen               angelopouloks
@@ -6953,6 +6957,7 @@ angolassariehui               angolassariehui
 angolasta                     angol
 angst                         angst
 angus                         angus
+angélique                     angélique
 anhava                        anhav
 anhavan                       anhav
 ani                           ani
@@ -13312,8 +13317,8 @@ ax                            ax
 axel                          axel
 axelsson                      axelso
 axen                          axe
-axén                          axé
 axenin                        axen
+axén                          axé
 axénin                        axén
 ay                            ay
 ayala                         ayala
@@ -14069,7 +14074,6 @@ bekkerin                      bekker
 bekymmer                      bekymmer
 bel                           bel
 bela                          bela
-béla                          béla
 belafonte                     belafont
 belanov                       belanov
 belbelin                      belbel
@@ -14868,11 +14872,11 @@ bogdanovich                   bogdanovich
 bogdanovin                    bogdanov
 bogomoloff                    bogomolof
 bogota                        bogo
-bogotá                        bogotá
 bogotaan                      bogo
 bogotan                       bogot
 bogotassa                     bogot
 bogotasta                     bogot
+bogotá                        bogotá
 bogus                         bogus
 boguslaw                      boguslaw
 boheemi                       boheem
@@ -15087,6 +15091,7 @@ borssikeitto                  borssikeito
 bortnjanski                   bortnjansk
 borussia                      borus
 borzagen                      borzag
+borÅs                         borÅs
 boråsin                       borås
 boråsissa                     borås
 bos                           bos
@@ -15880,6 +15885,7 @@ bukowskin                     bukowsk
 bukvajova                     bukvajov
 bulau                         bulau
 buldig                        buldig
+bulerías                      bulerías
 bulevardeilla                 bulevard
 bulevardi                     bulevard
 bulevardia                    bulevard
@@ -16093,7 +16099,6 @@ buza                          buza
 bwt                           bwt
 bwv                           bwv
 bye                           bye
-bührer                        bührer
 byker                         byker
 bykov                         bykov
 bylsma                        bylsm
@@ -16128,8 +16133,7 @@ bysantista                    bysant
 bysanttilainen                bysanttilain
 byström                       byström
 byung                         byung
-bård                          bård
-båven                         båven
+bÅstad                        bÅstad
 bäck                          bäck
 bäckman                       bäckm
 bäckmanin                     bäckman
@@ -16164,6 +16168,9 @@ bärlund                       bärlund
 bärlundin                     bärlund
 bästa                         bäs
 bättre                        bättr
+bård                          bård
+båven                         båven
+béla                          béla
 böckermanin                   böckerman
 böhlstörm                     böhlstörm
 böhm                          böhm
@@ -16178,6 +16185,7 @@ bösevogel                     bösevogel
 böstman                       böstm
 böök                          böök
 böömin                        bööm
+bührer                        bührer
 c                             c
 ca                            ca
 cab                           cab
@@ -16197,10 +16205,10 @@ cadizin                       cadiz
 caen                          caen
 caesar                        caesar
 cafe                          cafe
-café                          café
 cafeessa                      cafe
 cafen                         cafe
 cafessa                       cafe
+café                          café
 caféssa                       café
 cagas                         cagas
 cage                          cage
@@ -16529,13 +16537,13 @@ castillo                      castilo
 castillon                     castilo
 castle                        castl
 castren                       castr
-castrén                       castré
 castrenille                   castren
 castro                        castro
 castroa                       castro
 castron                       castro
 castroon                      castro
 castrum                       castrum
+castrén                       castré
 casual                        casual
 cat                           cat
 catani                        cata
@@ -16649,7 +16657,6 @@ cernin                        cern
 ceron                         cero
 cervantesin                   cervantes
 cesar                         cesar
-césar                         césar
 cesare                        cesar
 cesid                         cesid
 cesium                        cesium
@@ -16657,9 +16664,7 @@ cessna                        ces
 cest                          cest
 cetin                         cet
 cev                           cev
-cézanne                       cézan
 cezannen                      cezan
-cézannen                      cézan
 cfc                           cfc
 cgt                           cgt
 ch                            ch
@@ -16886,7 +16891,6 @@ chorus                        chorus
 chose                         chose
 chr                           chr
 chretien                      chret
-chrétien                      chrétien
 chri                          chri
 chris                         chris
 chrisin                       chris
@@ -16930,6 +16934,7 @@ chrome                        chrome
 chrysler                      chrysler
 chryslerin                    chrysler
 chrystia                      chryst
+chrétien                      chrétien
 chu                           chu
 chuan                         chuan
 chuck                         chuck
@@ -17347,8 +17352,6 @@ cor                           cor
 cora                          cora
 cord                          cord
 cordoba                       cordob
-córdoba                       córdoba
-córdobassa                    córdoba
 corea                         core
 corelli                       corel
 coreper                       coreper
@@ -17394,15 +17397,16 @@ corriere                      corrier
 corsa                         cors
 corsasta                      cors
 cortes                        cortes
-cortés                        cortés
-cortésin                      cortés
 cortin                        cort
 cortina                       cort
 cortinan                      cortin
 cortinassa                    cortin
 cortis                        cortis
 cortot                        corto
+cortés                        cortés
+cortésin                      cortés
 coruna                        coru
+coruñassa                     coruñ
 cory                          cory
 cosa                          cosa
 cosby                         cosby
@@ -17667,6 +17671,11 @@ czerkawskin                   czerkawsk
 czerny                        czerny
 czibulka                      czibulk
 cziffra                       cziffr
+césar                         césar
+cézanne                       cézan
+cézannen                      cézan
+córdoba                       córdoba
+córdobassa                    córdoba
 cölln                         cöl
 d                             d
 da                            da
@@ -17743,8 +17752,8 @@ dali                          dali
 dalia                         dal
 dalibertin                    dalibert
 dalin                         dal
-dallapé                       dallapé
 dallapiccola                  dallapiccol
+dallapé                       dallapé
 dallara                       dallar
 dallas                        dallas
 dallasia                      dallas
@@ -17948,8 +17957,8 @@ debora                        debor
 deborah                       deborah
 debra                         debr
 debre                         debr
-debré                         debré
 debriefing                    debriefing
+debré                         debré
 debussy                       debusy
 debussyn                      debusy
 debytoi                       debytoi
@@ -19368,21 +19377,14 @@ dynamon                       dynamo
 dynastia                      dynast
 dynastian                     dynastia
 dynasty                       dynasty
-dünsser                       dünsser
 dyp                           dyp
 dysfaattisten                 dysfaattist
 dysfasia                      dysfas
 dysfasialapsille              dysfasialaps
-düsseldorf                    düsseldorf
-düsseldorfiin                 düsseldorf
-düsseldorfin                  düsseldorf
-düsseldorfissa                düsseldorf
-düsseldorfista                düsseldorf
 dzaferovic                    dzaferovic
 dzhohar                       dzhohar
 dzima                         dzima
 dzohar                        dzohar
-då                            då
 dählie                        dählie
 dählieen                      dählie
 dählielle                     dählie
@@ -19392,8 +19394,15 @@ dähliestä                     dählie
 dählietä                      dählie
 dämonen                       dämon
 där                           där
+då                            då
 död                           död
 dölplads                      dölplads
+dünsser                       dünsser
+düsseldorf                    düsseldorf
+düsseldorfiin                 düsseldorf
+düsseldorfin                  düsseldorf
+düsseldorfissa                düsseldorf
+düsseldorfista                düsseldorf
 e                             e
 ea                            ea
 eagle                         eagl
@@ -19499,6 +19508,7 @@ edelliseen                    edellis
 edelliseksi                   edellis
 edelliselle                   edellis
 edellisellä                   edellis
+edelliseltÄ                   edelliseltÄ
 edelliseltä                   edellis
 edellisen                     edellis
 edellisenkin                  edellis
@@ -19714,6 +19724,7 @@ edesottamukset                edesottamuks
 edesottamuksia                edesottamuks
 edesottamuksista              edesottamuks
 edespäin                      edesp
+edessÄ                        edessÄ
 edessä                        ede
 edessäkin                     ede
 edessämme                     ede
@@ -20578,6 +20589,7 @@ ehjänä                        ehj
 ehjät                         ehj
 ehjää                         ehj
 ehkei                         ehkei
+ehkÄ                          ehkÄ
 ehkä                          ehk
 ehkäisee                      ehkäis
 ehkäiseminen                  ehkäisemin
@@ -20756,6 +20768,7 @@ eikukaan                      eiku
 eikun                         eiku
 eikuulkaas                    eikuulkaas
 eikuulu                       eikuulu
+eikÄ                          eikÄ
 eikä                          eikä
 eikäkolmijako                 eikäkolmij
 eikäole                       eikäol
@@ -20890,6 +20903,7 @@ eivaikuta                     eivaiku
 eivielä                       eiviel
 eivoi                         eivoi
 eivoitu                       eivoitu
+eivÄt                         eivÄt
 eivä                          eivä
 eivät                         eivä
 eivätenää                     eiväten
@@ -20939,7 +20953,6 @@ ekberg                        ekberg
 ekbergin                      ekberg
 ekelund                       ekelund
 ekeus                         ekeus
-ekéus                         ekéus
 ekg                           ekg
 ekholm                        ekholm
 ekholmin                      ekholm
@@ -21120,6 +21133,7 @@ ekumenian                     ekumenia
 ekuri                         ekur
 ekurin                        ekur
 ekä                           ekä
+ekéus                         ekéus
 el                            el
 elam                          elam
 elana                         ela
@@ -22105,6 +22119,10 @@ elyn                          ely
 elysee                        elys
 elyseelle                     elys
 elysees                       elysees
+elysée                        elysé
+elÄimet                       elÄim
+elÄmÄ                         elÄmÄ
+elÄÄ                          elÄ
 elä                           elä
 eläen                         eläe
 eläessä                       eläe
@@ -23050,6 +23068,7 @@ enemmistövaltaa               enemmistövalt
 enemmistöväestöön             enemmistöväestö
 enemmistöä                    enemmistö
 enemmistöön                   enemmistö
+enemmÄn                       enemmÄ
 enemmälti                     enemmält
 enemmän                       enem
 enemmänja                     enemmänj
@@ -23889,6 +23908,7 @@ ensilähdön                    ensilähdö
 ensilässä                     ensil
 ensimaanantaina               ensimaanant
 ensiminuuteilla               ensiminuut
+ensimmÄinen                   ensimmÄin
 ensimmäinen                   ensimmäin
 ensimmäinenkin                ensimmäin
 ensimmäinenkään               ensimmäin
@@ -24102,6 +24122,7 @@ enzensberger                  enzensberger
 enzensbergerin                enzensberger
 enzio                         enzio
 enzo                          enzo
+enÄÄ                          enÄ
 enää                          enä
 enään                         enä
 ep                            ep
@@ -25523,6 +25544,7 @@ erkin                         erk
 erkinjuntti                   erkinjunt
 erkka                         erk
 erkki                         erk
+erkkilÄ                       erkkilÄ
 erkkilä                       erkkil
 erkkilän                      erkkil
 erkkilänk                     erkkilänk
@@ -26400,6 +26422,7 @@ esitteleminen                 esittelemin
 esittelemiseen                esittelemis
 esittelemistä                 esittelem
 esittelemme                   esittel
+esittelemÄssÄ                 esittelemÄssÄ
 esittelemä                    esittelem
 esittelemällä                 esittelem
 esittelemän                   esittelem
@@ -26458,6 +26481,7 @@ esitti                        esit
 esittikin                     esit
 esittipä                      esit
 esittivät                     esittiv
+esittÄvÄt                     esittÄvÄt
 esittäen                      esitäe
 esittäessä                    esitäe
 esittäessään                  esitäe
@@ -27004,6 +27028,8 @@ eteiseen                      eteis
 eteisen                       eteis
 eteisessä                     eteis
 eteisestä                     eteis
+etelÄ                         etelÄ
+etelÄlohko                    etelÄlohko
 etelä                         etel
 eteläafrikan                  eteläafrik
 eteläafrikkalainen            eteläafrikkalain
@@ -27386,6 +27412,7 @@ ettenkö                       et
 ettet                         et
 ettette                       ettet
 ettore                        ettor
+ettÄ                          ettÄ
 että                          et
 ettäaapo                      ettäaapo
 ettäasia                      ettäas
@@ -28459,10 +28486,10 @@ faustino                      faustino
 faustista                     faust
 fausto                        fausto
 faut                          faut
-favén                         favé
 favorin                       favor
 favourite                     favourit
 favre                         favr
+favén                         favé
 fax                           fax
 faxeihin                      faxe
 faxeja                        faxej
@@ -28611,13 +28638,13 @@ fermin                        ferm
 fernand                       fernand
 fernanda                      fernand
 fernandez                     fernandez
-fernández                     fernández
 fernandezin                   fernandez
 fernando                      fernando
 fernandosta                   fernando
 ferne                         fern
 fernsehens                    fernsehens
 fernsehes                     fernsehes
+fernández                     fernández
 ferrante                      ferrant
 ferrara                       ferrar
 ferraran                      ferrar
@@ -29555,13 +29582,11 @@ franckia                      franck
 franckin                      franck
 franco                        franco
 francois                      francois
-françois                      françois
 francoise                     francois
 francon                       franco
 frangeissa                    frang
 frangeja                      frangej
 frangen                       frang
-frangén                       frangé
 frangenin                     frangen
 frangi                        frang
 frangia                       frang
@@ -29569,6 +29594,7 @@ frangien                      frang
 frangiin                      frang
 frangilla                     frang
 frangin                       frang
+frangén                       frangé
 franjo                        franj
 frank                         frank
 franke                        frank
@@ -29609,6 +29635,7 @@ frantsilan                    frantsil
 franz                         franz
 franzen                       franz
 franziska                     franzisk
+françois                      françois
 frascatin                     frascat
 fraser                        fraser
 frasure                       frasur
@@ -29752,9 +29779,10 @@ fry                           fry
 fryckman                      fryckm
 fryckmanille                  fryckman
 fryckmanin                    fryckman
+frÖjd                         frÖjd
+främling                      främling
 frågeställningar              frågeställningar
 från                          från
-främling                      främling
 fröbelin                      fröbel
 fröding                       fröding
 frödingin                     fröding
@@ -29919,10 +29947,7 @@ fuusiotakin                   fuusio
 fuxinin                       fuxin
 fydler                        fydler
 fye                           fye
-führer                        führer
 fyhrqvist                     fyhrqvist
-für                           für
-fürst                         fürst
 fysiikalla                    fysiik
 fysiikan                      fysiik
 fysiikassa                    fysiik
@@ -29950,7 +29975,6 @@ fysioterapeuttina             fysioterapeut
 fysioterapia                  fysioterap
 fysioterapiaa                 fysioterapia
 fysioterapian                 fysioterapia
-füssen                        füssen
 fyysikko                      fyysiko
 fyysikkojen                   fyysiko
 fyysikot                      fyysiko
@@ -29976,7 +30000,6 @@ fyysisten                     fyysist
 fyysistä                      fyys
 fyysisyys                     fyysisyys
 fyysisyyttä                   fyysisyyt
-får                           får
 fält                          fält
 fär                           fär
 färjestad                     färjestad
@@ -29986,6 +30009,7 @@ färsaaret                     färsaar
 färsaaria                     färsaar
 färsaarille                   färsaar
 färsaarten                    färsaart
+får                           får
 föglö                         föglö
 föhr                          föhr
 föhrin                        föhr
@@ -29996,6 +30020,10 @@ första                        för
 försti                        först
 förtecken                     förteck
 förtvivlan                    förtvivl
+führer                        führer
+für                           für
+fürst                         fürst
+füssen                        füssen
 g                             g
 ga                            ga
 gaal                          gaal
@@ -30080,7 +30108,6 @@ galke                         galk
 gallagher                     gallagher
 gallardo                      gallardo
 gallen                        gal
-gallén                        gallé
 galleria                      galler
 galleriaa                     galleria
 galleriaan                    galleria
@@ -30111,6 +30138,7 @@ gallupissa                    gallup
 gallupit                      gallup
 galluptutkimuksen             galluptutkimuks
 galluptutkimuksesta           galluptutkimuks
+gallén                        gallé
 galo                          galo
 galtar                        galtar
 galvanoimis                   galvanoimis
@@ -30169,6 +30197,7 @@ garbon                        garbo
 garbrecht                     garbrecht
 garcia                        garc
 garcian                       garcia
+garcía                        garcí
 garda                         gard
 garden                        gard
 gardenia                      garden
@@ -30430,7 +30459,6 @@ ger                           ger
 gerald                        gerald
 geraldine                     gerald
 gerard                        gerard
-gérard                        gérard
 gerardo                       gerardo
 gerbaud                       gerbaud
 gerbiili                      gerbiil
@@ -30802,16 +30830,16 @@ gone                          gone
 gong                          gong
 gongin                        gong
 gonzales                      gonzales
-gonzáles                      gonzáles
 gonzalesin                    gonzales
-gonzálesin                    gonzáles
 gonzalez                      gonzalez
-gonzález                      gonzález
 gonzalezia                    gonzalez
-gonzálezia                    gonzález
 gonzalezin                    gonzalez
-gonzálezin                    gonzález
 gonzalo                       gonzalo
+gonzáles                      gonzáles
+gonzálesin                    gonzáles
+gonzález                      gonzález
+gonzálezia                    gonzález
+gonzálezin                    gonzález
 good                          good
 goodbye                       goodbye
 goode                         goode
@@ -30874,8 +30902,8 @@ got                           got
 gotabankeniin                 gotabanken
 gotham                        gotham
 gothoni                       gotho
-gothóni                       gothó
 gothonin                      gothon
+gothóni                       gothó
 gothónin                      gothón
 gotlannin                     gotlan
 gotlannista                   gotlan
@@ -31221,8 +31249,6 @@ grungen                       grung
 grunsven                      grunsv
 gruppa                        grup
 grynderit                     grynder
-grünewald                     grünewald
-grünewaldin                   grünewald
 gryningen                     gryning
 gryta                         gryta
 grytan                        gryta
@@ -31261,6 +31287,8 @@ grönstrand                    grönstrand
 grönthal                      grönthal
 grönvall                      grönval
 gröönroos                     gröönroos
+grünewald                     grünewald
+grünewaldin                   grünewald
 gs                            gs
 gsm                           gsm
 gstrein                       gstrein
@@ -31425,21 +31453,22 @@ gynekologia                   gynekolog
 gynekologian                  gynekologia
 gynekologiset                 gynekologis
 gynt                          gynt
-günter                        günter
 gynther                       gynther
-günther                       günther
 gypsy                         gypsy
 gysi                          gysi
 gyula                         gyula
 györgi                        györg
 györgy                        györgy
-gården                        gården
+gÖteborg                      gÖteborg
+gÖteborgin                    gÖteborg
 gärderud                      gärderud
 gästar                        gästar
 gävle                         gävl
 gävleen                       gävl
 gävlen                        gävl
 gävlessä                      gävl
+gården                        gården
+gérard                        gérard
 göbbels                       göbbels
 göncz                         göncz
 göran                         göra
@@ -31462,6 +31491,8 @@ göttingenin                   göttingen
 götz                          götz
 göös                          göös
 göösin                        göös
+günter                        günter
+günther                       günther
 h                             h
 ha                            ha
 haa                           haa
@@ -32799,8 +32830,8 @@ hallayön                      halayö
 hallayöt                      halayö
 hallberg                      hallberg
 halldor                       halldor
-halldór                       halldór
 halldorsdottir                halldorsdottir
+halldór                       halldór
 halle                         hal
 halleihin                     hal
 halleissa                     hal
@@ -33308,7 +33339,6 @@ halliyhtiön                   halliyhtiö
 halliyleisurheilu             halliyleisurheilu
 halliyleisurheilun            halliyleisurheilu
 hallman                       hallm
-hallõ                         hallõ
 halloween                     hallow
 halloweenin                   halloween
 hallström                     hallström
@@ -33324,6 +33354,7 @@ hallussapitoa                 hallussapito
 hallussapitoon                hallussapito
 hallusta                      halu
 hallustaan                    halu
+hallõ                         hallõ
 halmari                       halmar
 halme                         halm
 halmeella                     halm
@@ -36146,6 +36177,7 @@ heidelbergissä                heidelberg
 heiden                        heide
 heidi                         heidi
 heidin                        heid
+heidÄn                        heidÄ
 heidän                        heidä
 heidänkin                     heidä
 heidänkään                    heidä
@@ -36289,6 +36321,7 @@ heikki                        heik
 heikkihaavisto                heikkihaavisto
 heikkijuhani                  heikkijuh
 heikkikoivisto                heikkikoivisto
+heikkilÄ                      heikkilÄ
 heikkilä                      heikkil
 heikkilälle                   heikkil
 heikkilällä                   heikkil
@@ -36555,6 +36588,8 @@ heinrichs                     heinrichs
 heinrichsin                   heinrichs
 heinström                     heinström
 heinz                         heinz
+heinÄkuu                      heinÄku
+heinÄnen                      heinÄn
 heinä                         heinä
 heinähattu                    heinähatu
 heinäkengät                   heinäkeng
@@ -36953,11 +36988,11 @@ hello                         helo
 hellov                        hellov
 hellstedt                     hellstedt
 hellsten                      hellst
-hellstén                      hellsté
 hellstenin                    hellsten
 hellsteniä                    hellsten
 hellström                     hellström
 hellströmin                   hellström
+hellstén                      hellsté
 hellu                         helu
 hellun                        helu
 helluntai                     helluntai
@@ -37186,6 +37221,7 @@ helsinginkin                  helsing
 helsinginpankin               helsinginp
 helsinginpörssissä            helsinginpörs
 helsinginyliopiston           helsinginyliopisto
+helsingissÄ                   helsingissÄ
 helsingissä                   helsing
 helsingissäkin                helsing
 helsingissäkään               helsing
@@ -37278,7 +37314,6 @@ heläyttävät                   heläyttäv
 heläyttää                     heläyt
 hem                           hem
 hemanus                       hemanus
-hemánus                       hemánus
 hemberg                       hemberg
 hemilä                        hemil
 hemilälle                     hemil
@@ -37312,6 +37347,7 @@ hempeä                        hemp
 hempeäksi                     hempeä
 hemppa                        hemp
 hemyös                        hemyös
+hemánus                       hemánus
 hen                           hen
 henderson                     henderso
 hendricks                     hendricks
@@ -37479,6 +37515,9 @@ henkiinjäämisen               henkiinjäämis
 henkiinjäämisestä             henkiinjäämis
 henkikirjoittaja              henkikirjoittaj
 henkikirjoittajan             henkikirjoittaj
+henkilÖ                       henkilÖ
+henkilÖkuvavkuv               henkilÖkuvavkuv
+henkilÖt                      henkilÖt
 henkilääkäri                  henkilääkär
 henkilääkärin                 henkilääkär
 henkilö                       henkilö
@@ -38303,7 +38342,6 @@ hervantalaista                hervantal
 hervantalaisten               hervantalaist
 hervantalaisuus               hervantalaisuus
 herve                         herv
-hervé                         hervé
 hervonen                      hervon
 hervosen                      hervos
 hervoton                      hervoto
@@ -38313,6 +38351,7 @@ hervottomasti                 hervottom
 hervottomat                   hervottom
 hervottomia                   hervottom
 hervs                         hervs
+hervé                         hervé
 herzegovina                   herzegov
 herzegovinan                  herzegovin
 herzen                        herz
@@ -38678,8 +38717,8 @@ hidastuu                      hidastu
 hidastuvan                    hidastuv
 hiddink                       hiddink
 hiden                         hide
-hidén                         hidé
 hideo                         hideo
+hidén                         hidé
 hieho                         hieho
 hiekalla                      hieka
 hiekalle                      hieka
@@ -39308,6 +39347,9 @@ hildegunn                     hildegun
 hilden                        hild
 hildenin                      hilden
 hildenintaidemuseo            hildenintaidemuseo
+hildÉn                        hildÉ
+hildén                        hildé
+hildénin                      hildén
 hilirimpsis                   hilirimpsis
 hilja                         hilj
 hiljaa                        hilj
@@ -39404,6 +39446,7 @@ hillborgin                    hillborg
 hille                         hil
 hillel                        hillel
 hillerin                      hiller
+hillerÖd                      hillerÖd
 hillerödin                    hilleröd
 hillevi                       hillev
 hilli                         hil
@@ -40375,7 +40418,6 @@ hizbollahin                   hizbollahin
 hj                            hj
 hjallis                       hjallis
 hjalmar                       hjalmar
-hjálmar                       hjálmar
 hjartarson                    hjartarso
 hjelm                         hjelm
 hjelmille                     hjelm
@@ -40387,6 +40429,7 @@ hjerpe                        hjerp
 hjerppe                       hjerp
 hjk                           hjk
 hjort                         hjort
+hjálmar                       hjálmar
 hk                            hk
 hki                           hki
 hkl                           hkl
@@ -40953,9 +40996,7 @@ holmberg                      holmberg
 holmbergille                  holmberg
 holmbergin                    holmberg
 holmen                        holm
-holmén                        holmé
 holmenin                      holmen
-holménin                      holmén
 holmenkollen                  holmenkol
 holmenkollenilla              holmenkollen
 holmenkollenilta              holmenkollen
@@ -40976,6 +41017,8 @@ holmroos                      holmroos
 holmström                     holmström
 holmströmin                   holmström
 holmströmiä                   holmström
+holmén                        holmé
+holménin                      holmén
 holmön                        holmö
 holocaust                     holocaust
 holopainen                    holopain
@@ -41031,7 +41074,6 @@ homehtuu                      homehtu
 homehtuvat                    homehtuv
 homeiden                      home
 homen                         home
-homén                         homé
 homeongelman                  homeongelm
 homeongelmat                  homeongelm
 homeongelmia                  homeongelm
@@ -41102,6 +41144,7 @@ homouden                      homoud
 homoudesta                    homoud
 homoutta                      homout
 homutov                       homutov
+homén                         homé
 hon                           hon
 honda                         hond
 hondan                        hond
@@ -44397,6 +44440,7 @@ hyvinja                       hyvinj
 hyvinkin                      hyv
 hyvinkoulutettu               hyvinkoulutetu
 hyvinkoulutetut               hyvinkoulutetu
+hyvinkÄÄ                      hyvinkÄ
 hyvinkää                      hyvink
 hyvinkäälle                   hyvink
 hyvinkäällä                   hyvink
@@ -44472,6 +44516,8 @@ hyvyys                        hyvyys
 hyvyyteen                     hyvyyt
 hyvyyttä                      hyvyyt
 hyvyyttään                    hyvyyt
+hyvÄ                          hyvÄ
+hyvÄt                         hyvÄt
 hyvä                          hyvä
 hyvähenkinen                  hyvähenkin
 hyvähenkistä                  hyvähenk
@@ -45029,14 +45075,16 @@ hyötyyn                       hyötyy
 hyötyä                        hyöty
 hyötyäkin                     hyöty
 hzds                          hzds
-håkan                         håkan
-håkans                        håkans
-håkansin                      håkans
-håkansson                     håkanso
-håland                        håland
-hård                          hård
-håre                          håre
-håvard                        håvard
+hÄkkilÄ                       hÄkkilÄ
+hÄme                          hÄme
+hÄmeen                        hÄmeen
+hÄmeenlinna                   hÄmeenlin
+hÄmeenlinnan                  hÄmeenlin
+hÄmÄlÄinen                    hÄmÄlÄine
+hÄn                           hÄn
+hÄnet                         hÄnet
+hÄrkÖnen                      hÄrkÖnen
+hÖyryveturi                   hÖyryvetur
 hä                            hä
 hädin                         häd
 hädintuskin                   hädintusk
@@ -46121,6 +46169,14 @@ hääviltä                      hääv
 hääviä                        hääv
 hääyö                         hääyö
 hääyötä                       hääyötä
+håkan                         håkan
+håkans                        håkans
+håkansin                      håkans
+håkansson                     håkanso
+håland                        håland
+hård                          hård
+håre                          håre
+håvard                        håvard
 högbacka                      högback
 högforsin                     högfors
 höglund                       höglund
@@ -46227,7 +46283,6 @@ höyläämössä                   höyläämö
 höynäytetään                  höynäyt
 höynäyttää                    höynäyt
 höyre                         höyre
-høyre                         høyre
 höyren                        höyre
 höyry                         höyry
 höyryfestivaali               höyryfestivaal
@@ -46270,6 +46325,7 @@ höystämänä                    höystäm
 höystää                       höyst
 höök                          höök
 höökin                        höök
+høyre                         høyre
 i                             i
 ia                            ia
 iaaf                          iaaf
@@ -48235,6 +48291,7 @@ ilmiselvänä                   ilmiselv
 ilmiselvästi                  ilmiselv
 ilmiselvää                    ilmiselv
 ilmitulon                     ilmitulo
+ilmiÖ                         ilmiÖ
 ilmiö                         ilmiö
 ilmiöiden                     ilmiö
 ilmiöihin                     ilmiö

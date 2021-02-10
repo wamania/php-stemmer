@@ -1,24 +1,24 @@
 <?php
 namespace Wamania\Snowball\Tests;
 
-use Wamania\Snowball\Stemmer\Danish;
+use Wamania\Snowball\Stemmer\Finnish;
 
-class DanishTest extends \PHPUnit_Framework_TestCase
+class FinnishTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @dataProvider load
      */
     public function testStem($word, $stem)
     {
-        $o = new Danish();
+        $o = new Finnish();
 
         $snowballStem = $o->stem($word);
 
-        $this->assertEquals($stem, $snowballStem);
+		$this->assertEquals($stem, $snowballStem);
     }
 
     public function load()
     {
-        return new CsvFileIterator('test/files/dk.txt');
+        return new CsvFileIterator('test/files/fi.txt');
     }
 }
