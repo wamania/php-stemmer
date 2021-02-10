@@ -16,6 +16,7 @@ Available :
 - Danish
 - Dutch
 - English
+- Finnish (by [Mikko Saari](https://github.com/msaari/))
 - French
 - German
 - Italian
@@ -25,9 +26,6 @@ Available :
 - Russian
 - Spanish
 - Swedish
-
-Next : 
- - Finnish 
 
 Installation
 ------------

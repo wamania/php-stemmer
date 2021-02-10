@@ -15,3 +15,5 @@
 /.buildpath
 /.project
 /composer.lock
+
+.history
