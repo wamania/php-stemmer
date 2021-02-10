@@ -73,7 +73,7 @@ class Finnish extends Stem
     {
         // (a) kin   kaan   kään   ko   kö   han   hän   pa   pä
         //      delete if preceded by n, t or a vowel
-        if ($position = $this->searchIfInR1(array('kaan', 'kään', 'kin', 'han', 'hän', 'ko', 'kö', 'pa', 'pä')) !== false) {
+        if (($position = $this->searchIfInR1(array('kaan', 'kään', 'kin', 'han', 'hän', 'ko', 'kö', 'pa', 'pä'))) !== false) {
             $lastLetter = Utf8::substr($this->word, ($position-1), 1);
 
             if (in_array($lastLetter, array_merge(['t', 'n'], self::$vowels))) {
@@ -87,7 +87,7 @@ class Finnish extends Stem
 
         //  sti
         //  delete if in R2
-        if ( ($position = $this->searchIfInR1(array('sti'))) !== false) {
+        if (($position = $this->searchIfInR1(array('sti'))) !== false) {
             if ($this->inR2($position)) {
                 $this->word = Utf8::substr($this->word, 0, $position);
                 $this->r1();
