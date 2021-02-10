@@ -1,5 +1,5 @@
 {
-	"name": "msaari/php-stemmer",
+	"name": "wamania/php-stemmer",
 	"description": "Native PHP Stemmer",
 	"keywords": ["stemmer", "porter", "php"],
 	"license": "MIT",
