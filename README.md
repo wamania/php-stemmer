@@ -40,6 +40,8 @@ For PHP7 use 2.x (branch 2.x is backward compatible with 1.x)
 composer require wamania/php-stemmer "^2.0"
 ```
 
+For PHP^7.3 and PHP^8.0 use 3.x (backward compatible, but phpunit^9 don't work with php < 7.3)
+
 Usage
 -----
 
