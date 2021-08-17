@@ -2,9 +2,10 @@
 
 namespace Wamania\Snowball\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Wamania\Snowball\StemmerManager;
 
-class ManagerTest extends \PHPUnit_Framework_TestCase
+class ManagerTest extends TestCase
 {
     public function testManager()
     {

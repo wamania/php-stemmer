@@ -1,9 +1,10 @@
 <?php
 namespace Wamania\Snowball\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Wamania\Snowball\Stemmer\Spanish;
 
-class SpanishTest extends \PHPUnit_Framework_TestCase
+class SpanishTest extends TestCase
 {
     /**
      * @dataProvider load
