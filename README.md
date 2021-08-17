@@ -41,6 +41,9 @@ composer require wamania/php-stemmer "^2.0"
 ```
 
 For PHP^7.3 and PHP^8.0 use 3.x (backward compatible, but phpunit^9 don't work with php < 7.3)
+```
+composer require wamania/php-stemmer "^3.0"
+```
 
 Usage
 -----
