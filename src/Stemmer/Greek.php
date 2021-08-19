@@ -183,76 +183,6 @@ backwardmode (
     )
   )
 
-  define step1 as (
-    [substring] among (
-      'φαγια' 'φαγιου' 'φαγιων' (<- 'φα')
-      'σκαγια' 'σκαγιου' 'σκαγιων' (<- 'σκα')
-      'ολογιου' 'ολογια' 'ολογιων' (<- 'ολο')
-      'σογιου' 'σογια' 'σογιων' (<- 'σο')
-      'τατογια' 'τατογιου' 'τατογιων' (<- 'τατο')
-      'κρεασ' 'κρεατοσ' 'κρεατα' 'κρεατων' (<- 'κρε')
-      'περασ' 'περατοσ' 'περατη' 'περατα' 'περατων' (<- 'περ')
-      'τερασ' 'τερατοσ' 'τερατα' 'τερατων' (<- 'τερ')
-      'φωσ' 'φωτοσ' 'φωτα' 'φωτων' (<- 'φω')
-      'καθεστωσ' 'καθεστωτοσ' 'καθεστωτα' 'καθεστωτων' (<- 'καθεστ')
-      'γεγονοσ' 'γεγονοτοσ' 'γεγονοτα' 'γεγονοτων' (<- 'γεγον')
-    )
-    unset test1
-  )
-
-  define steps1 as (
-    [substring] among (
-      'ιζα' 'ιζεσ' 'ιζε' 'ιζαμε' 'ιζατε' 'ιζαν' 'ιζανε' 'ιζω' 'ιζεισ' 'ιζει'
-      'ιζουμε' 'ιζετε' 'ιζουν' 'ιζουνε' (
-        delete
-        unset test1
-        ([] substring atlimit among (
-          'αναμπα' 'εμπα' 'επα' 'ξαναπα' 'πα' 'περιπα' 'αθρο' 'συναθρο' 'δανε'
-          (<- 'ι')
-        )) or
-        ([] substring atlimit among (
-          'μαρκ' 'κορν' 'αμπαρ' 'αρρ' 'βαθυρι' 'βαρκ' 'β' 'βολβορ' 'γκρ'
-          'γλυκορ' 'γλυκυρ' 'ιμπ' 'λ' 'λου' 'μαρ' 'μ' 'πρ' 'μπρ' 'πολυρ' 'π'
-          'ρ' 'πιπερορ'
-          (<- 'ιζ')
-        ))
-      )
-    )
-  )
-
-  define steps2 as (
-    [substring] among (
-      'ωθηκα' 'ωθηκεσ' 'ωθηκε' 'ωθηκαμε' 'ωθηκατε' 'ωθηκαν' 'ωθηκανε' (
-        delete
-        unset test1
-        [] substring atlimit among (
-          'αλ' 'βι' 'εν' 'υψ' 'λι' 'ζω' 'σ' 'χ' (<- 'ων')
-        )
-      )
-    )
-  )
-
-  define steps3 as (
-    [substring] among (
-      'ισα' 'ισεσ' 'ισε' 'ισαμε' 'ισατε' 'ισαν' 'ισανε' (
-        delete
-        unset test1
-        ('ισα' atlimit <- 'ισ') or
-        ([] substring atlimit among (
-          'αναμπα' 'αθρο' 'εμπα' 'εσε' 'εσωκλε' 'επα' 'ξαναπα' 'επε' 'περιπα'
-          'συναθρο' 'δανε' 'κλε' 'χαρτοπα' 'εξαρχα' 'μετεπε' 'αποκλε'
-          'απεκλε' 'εκλε' 'πε'
-          (<- 'ι')
-        )) or
-        ([] substring atlimit among (
-          'αν' 'αφ' 'γε' 'γιγαντοαφ' 'γκε' 'δημοκρατ' 'κομ' 'γκ' 'μ' 'π'
-          'πουκαμ' 'ολο' 'λαρ'
-          (<- 'ισ')
-        ))
-      )
-    )
-  )
-
   define steps4 as (
     [substring] among (
       'ισω' 'ισεισ' 'ισει' 'ισουμε' 'ισετε' 'ισουν' 'ισουνε' (
@@ -818,7 +748,10 @@ define stem as (
         }
 
         $this->word = Utf8::strtolower($word);
-        $this->word = str_replace(array_keys($cleanup), array_values($cleanup), $this->word);
+        $this->word = str_replace(
+            array_keys($this->cleanup), array_values($this->cleanup),
+            $this->word
+        );
 
         if (UTF8::strlen($this->word) < 3) {
             return $this->word;
@@ -829,6 +762,50 @@ define stem as (
         return $this->word;
     }
 
+    private function replaceFirstAtEnd($replacements)
+    {
+        foreach ($replacements as $replacement => $keys) {
+            $position = $this->search($keys);
+            if ($position) {
+                $this->word = UTF8::substr_replace(
+                    $this->word,
+                    $replacement,
+                    $position
+                );
+                return true;
+            }
+        }
+        return true;
+    }
+
+    private function deleteSuffixIfExists($suffixes)
+    {
+        $position = $this->search($suffixes);
+        if ($position) {
+            $this->word = UTF8::substr_replace(
+                $this->word,
+                '',
+                $position
+            );
+            return true;
+        }
+        return false;
+    }
+
+    private function replaceSuffixIfExists($suffixes, $replacement)
+    {
+        $position = $this->search($suffixes);
+        if ($position) {
+            $this->word = UTF8::substr_replace(
+                $this->word,
+                $replacement,
+                $position
+            );
+            return true;
+        }
+        return false;
+    }
+
     /**
      * Step 1
      *
@@ -836,363 +813,92 @@ define stem as (
      */
     private function step1()
     {
-
-    return true;
+        $replacements = array(
+            'φα' => array('φαγια', 'φαγιου', 'φαγιων'),
+            'σκα' => array('σκαγια', 'σκαγιου', 'σκαγιων'),
+            'ολο'=> array('ολογιου', 'ολογια', 'ολογιων'),
+            'σο'=> array('σογιου', 'σογια', 'σογιων'),
+            'τατο'=> array('τατογια', 'τατογιου', 'τατογιων'),
+            'κρε'=> array('κρεασ', 'κρεατοσ', 'κρεατα', 'κρεατων'),
+            'περ'=> array('περασ', 'περατοσ', 'περατη', 'περατα', 'περατων'),
+            'τερ'=> array('τερασ', 'τερατοσ', 'τερατα', 'τερατων'),
+            'φω'=> array('φωσ', 'φωτοσ', 'φωτα', 'φωτων'),
+            'καθεστ'=> array('καθεστωσ', 'καθεστωτοσ', 'καθεστωτα', 'καθεστωτων'),
+            'γεγον'=> array('γεγονοσ', 'γεγονοτοσ', 'γεγονοτα', 'γεγονοτων'),
+        );
+        $this->replaceFirstAtEnd($replacements);
+        $this->test1 = false;
+        return true;
     }
 
-        //  sti
-        //  delete if in R2
-        if (($position = $this->searchIfInR1(array('sti'))) !== false) {
-            if ($this->inR2($position)) {
-                $this->word = Utf8::substr($this->word, 0, $position);
-                $this->r1();
-                $this->r2();
-            }
-
-            return true;
-        }
-    }
-
-    /**
-     * Step 2: possessives.
-     *
-     * Search for the longest among the following suffixes in R1, and perform
-     * the action indicated.
-     *
-     * @return boolean True when something is done.
-     */
-    private function step2()
+    private function steps1()
     {
-        // si
-        //  delete if not preceded by k
-        if (($position = $this->searchIfInR1(array('si'))) !== false) {
-            $lastLetter = Utf8::substr($this->word, ($position-1), 1);
-
-            if ($lastLetter !== 'k') {
-                $this->word = Utf8::substr($this->word, 0, $position);
-                $this->r1();
-                $this->r2();
+        $substrings = array(
+            'ιζα', 'ιζεσ', 'ιζε', 'ιζαμε', 'ιζατε', 'ιζαν', 'ιζανε', 'ιζω', 'ιζεισ',
+            'ιζει', 'ιζουμε', 'ιζετε', 'ιζουν', 'ιζουνε'
+        );
+        if ($this->deleteSuffixIfExists($substrings)) {
+            $this->test1 = false;
+            $substrings = array(
+                'αναμπα', 'εμπα', 'επα', 'ξαναπα', 'πα', 'περιπα', 'αθρο', 'συναθρο',
+                'δανε'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ι')) {
+                return true;
+            }
+            $substrings = array(
+                'μαρκ', 'κορν', 'αμπαρ', 'αρρ', 'βαθυρι', 'βαρκ', 'β', 'βολβορ',
+                'γκρ', 'γλυκορ', 'γλυκυρ', 'ιμπ', 'λ', 'λου', 'μαρ', 'μ', 'πρ',
+                'μπρ', 'πολυρ', 'π', 'ρ', 'πιπερορ'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ιζ')) {
                 return true;
             }
         }
+        return true;
+    }
 
-        // ni
-        //  delete
-        if (($position = $this->searchIfInR1(array('ni'))) !== false) {
-            $this->word = Utf8::substr($this->word, 0, $position);
-            // if preceded by kse, replace with ksi
-            if ( ($position = $this->search(array('kse'))) !== false) {
-                $this->word = preg_replace('#(kse)$#u', 'ksi', $this->word);
-            }
-            $this->r1();
-            $this->r2();
-            return true;
-        }
-
-        // nsa   nsä   mme   nne
-        //  delete
-        if (($position = $this->searchIfInR1(array('nsa', 'nsä', 'mme', 'nne'))) !== false) {
-            $this->word = Utf8::substr($this->word, 0, $position);
-            $this->r1();
-            $this->r2();
-            return true;
-        }
-
-        // an
-        //  delete if preceded by one of   ta   ssa   sta   lla   lta   na
-        if (($position = $this->searchIfInR1(array('an'))) !== false) {
-            $word = Utf8::substr($this->word, 0, $position);
-            $lastThreeLetters = Utf8::substr($word, -3, 3);
-            $lastTwoLetters = Utf8::substr($word, -2, 2);
-            if (in_array($lastThreeLetters, array('ssa', 'sta', 'lla', 'lta'), true) || in_array($lastTwoLetters, array('na', 'ta'), true)) {
-                $this->word = $word;
-                $this->r1();
-                $this->r2();
+    private function steps2()
+    {
+        $substrings = array(
+            'ωθηκα', 'ωθηκεσ', 'ωθηκε', 'ωθηκαμε', 'ωθηκατε', 'ωθηκαν', 'ωθηκανε'
+        );
+        if ($this->deleteSuffixIfExists($substrings)) {
+            $this->test1 = false;
+            $substrings = array(
+                'αλ', 'βι', 'εν', 'υψ', 'λι', 'ζω', 'σ', 'χ'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ων')) {
                 return true;
-            }
-        }
-
-        // än
-        // delete if preceded by one of   tä   ssä   stä   llä   ltä   nä
-        if (($position = $this->searchIfInR1(array('än'))) !== false) {
-            $word = Utf8::substr($this->word, 0, $position);
-            $lastThreeLetters = Utf8::substr($word, -3, 3);
-            $lastTwoLetters = Utf8::substr($word, -2, 2);
-            if (in_array($lastThreeLetters, array('ssä', 'stä', 'llä', 'ltä'), true) || in_array($lastTwoLetters, array('nä', 'tä'), true)) {
-                $this->word = $word;
-                $this->r1();
-                $this->r2();
-                return true;
-            }
-        }
-
-        // en
-        // delete if preceded by one of   lle   ine
-        if (($position = $this->searchIfInR1(array('en'))) !== false) {
-            $word = Utf8::substr($this->word, 0, $position);
-            if (Utf8::strlen($this->word) > 4) {
-                $lastThreeLetters = Utf8::substr($this->word, -5, 3);
-                if (in_array($lastThreeLetters, array('lle', 'ine'), true)) {
-                    $this->word = $word;
-                    $this->r1();
-                    $this->r2();
-                    return true;
-                }
             }
         }
     }
 
-    /**
-     * Step 3: cases
-     *
-     * Search for the longest among the following suffixes in R1, and perform
-     * the action indicated.
-     *
-     * @return boolean True when something is done.
-     */
-    private function step3()
+    private function steps3()
     {
-        // hXn
-        // delete if preceded by X, where X is a V other than u (a/han, e/hen etc)
-        foreach (self::$restrictedVowels as $vowel) {
-            if ($vowel === 'u') {
-                continue;
-            }
-            if (($position = $this->searchIfInR1(array('h' . $vowel . 'n'))) !== false) {
-                $lastLetter = Utf8::substr($this->word, $position-1, 1);
-                if ($lastLetter === $vowel) {
-                    $this->word = Utf8::substr($this->word, 0, $position);
-                    $this->_removedInStep3 = true;
-                    $this->r1();
-                    $this->r2();
-                }
+        $substrings = array(
+            'ισα', 'ισεσ', 'ισε', 'ισαμε', 'ισατε', 'ισαν', 'ισανε'
+        );
+        if ($this->deleteSuffixIfExists($substrings)) {
+            $this->test1 = false;
+            $substrings = array('ισα');
+            if ($this->replaceSuffixIfExists($substrings, 'ισ')) {
                 return true;
             }
-        }
-
-        // siin   den   tten
-        // delete if preceded by Vi
-        if (($position = $this->searchIfInR1(array('siin', 'den', 'tten'))) !== false) {
-            $lastLetter = Utf8::substr($this->word, ($position-1), 1);
-            if ($lastLetter === 'i') {
-                $nextLastLetter = Utf8::substr($this->word, ($position-2), 1);
-                if (in_array($nextLastLetter, self::$restrictedVowels, true)) {
-                    $this->word = Utf8::substr($this->word, 0, $position);
-                    $this->_removedInStep3 = true;
-                    $this->r1();
-                    $this->r2();
-                    return true;
-                }
-            }
-        }
-
-        // seen
-        // delete if preceded by LV
-        if (($position = $this->searchIfInR1(array('seen'))) !== false) {
-            $lastLetters = Utf8::substr($this->word, ($position-2), 2);
-
-            if (in_array($lastLetters, self::$longVowels, true)) {
-                $this->word = Utf8::substr($this->word, 0, $position);
-                $this->_removedInStep3 = true;
-                $this->r1();
-                $this->r2();
+            $substrings = array(
+                'αναμπα', 'αθρο', 'εμπα', 'εσε', 'εσωκλε', 'επα', 'ξαναπα', 'επε',
+                'περιπα', 'συναθρο', 'δανε', 'κλε', 'χαρτοπα', 'εξαρχα', 'μετεπε',
+                'αποκλε', 'απεκλε', 'εκλε', 'πε'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ι')) {
                 return true;
             }
-        }
-
-        // tta    ttä
-        // delete if preceded by e
-        if (($position = $this->searchIfInR1(array('tta', 'ttä'))) !== false) {
-            $lastLetter = Utf8::substr($this->word, ($position-1), 1);
-
-            if ($lastLetter === 'e') {
-                $this->word = Utf8::substr($this->word, 0, $position);
-                $this->_removedInStep3 = true;
-                $this->r1();
-                $this->r2();
+            $substrings = array(
+                'αν', 'αφ', 'γε', 'γιγαντοαφ', 'γκε', 'δημοκρατ', 'κομ', 'γκ', 'μ',
+                'π', 'πουκαμ', 'ολο', 'λαρ'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ισ')) {
                 return true;
-            }
-        }
-
-        // ta  tä  ssa  ssä  sta  stä  lla  llä  lta  ltä  lle  na  nä  ksi  ine
-        // delete
-        if (($position = $this->searchIfInR1(array('ssa', 'ssä', 'sta', 'stä', 'lla', 'llä', 'lta', 'ltä', 'lle', 'ksi', 'na', 'nä', 'ine', 'ta', 'tä'))) !== false) {
-            $this->word = Utf8::substr($this->word, 0, $position);
-            $this->_removedInStep3 = true;
-            $this->r1();
-            $this->r2();
-            return true;
-        }
-
-        // a    ä
-        // delete if preceded by cv
-        if (($position = $this->searchIfInR1(array('a', 'ä'))) !== false) {
-            $lastLetter = Utf8::substr($this->word, ($position-1), 1);
-            $nextLastLetter = Utf8::substr($this->word, ($position-2), 1);
-
-            if (in_array($lastLetter, self::$vowels, true) && in_array($nextLastLetter, self::$consonants, true)) {
-                $this->word = Utf8::substr($this->word, 0, $position);
-                $this->_removedInStep3 = true;
-                $this->r1();
-                $this->r2();
-                return true;
-            }
-        }
-
-        // n
-        // delete, and if preceded by LV or ie, delete the last vowel
-        if (($position = $this->searchIfInR1(array('n'))) !== false) {
-            $lastLetters = Utf8::substr($this->word, ($position-2), 2);
-
-            if (in_array($lastLetters, self::$longVowels, true) || $lastLetters === 'ie') {
-                $this->word = Utf8::substr($this->word, 0, $position-1);
-            } else {
-                $this->word = Utf8::substr($this->word, 0, $position);
-            }
-            $this->r1();
-            $this->r2();
-            $this->_removedInStep3 = true;
-            return true;
-        }
-    }
-
-    /**
-     * Step 4: other endings
-     *
-     * Search for the longest among the following suffixes in R2, and perform
-     * the action indicated
-     *
-     * @return boolean True when something is done.
-     */
-    private function step4()
-    {
-        // mpi   mpa   mpä   mmi   mma   mmä
-        // delete if not preceded by po
-        if (($position = $this->searchIfInR2(array('mpi', 'mpa', 'mpä', 'mmi', 'mma', 'mmä'))) !== false) {
-            $lastLetters = Utf8::substr($this->word, ($position-2), 2);
-            if ($lastLetters !== 'po') {
-                $this->word = Utf8::substr($this->word, 0, $position);
-                $this->r1();
-                $this->r2();
-                return true;
-            }
-        }
-
-        // impi   impa   impä   immi   imma   immä   eja   ejä
-        // delete
-        if (($position = $this->searchIfInR2(array('impi', 'impa', 'impä', 'immi', 'imma', 'immä', 'eja', 'ejä'))) !== false) {
-            $this->word = Utf8::substr($this->word, 0, $position);
-            $this->r1();
-            $this->r2();
-            return true;
-        }
-    }
-
-    /**
-     * Step 5: plurals
-     * If an ending was removed in step 3, delete a final i or j if in R1;
-     * otherwise,
-     * if an ending was not removed in step 3, delete a final t in R1 if it
-     * follows a vowel, and, if a t is removed, delete a final mma or imma in
-     * R2, unless the mma is preceded by po.
-     *
-     * @return boolean True when something is done.
-     */
-    private function step5()
-    {
-        if ($this->_removedInStep3) {
-            if (($position = $this->searchIfInR1(array('i', 'j'))) !== false) {
-                $this->word = Utf8::substr($this->word, 0, $position);
-                $this->r1();
-                $this->r2();
-                return true;
-            }
-        } else {
-            if (($position = $this->searchIfInR1(array('t'))) !== false) {
-                $lastLetter = Utf8::substr($this->word, ($position-1), 1);
-                if (in_array($lastLetter, self::$vowels, true)) {
-                    $this->word = Utf8::substr($this->word, 0, $position);
-                    $this->r1();
-                    $this->r2();
-                    if (($position2 = $this->searchIfInR2(array('imma'))) !== false) {
-                        $this->word = Utf8::substr($this->word, 0, $position2);
-                        $this->r1();
-                        $this->r2();
-                        return true;
-                    } elseif (($position2 = $this->searchIfInR2(array('mma'))) !== false) {
-                        $lastLetters = Utf8::substr($this->word, ($position2-2), 2);
-                        if ($lastLetters !== 'po') {
-                            $this->word = Utf8::substr($this->word, 0, $position2);
-                            $this->r1();
-                            $this->r2();
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
-    }
-
-    /**
-     * Step 6: tidying up
-     *
-     * Do in turn steps (a), (b), (c), (d), restricting all tests to the
-     * region R1.
-     */
-    private function step6()
-    {
-        // a) If R1 ends LV
-        // delete the last letter
-        if (($position = $this->searchIfInR1(self::$longVowels)) !== false) {
-            $this->word = Utf8::substr($this->word, 0, $position+1);
-            $this->r1();
-            $this->r2();
-        }
-
-        // b) If R1 ends cX, c a consonant and X one of   a   ä   e   i,
-        // delete the last letter
-        $lastLetter = Utf8::substr($this->r1, -1, 1);
-        $secondToLastLetter = Utf8::substr($this->r1, -2, 1);
-        if (in_array($secondToLastLetter, self::$consonants, true) && in_array($lastLetter, array('a', 'e', 'i', 'ä'))) {
-            $this->word = Utf8::substr($this->word, 0, -1);
-            $this->r1();
-            $this->r2();
-        }
-
-        // c) If R1 ends oj or uj
-        // delete the last letter
-        $twoLastLetters = Utf8::substr($this->r1, -2, 2);
-        if (in_array($twoLastLetters, array('oj', 'uj'))) {
-            $this->word = Utf8::substr($this->word, 0, -1);
-            $this->r1();
-            $this->r2();
-        }
-
-        // d) If R1 ends jo
-        // delete the last letter
-        $twoLastLetters = Utf8::substr($this->r1, -2, 2);
-        if ($twoLastLetters === 'jo') {
-            $this->word = Utf8::substr($this->word, 0, -1);
-            $this->r1();
-            $this->r2();
-        }
-
-        // e) If the word ends with a double consonant followed by zero or more
-        // vowels, remove the last consonant (so eläkk -> eläk,
-        // aatonaatto -> aatonaato)
-        $endVowels = '';
-        for ($i = Utf8::strlen($this->word) - 1; $i > 0; $i--) {
-            $letter = Utf8::substr($this->word, $i, 1);
-            if (in_array($letter, self::$vowels, true)) {
-                $endVowels = $letter . $endVowels;
-            } else {
-                // check for double consonant
-                $prevLetter = Utf8::substr($this->word, $i-1, 1);
-                if ($prevLetter === $letter) {
-                    $this->word = Utf8::substr($this->word, 0, $i) . $endVowels;
-                }
-                break;
             }
         }
     }
