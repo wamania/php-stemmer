@@ -25,5 +25,9 @@
 		"psr-4": {
 			"Wamania\\Snowball\\Tests\\": "test/"
 		}
-	}
+	},
+	"scripts": {
+        "test": "./vendor/bin/phpunit"
+    }
+
 }
