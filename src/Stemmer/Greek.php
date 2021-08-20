@@ -183,157 +183,6 @@ backwardmode (
     )
   )
 
-  define steps6 as (
-    [substring] among (
-      'ισμο' 'ισμοι' 'ισμοσ' 'ισμου' 'ισμουσ' 'ισμων' (
-        delete
-        unset test1
-        ([] substring atlimit among (
-          'σε' 'μετασε' 'μικροσε' 'εγκλε' 'αποκλε'
-          (<- 'ισμ')
-        )) or
-        ([] substring atlimit among (
-          'δανε' 'αντιδανε'
-          (<- 'ι')
-        )) or
-        ([substring] among (
-          'αγνωστικ' (<- 'αγνωστ')
-          'ατομικ' (<- 'ατομ')
-          'γνωστικ' (<- 'γνωστ')
-          'εθνικ' (<- 'εθν')
-          'εκλεκτικ' (<- 'εκλεκτ')
-          'σκεπτικ' (<- 'σκεπτ')
-          'τοπικ' (<- 'τοπ')
-          'αλεξανδριν' (<- 'αλεξανδρ')
-          'βυζαντιν' (<- 'βυζαντ')
-          'θεατριν' (<- 'θεατρ')
-        ))
-      )
-    )
-  )
-
-  define steps7 as (
-    [substring] among (
-      'αρακι' 'αρακια' 'ουδακι' 'ουδακια' (
-        delete
-        unset test1
-        [] substring atlimit among (
-         'σ' 'χ'
-         (<- 'αρακ')
-        )
-      )
-    )
-  )
-
-  define steps8 as (
-    [substring] among (
-      'ακι' 'ακια' 'ιτσα' 'ιτσασ' 'ιτσεσ' 'ιτσων' 'αρακι' 'αρακια' (
-        delete
-        unset test1
-        ([] substring atlimit among (
-          'βαμβ' 'βρ' 'καιμ' 'κον' 'κορ' 'λαβρ' 'λουλ' 'μερ' 'μουστ'
-          'ναγκασ' 'πλ' 'ρ' 'ρυ' 'σ' 'σκ' 'σοκ' 'σπαν' 'τζ' 'φαρμ' 'χ' 'καπακ'
-          'αλισφ' 'αμβρ' 'ανθρ' 'κ' 'φυλ' 'κατραπ' 'κλιμ' 'μαλ' 'σλοβ' 'φ'
-          'σφ' 'τσεχοσλοβ'
-           (<- 'ακ')
-        )) or
-        ([] substring atlimit among (
-          'β' 'βαλ' 'γιαν' 'γλ' 'ζ' 'ηγουμεν' 'καρδ' 'κον' 'μακρυν' 'νυφ'
-          'πατερ' 'π' 'σκ' 'τοσ' 'τριπολ'
-          (<- 'ιτσ')
-        )) or
-        ([] 'κορ' <- 'ιτσ')
-      )
-    )
-  )
-
-  define steps9 as (
-    [substring] among (
-      'ιδιο' 'ιδια' 'ιδιων' (
-        delete
-        unset test1
-        ([] substring atlimit among (
-          'αιφν' 'ιρ' 'ολο' 'ψαλ' (<- 'ιδ')
-        )) or
-        ([] substring among (
-          'ε' 'παιχν' (<- 'ιδ')
-        ))
-      )
-    )
-  )
-
-  define steps10 as (
-    [substring] among (
-      'ισκοσ' 'ισκου' 'ισκο' 'ισκε' (
-        delete
-        unset test1
-        [] substring atlimit among (
-         'δ' 'ιβ' 'μην' 'ρ' 'φραγκ' 'λυκ' 'οβελ'
-         (<- 'ισκ')
-        )
-      )
-    )
-  )
-
-  define step2a as (
-    [substring] among (
-      'αδεσ' 'αδων' (delete)
-    )
-    not ([substring] among (
-      'οκ' 'μαμ' 'μαν' 'μπαμπ' 'πατερ' 'γιαγι' 'νταντ' 'κυρ' 'θει' 'πεθερ'
-    ))
-    insert 'αδ'
-  )
-
-  define step2b as (
-    [substring] among (
-      'εδεσ' 'εδων' (delete)
-    )
-    [] substring among (
-      'οπ' 'ιπ' 'εμπ' 'υπ' 'γηπ' 'δαπ' 'κρασπ' 'μιλ' (<- 'εδ')
-    )
-  )
-
-  define step2c as (
-    [substring] among (
-      'ουδεσ' 'ουδων' (delete)
-    )
-    [] substring among (
-      'αρκ' 'καλιακ' 'πεταλ' 'λιχ' 'πλεξ' 'σκ' 'σ' 'φλ' 'φρ' 'βελ' 'λουλ' 'χν'
-      'σπ' 'τραγ' 'φε' (<- 'ουδ')
-    )
-  )
-
-  define step2d as (
-    [substring] among (
-      'εωσ' 'εων' (delete unset test1)
-    )
-    [] substring atlimit among (
-      'θ' 'δ' 'ελ' 'γαλ' 'ν' 'π' 'ιδ' 'παρ' (<- 'ε')
-    )
-  )
-
-  define step3 as (
-    [substring] among (
-      'ια' 'ιου' 'ιων' (delete unset test1)
-    )
-    ([] v <- 'ι')
-  )
-
-  define step4 as (
-    [substring] among (
-       'ικα' 'ικο' 'ικου' 'ικων' (delete unset test1)
-    )
-    ([] v <- 'ικ') or
-    [] substring atlimit among (
-      'αλ' 'αδ' 'ενδ' 'αμαν' 'αμμοχαλ' 'ηθ' 'ανηθ' 'αντιδ' 'φυσ' 'βρωμ' 'γερ'
-      'εξωδ' 'καλπ' 'καλλιν' 'καταδ' 'μουλ' 'μπαν' 'μπαγιατ' 'μπολ' 'μποσ'
-      'νιτ' 'ξικ' 'συνομηλ' 'πετσ' 'πιτσ' 'πικαντ' 'πλιατσ' 'ποστελν' 'πρωτοδ'
-      'σερτ' 'συναδ' 'τσαμ' 'υποδ' 'φιλον' 'φυλοδ' 'χασ'
-      (<- 'ικ')
-    )
-  )
-
   define step5a as (
     do ('αγαμε' atlimit <- 'αγαμ')
     do (
@@ -714,7 +563,7 @@ define stem as (
 
         $this->word = Utf8::strtolower($word);
         $this->word = str_replace(
-            array_keys($this->cleanup), array_values($this->cleanup),
+            array_keys($this::$cleanup), array_values($this::$cleanup),
             $this->word
         );
 
@@ -723,6 +572,16 @@ define stem as (
         }
 
         $this->step1();
+        $this->steps1();
+        $this->steps2();
+        $this->steps3();
+        $this->steps4();
+        $this->steps5();
+        $this->steps6();
+        $this->steps7();
+        $this->steps8();
+        $this->steps9();
+        $this->steps10();
 
         return $this->word;
     }
@@ -907,6 +766,221 @@ define stem as (
                 'χωρ'
             );
             if ($this->replaceSuffixIfExists($substrings, 'ιστ')) {
+                return true;
+            }
+        }
+    }
+
+    private function steps6()
+    {
+        $substrings = array(
+            'ισμο', 'ισμοι', 'ισμοσ', 'ισμου', 'ισμουσ', 'ισμων'
+        );
+        if ($this->deleteSuffixIfExists($substrings)) {
+            $this->test1 = false;
+            $substrings = array(
+                'σε', 'μετασε', 'μικροσε', 'εγκλε', 'αποκλε'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ισμ')) {
+                return true;
+            }
+            $substrings = array('δανε', 'αντιδανε');
+            if ($this->replaceSuffixIfExists($substrings, 'ι')) {
+                return true;
+            }
+            $this->replaceSuffixIfExists(array('αγνωστικ'), 'αγνωστ');
+            $this->replaceSuffixIfExists(array('ατομικ'), 'ατομ');
+            $this->replaceSuffixIfExists(array('γνωστικ'), 'γνωστ');
+            $this->replaceSuffixIfExists(array('εθνικ'), 'εθν');
+            $this->replaceSuffixIfExists(array('εκλεκτικ'), 'εκλεκτ');
+            $this->replaceSuffixIfExists(array('σκεπτικ'), 'σκεπτ');
+            $this->replaceSuffixIfExists(array('τοπικ'), 'τοπ');
+            $this->replaceSuffixIfExists(array('αλεξανδριν'), 'αλεξανδρ');
+            $this->replaceSuffixIfExists(array('βυζαντιν'), 'βυζαντ');
+            $this->replaceSuffixIfExists(array('θεατριν'), 'θεατρ');
+        }
+    }
+
+    private function steps7()
+    {
+        $substrings = array(
+            'αρακι', 'αρακια', 'ουδακι', 'ουδακια'
+        );
+        if ($this->deleteSuffixIfExists($substrings)) {
+            $this->test1 = false;
+            $substrings = array(
+                'σ', 'χ'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'αρακ')) {
+                return true;
+            }
+        }
+    }
+
+    private function steps8()
+    {
+        $substrings = array(
+            'ακι', 'ακια', 'ιτσα', 'ιτσασ', 'ιτσεσ', 'ιτσων', 'αρακι', 'αρακια'
+        );
+        if ($this->deleteSuffixIfExists($substrings)) {
+            $this->test1 = false;
+            $substrings = array(
+                'βαμβ', 'βρ', 'καιμ', 'κον', 'κορ', 'λαβρ', 'λουλ', 'μερ', 'μουστ',
+                'ναγκασ', 'πλ', 'ρ', 'ρυ', 'σ', 'σκ', 'σοκ', 'σπαν', 'τζ', 'φαρμ',
+                'χ', 'καπακ', 'αλισφ', 'αμβρ', 'ανθρ', 'κ', 'φυλ', 'κατραπ', 'κλιμ',
+                'μαλ', 'σλοβ', 'φ', 'σφ', 'τσεχοσλοβ'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ακ')) {
+                return true;
+            }
+            $substrings = array(
+                'β', 'βαλ', 'γιαν', 'γλ', 'ζ', 'ηγουμεν', 'καρδ', 'κον', 'μακρυν',
+                'νυφ', 'πατερ', 'π', 'σκ', 'τοσ', 'τριπολ'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ιτσ')) {
+                return true;
+            }
+            if ($this->replaceSuffixIfExists(array('κορ'), 'ιτσ')) {
+                return true;
+            }
+        }
+    }
+
+    private function steps9()
+    {
+        $substrings = array(
+            'ιδιο', 'ιδια', 'ιδιων'
+        );
+        if ($this->deleteSuffixIfExists($substrings)) {
+            $this->test1 = false;
+            $substrings = array(
+                'αιφν', 'ιρ', 'ολο', 'ψαλ'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ιδ')) {
+                return true;
+            }
+            $substrings = array(
+                'ε', 'παιχν'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ιδ')) {
+                return true;
+            }
+        }
+    }
+
+    private function steps10()
+    {
+        $substrings = array(
+            'ισκοσ', 'ισκου', 'ισκο', 'ισκε'
+        );
+        if ($this->deleteSuffixIfExists($substrings)) {
+            $this->test1 = false;
+            $substrings = array(
+                'δ', 'ιβ', 'μην', 'ρ', 'φραγκ', 'λυκ', 'οβελ'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ισκ')) {
+                return true;
+            }
+        }
+    }
+
+    private function step2a()
+    {
+        $substrings = array(
+            'αδεσ', 'αδων'
+        );
+        if ($this->deleteSuffixIfExists($substrings)) {
+            $this->test1 = false;
+            $substrings = array(
+                'οκ', 'μαμ', 'μαν', 'μπαμπ', 'πατερ', 'γιαγι', 'νταντ', 'κυρ', 'θει',
+                'πεθερ'
+            );
+            if (!$this->search($substrings)) {
+                $this->word .= 'αδ';
+            }
+        }
+    }
+
+    private function step2b()
+    {
+        $substrings = array(
+            'εδεσ', 'εδων'
+        );
+        if ($this->deleteSuffixIfExists($substrings)) {
+            $this->test1 = false;
+            $substrings = array(
+                'οπ', 'ιπ', 'εμπ', 'υπ', 'γηπ', 'δαπ', 'κρασπ', 'μιλ'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'εδ')) {
+                return true;
+            }
+        }
+    }
+
+    private function step2c()
+    {
+        $substrings = array(
+            'ουδεσ', 'ουδων'
+        );
+        if ($this->deleteSuffixIfExists($substrings)) {
+            $this->test1 = false;
+            $substrings = array(
+                'αρκ', 'καλιακ', 'πεταλ', 'λιχ', 'πλεξ', 'σκ', 'σ', 'φλ', 'φρ',
+                'βελ', 'λουλ', 'χν', 'σπ', 'τραγ', 'φε'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ουδ')) {
+                return true;
+            }
+        }
+    }
+
+    private function step2d()
+    {
+        $substrings = array(
+            'εωσ', 'εων'
+        );
+        if ($this->deleteSuffixIfExists($substrings)) {
+            $this->test1 = false;
+            $substrings = array(
+                'θ', 'δ', 'ελ', 'γαλ', 'ν', 'π', 'ιδ', 'παρ'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ε')) {
+                return true;
+            }
+        }
+    }
+
+    private function step3()
+    {
+        $substrings = array(
+            'ια', 'ιου', 'ιων'
+        );
+        if ($this->deleteSuffixIfExists($substrings)) {
+            $this->test1 = false;
+            if ($this->replaceSuffixIfExists($this::$vowels1, 'ι')) {
+                return true;
+            }
+        }
+    }
+
+    private function step4()
+    {
+        $substrings = array(
+            'ικα', 'ικο', 'ικου', 'ικων'
+        );
+        if ($this->deleteSuffixIfExists($substrings)) {
+            $this->test1 = false;
+            if ($this->replaceSuffixIfExists($this::$vowels1, 'ικ')) {
+                return true;
+            }
+            $substrings = array(
+                'αλ', 'αδ', 'ενδ', 'αμαν', 'αμμοχαλ', 'ηθ', 'ανηθ', 'αντιδ', 'φυσ',
+                'βρωμ', 'γερ', 'εξωδ', 'καλπ', 'καλλιν', 'καταδ', 'μουλ', 'μπαν',
+                'μπαγιατ', 'μπολ', 'μποσ', 'νιτ', 'ξικ', 'συνομηλ', 'πετσ', 'πιτσ',
+                'πικαντ', 'πλιατσ', 'ποστελν', 'πρωτοδ', 'σερτ', 'συναδ', 'τσαμ',
+                'υποδ', 'φιλον', 'φυλοδ', 'χασ'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ικ')) {
                 return true;
             }
         }
