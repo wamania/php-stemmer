@@ -183,41 +183,6 @@ backwardmode (
     )
   )
 
-  define steps4 as (
-    [substring] among (
-      'ισω' 'ισεισ' 'ισει' 'ισουμε' 'ισετε' 'ισουν' 'ισουνε' (
-        delete
-        unset test1
-        [] substring atlimit among (
-          'αναμπα' 'εμπα' 'εσε' 'εσωκλε' 'επα' 'ξαναπα' 'επε' 'περιπα' 'αθρο'
-          'συναθρο' 'δανε' 'κλε' 'χαρτοπα' 'εξαρχα' 'μετεπε' 'αποκλε' 'απεκλε'
-          'εκλε' 'πε'
-          (<- 'ι')
-        )
-      )
-    )
-  )
-
-  define steps5 as (
-    [substring] among (
-      'ιστοσ' 'ιστου' 'ιστο' 'ιστε' 'ιστοι' 'ιστων' 'ιστουσ' 'ιστη' 'ιστησ'
-      'ιστα' 'ιστεσ' (
-        delete
-        unset test1
-        ([] substring atlimit among (
-          'δανε' 'συναθρο' 'κλε' 'σε' 'εσωκλε' 'ασε' 'πλε'
-          (<- 'ι')
-        )) or
-        ([] substring atlimit among (
-          'μ' 'π' 'απ' 'αρ' 'ηδ' 'κτ' 'σκ' 'σχ' 'υψ' 'φα' 'χρ' 'χτ' 'ακτ'
-          'αορ' 'ασχ' 'ατα' 'αχν' 'αχτ' 'γεμ' 'γυρ' 'εμπ' 'ευπ' 'εχθ' 'ηφα'
-          'καθ' 'κακ' 'κυλ' 'λυγ' 'μακ' 'μεγ' 'ταχ' 'φιλ' 'χωρ'
-          (<- 'ιστ')
-        ))
-      )
-    )
-  )
-
   define steps6 as (
     [substring] among (
       'ισμο' 'ισμοι' 'ισμοσ' 'ισμου' 'ισμουσ' 'ισμων' (
@@ -898,6 +863,50 @@ define stem as (
                 'π', 'πουκαμ', 'ολο', 'λαρ'
             );
             if ($this->replaceSuffixIfExists($substrings, 'ισ')) {
+                return true;
+            }
+        }
+    }
+
+    private function steps4()
+    {
+        $substrings = array(
+            'ισω', 'ισεισ', 'ισει', 'ισουμε', 'ισετε', 'ισουν', 'ισουνε'
+        );
+        if ($this->deleteSuffixIfExists($substrings)) {
+            $this->test1 = false;
+            $substrings = array(
+                'αναμπα', 'εμπα', 'εσε', 'εσωκλε', 'επα', 'ξαναπα', 'επε', 'περιπα',
+                'αθρο', 'συναθρο', 'δανε', 'κλε', 'χαρτοπα', 'εξαρχα', 'μετεπε',
+                'αποκλε', 'απεκλε', 'εκλε', 'πε'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ι')) {
+                return true;
+            }
+        }
+    }
+
+    private function steps5()
+    {
+        $substrings = array(
+            'ιστοσ', 'ιστου', 'ιστο', 'ιστε', 'ιστοι', 'ιστων', 'ιστουσ', 'ιστη',
+            'ιστησ', 'ιστα', 'ιστεσ'
+        );
+        if ($this->deleteSuffixIfExists($substrings)) {
+            $this->test1 = false;
+            $substrings = array(
+                'δανε', 'συναθρο', 'κλε', 'σε', 'εσωκλε', 'ασε', 'πλε'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ι')) {
+                return true;
+            }
+            $substrings = array(
+                'μ', 'π', 'απ', 'αρ', 'ηδ', 'κτ', 'σκ', 'σχ', 'υψ', 'φα', 'χρ', 'χτ',
+                'ακτ', 'αορ', 'ασχ', 'ατα', 'αχν', 'αχτ', 'γεμ', 'γυρ', 'εμπ', 'ευπ',
+                'εχθ', 'ηφα', 'καθ', 'κακ', 'κυλ', 'λυγ', 'μακ', 'μεγ', 'ταχ', 'φιλ',
+                'χωρ'
+            );
+            if ($this->replaceSuffixIfExists($substrings, 'ιστ')) {
                 return true;
             }
         }
