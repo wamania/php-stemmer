@@ -50,6 +50,8 @@ Usage
 
 For 2.x, you should use the factory
 ```php
+use Wamania\Snowball\StemmerFactory;
+
 // use ISO_639 (2 or 3 letters) or language name in english
 $stemmer = StemmerFactory::create('fr');
 $stemmer = StemmerFactory::create ('spanish');
@@ -60,6 +62,8 @@ $stem = $stemmer->stem('automóvil');
 
 Or the manager
 ```php
+use Wamania\Snowball\StemmerManager;
+
 $manager = new StemmerManager();
 $stem = $manager->stem('automóvil', 'es');
 ```
