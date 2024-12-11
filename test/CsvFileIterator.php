@@ -19,7 +19,7 @@ class CsvFileIterator implements \Iterator
         fclose($this->file);
     }
 
-    public function rewind(): void
+    public function rewind()
     {
         rewind($this->file);
         //$this->current = fgetcsv($this->file, null, "\t");
@@ -32,22 +32,22 @@ class CsvFileIterator implements \Iterator
         $this->key = 0;
     }
 
-    public function valid(): bool
+    public function valid()
     {
         return !feof($this->file);
     }
 
-    public function key(): mixed
+    public function key()
     {
         return $this->key;
     }
 
-    public function current(): mixed
+    public function current()
     {
         return $this->current;
     }
 
-    public function next(): void
+    public function next()
     {
         $line = fgets($this->file);
         $current = explode(' ', $line);

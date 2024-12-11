@@ -3,13 +3,13 @@ namespace Wamania\Snowball\Tests;
 
 class CsvFileVerboseIterator extends CsvFileIterator
 {
-    public function rewind(): void
+    public function rewind()
     {
         parent::rewind();
         $this->_updateKey($this->current());
     }
 
-    public function next(): void
+    public function next()
     {
         parent::next();
         if ($this->valid()) {
