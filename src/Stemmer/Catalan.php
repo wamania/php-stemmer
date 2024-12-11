@@ -2,7 +2,7 @@
 
 namespace Wamania\Snowball\Stemmer;
 
-use voku\helper\UTF8;
+use Joomla\String\StringHelper;
 
 /**
  *
@@ -86,12 +86,7 @@ class Catalan extends Stem
      */
     public function stem($word)
     {
-        // we do ALL in UTF-8
-        if (!UTF8::is_utf8($word)) {
-            throw new \Exception('Word must be in UTF-8');
-        }
-
-        $this->word = UTF8::strtolower($word);
+        $this->word = StringHelper::strtolower($word);
 
         // Catalan stemmer does not use Rv
         $this->r1();
@@ -127,7 +122,7 @@ class Catalan extends Stem
     {
         if (($position = $this->search(static::$attached_pronoun)) !== false) {
             if ($this->inR1($position)) {
-                $this->word = UTF8::substr($this->word, 0, $position);
+                $this->word = StringHelper::substr($this->word, 0, $position);
                 return true;
             }
         }
@@ -146,7 +141,7 @@ class Catalan extends Stem
         //      delete if in R2
         if (($position = $this->search(['acions', 'ada', 'ades'])) !== false) {
             if ($this->inR2($position)) {
-                $this->word = UTF8::substr($this->word, 0, $position);
+                $this->word = StringHelper::substr($this->word, 0, $position);
             }
             return true;
         }
@@ -162,11 +157,11 @@ class Catalan extends Stem
         // atius atives ativa ativitat ativitats ible ibles assa asses assos ent ents íssim íssima íssims íssimes
         // ìssem ìsseu ìssin ims ima imes isme ista ismes istes inia inies íinia ínies ita ites triu trius oses osos
         // ient otes ots
-        // 
+        //
         //      delete if in R1
         if (($position = $this->search(self::$standard_suffix_1a)) !== false) {
             if ($this->inR1($position)) {
-                $this->word = UTF8::substr($this->word, 0, $position);
+                $this->word = StringHelper::substr($this->word, 0, $position);
             }
             return true;
         }
@@ -241,7 +236,7 @@ class Catalan extends Stem
         //      delete if in R1
         if (($position = $this->search(static::$verb_suffixes)) !== false) {
             if ($this->inR1($position)) {
-                $this->word = UTF8::substr($this->word, 0, $position);
+                $this->word = StringHelper::substr($this->word, 0, $position);
             }
             return true;
         }
@@ -251,7 +246,7 @@ class Catalan extends Stem
         //      delete if in R2
         if (($position = $this->search(['ando'])) !== false) {
             if ($this->inR2($position)) {
-                $this->word = UTF8::substr($this->word, 0, $position);
+                $this->word = StringHelper::substr($this->word, 0, $position);
             }
             return true;
         }
@@ -270,7 +265,7 @@ class Catalan extends Stem
         //      delete if in R1
         if (($position = $this->search(static::$residual_suffixes)) !== false) {
             if ($this->inR1($position)) {
-                $this->word = UTF8::substr($this->word, 0, $position);
+                $this->word = StringHelper::substr($this->word, 0, $position);
             }
             return true;
         }
@@ -294,7 +289,7 @@ class Catalan extends Stem
      */
     private function finish()
     {
-        $this->word = UTF8::str_replace(
+        $this->word = str_replace(
             ['á', 'é', 'í', 'ó', 'ú', 'à', 'è', 'ì', 'ò', 'ï', 'ü', '·'],
             ['a', 'e', 'i', 'o', 'u', 'a', 'e', 'i', 'o', 'i', 'u', '.'],
             $this->word
