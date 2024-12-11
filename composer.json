@@ -10,8 +10,8 @@
 		}
 	],
 	"require": {
-		"php": ">=8.1",
-		"joomla/string": ">=3.0.1"
+		"php": ">=7.3",
+		"joomla/string": ">=2.0.1"
 	},
 	"require-dev":{
 		"phpunit/phpunit": "^9.0"
