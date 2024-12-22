@@ -45,10 +45,15 @@ For PHP^7.3 and PHP^8.0 use 3.x (backward compatible, but phpunit^9 don't work w
 composer require wamania/php-stemmer "^3.0"
 ```
 
+For PHP^8.4 use 4.x (avoid deprecated by switching from voku utf8 to [joomla/string](https://github.com/joomla-framework/string) )
+```
+composer require wamania/php-stemmer "^4.0"
+```
+
 Usage
 -----
 
-For 2.x, you should use the factory
+For 2.x ~ 4.x, you should use the factory
 ```php
 use Wamania\Snowball\StemmerFactory;
 
