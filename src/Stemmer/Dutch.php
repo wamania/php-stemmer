@@ -61,7 +61,7 @@ class Dutch extends Stem
 
     /**
      * Define a valid s-ending as a non-vowel other than j.
-     * @param string $ending
+     * @param string $word
      * @return boolean
      */
     private function hasValidSEnding($word)
@@ -72,7 +72,7 @@ class Dutch extends Stem
 
     /**
      * Define a valid en-ending as a non-vowel, and not gem.
-     * @param string $ending
+     * @param string $word
      * @return boolean
      */
     private function hasValidEnEnding($word)

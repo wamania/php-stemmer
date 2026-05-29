@@ -3,7 +3,7 @@ namespace Wamania\Snowball\Tests;
 
 class CsvFileVerboseIterator extends CsvFileIterator
 {
-    public function rewind()
+    public function rewind(): void
     {
         parent::rewind();
         $this->_updateKey($this->current());
@@ -20,9 +20,9 @@ class CsvFileVerboseIterator extends CsvFileIterator
     protected function _updateKey($value)
     {
         if ($value && sizeof($value)) {
-            $this->key = $value[0];
+            $this->key = (int) $value[0];
         } elseif (sizeof($this->current)) {
-            $this->key = $this->current[0];
+            $this->key = (int) $this->current[0];
         }
     }
 }

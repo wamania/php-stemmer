@@ -91,6 +91,8 @@ class Finnish extends Stem
 
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -180,6 +182,8 @@ class Finnish extends Stem
                 }
             }
         }
+
+        return false;
     }
 
     /**
@@ -294,6 +298,8 @@ class Finnish extends Stem
             $this->_removedInStep3 = true;
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -326,6 +332,8 @@ class Finnish extends Stem
             $this->r2();
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -372,6 +380,7 @@ class Finnish extends Stem
             }
         }
 
+        return false;
     }
 
     /**

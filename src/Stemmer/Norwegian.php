@@ -46,7 +46,7 @@ class Norwegian extends Stem
      * b   c   d   f   g   h   j   l   m   n   o   p   r   t   v   y   z,
      * or k not preceded by a vowel
      *
-     * @param string $ending
+     * @param string $word
      * @return boolean
      */
     private function hasValidSEnding($word)

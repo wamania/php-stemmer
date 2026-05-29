@@ -35,8 +35,8 @@ jobs:
           max_attempts: 5
           command: composer update --${{ matrix.stability }} --prefer-dist --no-interaction --no-progress
 
-      - name: Copy PHP Unit Settings
-        run: cp phpunit.xml.dist phpunit.xml
+      - name: Execute phpstan
+        run: vendor/bin/phpstan
 
       - name: Execute tests
         run: vendor/bin/phpunit --verbose

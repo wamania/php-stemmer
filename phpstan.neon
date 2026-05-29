@@ -1,0 +1,9 @@
+includes:
+	- vendor/phpstan/phpstan-deprecation-rules/rules.neon
+
+parameters:
+	level: 5
+	phpVersion: 70300
+	reportUnmatchedIgnoredErrors: false
+	paths:
+		- src

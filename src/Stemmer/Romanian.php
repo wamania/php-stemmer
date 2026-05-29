@@ -300,6 +300,8 @@ class Romanian extends Stem
             }
             return true;
         }
+
+        return false;
     }
 
     /**

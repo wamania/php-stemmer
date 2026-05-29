@@ -46,7 +46,7 @@ class Danish extends Stem
      * Define a valid s-ending as one of
      * a   b   c   d   f   g   h   j   k   l   m   n   o   p   r   t   v   y   z   å
      *
-     * @param string $ending
+     * @param string $word
      * @return boolean
      */
     private function hasValidSEnding($word)
