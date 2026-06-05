@@ -2,7 +2,7 @@
 
 namespace Wamania\Snowball;
 
-use Joomla\String\StringHelper;
+use voku\helper\UTF8;
 use Wamania\Snowball\Stemmer\Catalan;
 use Wamania\Snowball\Stemmer\Danish;
 use Wamania\Snowball\Stemmer\Dutch;
@@ -43,7 +43,7 @@ class StemmerFactory
      */
     public static function create(string $code): Stemmer
     {
-        $code = StringHelper::strtolower($code);
+        $code = UTF8::strtolower($code);
 
         foreach (self::LANGS as $classname => $isoCodes) {
             if (in_array($code, $isoCodes)) {

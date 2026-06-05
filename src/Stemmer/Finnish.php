@@ -6,7 +6,7 @@
  */
 namespace Wamania\Snowball\Stemmer;
 
-use Joomla\String\StringHelper;
+use voku\helper\UTF8;
 
 /**
  * Finnish Snowball Stemmer.
@@ -38,7 +38,12 @@ class Finnish extends Stem
      */
     public function stem($word)
     {
-        $this->word = StringHelper::strtolower($word);
+        // we do ALL in UTF-8
+        if (! UTF8::is_utf8($word)) {
+            throw new \Exception('Word must be in UTF-8');
+        }
+
+        $this->word = Utf8::strtolower($word);
 
         // R1 and R2 are then defined in the usual way
         $this->r1();
@@ -69,10 +74,10 @@ class Finnish extends Stem
         // (a) kin   kaan   kään   ko   kö   han   hän   pa   pä
         //      delete if preceded by n, t or a vowel
         if (($position = $this->searchIfInR1(array('kaan', 'kään', 'kin', 'han', 'hän', 'ko', 'kö', 'pa', 'pä'))) !== false) {
-            $lastLetter = StringHelper::substr($this->word, ($position-1), 1);
+            $lastLetter = Utf8::substr($this->word, ($position-1), 1);
 
             if (in_array($lastLetter, array_merge(['t', 'n'], self::$vowels))) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = Utf8::substr($this->word, 0, $position);
                 $this->r1();
                 $this->r2();
             }
@@ -84,7 +89,7 @@ class Finnish extends Stem
         //  delete if in R2
         if (($position = $this->searchIfInR1(array('sti'))) !== false) {
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = Utf8::substr($this->word, 0, $position);
                 $this->r1();
                 $this->r2();
             }
@@ -106,10 +111,10 @@ class Finnish extends Stem
         // si
         //  delete if not preceded by k
         if (($position = $this->searchIfInR1(array('si'))) !== false) {
-            $lastLetter = StringHelper::substr($this->word, ($position-1), 1);
+            $lastLetter = Utf8::substr($this->word, ($position-1), 1);
 
             if ($lastLetter !== 'k') {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = Utf8::substr($this->word, 0, $position);
                 $this->r1();
                 $this->r2();
                 return true;
@@ -119,7 +124,7 @@ class Finnish extends Stem
         // ni
         //  delete
         if (($position = $this->searchIfInR1(array('ni'))) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, $position);
+            $this->word = Utf8::substr($this->word, 0, $position);
             // if preceded by kse, replace with ksi
             if ( ($position = $this->search(array('kse'))) !== false) {
                 $this->word = preg_replace('#(kse)$#u', 'ksi', $this->word);
@@ -132,7 +137,7 @@ class Finnish extends Stem
         // nsa   nsä   mme   nne
         //  delete
         if (($position = $this->searchIfInR1(array('nsa', 'nsä', 'mme', 'nne'))) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, $position);
+            $this->word = Utf8::substr($this->word, 0, $position);
             $this->r1();
             $this->r2();
             return true;
@@ -141,9 +146,9 @@ class Finnish extends Stem
         // an
         //  delete if preceded by one of   ta   ssa   sta   lla   lta   na
         if (($position = $this->searchIfInR1(array('an'))) !== false) {
-            $word = StringHelper::substr($this->word, 0, $position);
-            $lastThreeLetters = StringHelper::substr($word, -3, 3);
-            $lastTwoLetters = StringHelper::substr($word, -2, 2);
+            $word = Utf8::substr($this->word, 0, $position);
+            $lastThreeLetters = Utf8::substr($word, -3, 3);
+            $lastTwoLetters = Utf8::substr($word, -2, 2);
             if (in_array($lastThreeLetters, array('ssa', 'sta', 'lla', 'lta'), true) || in_array($lastTwoLetters, array('na', 'ta'), true)) {
                 $this->word = $word;
                 $this->r1();
@@ -155,9 +160,9 @@ class Finnish extends Stem
         // än
         // delete if preceded by one of   tä   ssä   stä   llä   ltä   nä
         if (($position = $this->searchIfInR1(array('än'))) !== false) {
-            $word = StringHelper::substr($this->word, 0, $position);
-            $lastThreeLetters = StringHelper::substr($word, -3, 3);
-            $lastTwoLetters = StringHelper::substr($word, -2, 2);
+            $word = Utf8::substr($this->word, 0, $position);
+            $lastThreeLetters = Utf8::substr($word, -3, 3);
+            $lastTwoLetters = Utf8::substr($word, -2, 2);
             if (in_array($lastThreeLetters, array('ssä', 'stä', 'llä', 'ltä'), true) || in_array($lastTwoLetters, array('nä', 'tä'), true)) {
                 $this->word = $word;
                 $this->r1();
@@ -169,9 +174,9 @@ class Finnish extends Stem
         // en
         // delete if preceded by one of   lle   ine
         if (($position = $this->searchIfInR1(array('en'))) !== false) {
-            $word = StringHelper::substr($this->word, 0, $position);
-            if (StringHelper::strlen($this->word) > 4) {
-                $lastThreeLetters = StringHelper::substr($this->word, -5, 3);
+            $word = Utf8::substr($this->word, 0, $position);
+            if (Utf8::strlen($this->word) > 4) {
+                $lastThreeLetters = Utf8::substr($this->word, -5, 3);
                 if (in_array($lastThreeLetters, array('lle', 'ine'), true)) {
                     $this->word = $word;
                     $this->r1();
@@ -199,9 +204,9 @@ class Finnish extends Stem
                 continue;
             }
             if (($position = $this->searchIfInR1(array('h' . $vowel . 'n'))) !== false) {
-                $lastLetter = StringHelper::substr($this->word, $position-1, 1);
+                $lastLetter = Utf8::substr($this->word, $position-1, 1);
                 if ($lastLetter === $vowel) {
-                    $this->word = StringHelper::substr($this->word, 0, $position);
+                    $this->word = Utf8::substr($this->word, 0, $position);
                     $this->_removedInStep3 = true;
                     $this->r1();
                     $this->r2();
@@ -213,11 +218,11 @@ class Finnish extends Stem
         // siin   den   tten
         // delete if preceded by Vi
         if (($position = $this->searchIfInR1(array('siin', 'den', 'tten'))) !== false) {
-            $lastLetter = StringHelper::substr($this->word, ($position-1), 1);
+            $lastLetter = Utf8::substr($this->word, ($position-1), 1);
             if ($lastLetter === 'i') {
-                $nextLastLetter = StringHelper::substr($this->word, ($position-2), 1);
+                $nextLastLetter = Utf8::substr($this->word, ($position-2), 1);
                 if (in_array($nextLastLetter, self::$restrictedVowels, true)) {
-                    $this->word = StringHelper::substr($this->word, 0, $position);
+                    $this->word = Utf8::substr($this->word, 0, $position);
                     $this->_removedInStep3 = true;
                     $this->r1();
                     $this->r2();
@@ -229,10 +234,10 @@ class Finnish extends Stem
         // seen
         // delete if preceded by LV
         if (($position = $this->searchIfInR1(array('seen'))) !== false) {
-            $lastLetters = StringHelper::substr($this->word, ($position-2), 2);
+            $lastLetters = Utf8::substr($this->word, ($position-2), 2);
 
             if (in_array($lastLetters, self::$longVowels, true)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = Utf8::substr($this->word, 0, $position);
                 $this->_removedInStep3 = true;
                 $this->r1();
                 $this->r2();
@@ -243,10 +248,10 @@ class Finnish extends Stem
         // tta    ttä
         // delete if preceded by e
         if (($position = $this->searchIfInR1(array('tta', 'ttä'))) !== false) {
-            $lastLetter = StringHelper::substr($this->word, ($position-1), 1);
+            $lastLetter = Utf8::substr($this->word, ($position-1), 1);
 
             if ($lastLetter === 'e') {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = Utf8::substr($this->word, 0, $position);
                 $this->_removedInStep3 = true;
                 $this->r1();
                 $this->r2();
@@ -257,7 +262,7 @@ class Finnish extends Stem
         // ta  tä  ssa  ssä  sta  stä  lla  llä  lta  ltä  lle  na  nä  ksi  ine
         // delete
         if (($position = $this->searchIfInR1(array('ssa', 'ssä', 'sta', 'stä', 'lla', 'llä', 'lta', 'ltä', 'lle', 'ksi', 'na', 'nä', 'ine', 'ta', 'tä'))) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, $position);
+            $this->word = Utf8::substr($this->word, 0, $position);
             $this->_removedInStep3 = true;
             $this->r1();
             $this->r2();
@@ -267,11 +272,11 @@ class Finnish extends Stem
         // a    ä
         // delete if preceded by cv
         if (($position = $this->searchIfInR1(array('a', 'ä'))) !== false) {
-            $lastLetter = StringHelper::substr($this->word, ($position-1), 1);
-            $nextLastLetter = StringHelper::substr($this->word, ($position-2), 1);
+            $lastLetter = Utf8::substr($this->word, ($position-1), 1);
+            $nextLastLetter = Utf8::substr($this->word, ($position-2), 1);
 
             if (in_array($lastLetter, self::$vowels, true) && in_array($nextLastLetter, self::$consonants, true)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = Utf8::substr($this->word, 0, $position);
                 $this->_removedInStep3 = true;
                 $this->r1();
                 $this->r2();
@@ -282,12 +287,12 @@ class Finnish extends Stem
         // n
         // delete, and if preceded by LV or ie, delete the last vowel
         if (($position = $this->searchIfInR1(array('n'))) !== false) {
-            $lastLetters = StringHelper::substr($this->word, ($position-2), 2);
+            $lastLetters = Utf8::substr($this->word, ($position-2), 2);
 
             if (in_array($lastLetters, self::$longVowels, true) || $lastLetters === 'ie') {
-                $this->word = StringHelper::substr($this->word, 0, $position-1);
+                $this->word = Utf8::substr($this->word, 0, $position-1);
             } else {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = Utf8::substr($this->word, 0, $position);
             }
             $this->r1();
             $this->r2();
@@ -309,9 +314,9 @@ class Finnish extends Stem
         // mpi   mpa   mpä   mmi   mma   mmä
         // delete if not preceded by po
         if (($position = $this->searchIfInR2(array('mpi', 'mpa', 'mpä', 'mmi', 'mma', 'mmä'))) !== false) {
-            $lastLetters = StringHelper::substr($this->word, ($position-2), 2);
+            $lastLetters = Utf8::substr($this->word, ($position-2), 2);
             if ($lastLetters !== 'po') {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = Utf8::substr($this->word, 0, $position);
                 $this->r1();
                 $this->r2();
                 return true;
@@ -321,7 +326,7 @@ class Finnish extends Stem
         // impi   impa   impä   immi   imma   immä   eja   ejä
         // delete
         if (($position = $this->searchIfInR2(array('impi', 'impa', 'impä', 'immi', 'imma', 'immä', 'eja', 'ejä'))) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, $position);
+            $this->word = Utf8::substr($this->word, 0, $position);
             $this->r1();
             $this->r2();
             return true;
@@ -342,27 +347,27 @@ class Finnish extends Stem
     {
         if ($this->_removedInStep3) {
             if (($position = $this->searchIfInR1(array('i', 'j'))) !== false) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = Utf8::substr($this->word, 0, $position);
                 $this->r1();
                 $this->r2();
                 return true;
             }
         } else {
             if (($position = $this->searchIfInR1(array('t'))) !== false) {
-                $lastLetter = StringHelper::substr($this->word, ($position-1), 1);
+                $lastLetter = Utf8::substr($this->word, ($position-1), 1);
                 if (in_array($lastLetter, self::$vowels, true)) {
-                    $this->word = StringHelper::substr($this->word, 0, $position);
+                    $this->word = Utf8::substr($this->word, 0, $position);
                     $this->r1();
                     $this->r2();
                     if (($position2 = $this->searchIfInR2(array('imma'))) !== false) {
-                        $this->word = StringHelper::substr($this->word, 0, $position2);
+                        $this->word = Utf8::substr($this->word, 0, $position2);
                         $this->r1();
                         $this->r2();
                         return true;
                     } elseif (($position2 = $this->searchIfInR2(array('mma'))) !== false) {
-                        $lastLetters = StringHelper::substr($this->word, ($position2-2), 2);
+                        $lastLetters = Utf8::substr($this->word, ($position2-2), 2);
                         if ($lastLetters !== 'po') {
-                            $this->word = StringHelper::substr($this->word, 0, $position2);
+                            $this->word = Utf8::substr($this->word, 0, $position2);
                             $this->r1();
                             $this->r2();
                             return true;
@@ -385,35 +390,35 @@ class Finnish extends Stem
         // a) If R1 ends LV
         // delete the last letter
         if (($position = $this->searchIfInR1(self::$longVowels)) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, $position+1);
+            $this->word = Utf8::substr($this->word, 0, $position+1);
             $this->r1();
             $this->r2();
         }
 
         // b) If R1 ends cX, c a consonant and X one of   a   ä   e   i,
         // delete the last letter
-        $lastLetter = StringHelper::substr($this->r1, -1, 1);
-        $secondToLastLetter = StringHelper::substr($this->r1, -2, 1);
+        $lastLetter = Utf8::substr($this->r1, -1, 1);
+        $secondToLastLetter = Utf8::substr($this->r1, -2, 1);
         if (in_array($secondToLastLetter, self::$consonants, true) && in_array($lastLetter, array('a', 'e', 'i', 'ä'))) {
-            $this->word = StringHelper::substr($this->word, 0, -1);
+            $this->word = Utf8::substr($this->word, 0, -1);
             $this->r1();
             $this->r2();
         }
 
         // c) If R1 ends oj or uj
         // delete the last letter
-        $twoLastLetters = StringHelper::substr($this->r1, -2, 2);
+        $twoLastLetters = Utf8::substr($this->r1, -2, 2);
         if (in_array($twoLastLetters, array('oj', 'uj'))) {
-            $this->word = StringHelper::substr($this->word, 0, -1);
+            $this->word = Utf8::substr($this->word, 0, -1);
             $this->r1();
             $this->r2();
         }
 
         // d) If R1 ends jo
         // delete the last letter
-        $twoLastLetters = StringHelper::substr($this->r1, -2, 2);
+        $twoLastLetters = Utf8::substr($this->r1, -2, 2);
         if ($twoLastLetters === 'jo') {
-            $this->word = StringHelper::substr($this->word, 0, -1);
+            $this->word = Utf8::substr($this->word, 0, -1);
             $this->r1();
             $this->r2();
         }
@@ -422,15 +427,15 @@ class Finnish extends Stem
         // vowels, remove the last consonant (so eläkk -> eläk,
         // aatonaatto -> aatonaato)
         $endVowels = '';
-        for ($i = StringHelper::strlen($this->word) - 1; $i > 0; $i--) {
-            $letter = StringHelper::substr($this->word, $i, 1);
+        for ($i = Utf8::strlen($this->word) - 1; $i > 0; $i--) {
+            $letter = Utf8::substr($this->word, $i, 1);
             if (in_array($letter, self::$vowels, true)) {
                 $endVowels = $letter . $endVowels;
             } else {
                 // check for double consonant
-                $prevLetter = StringHelper::substr($this->word, $i-1, 1);
+                $prevLetter = Utf8::substr($this->word, $i-1, 1);
                 if ($prevLetter === $letter) {
-                    $this->word = StringHelper::substr($this->word, 0, $i) . $endVowels;
+                    $this->word = Utf8::substr($this->word, 0, $i) . $endVowels;
                 }
                 break;
             }

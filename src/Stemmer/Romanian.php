@@ -2,7 +2,7 @@
 
 namespace Wamania\Snowball\Stemmer;
 
-use Joomla\String\StringHelper;
+use voku\helper\UTF8;
 
 /**
  *
@@ -22,7 +22,12 @@ class Romanian extends Stem
      */
     public function stem($word)
     {
-        $this->word = StringHelper::strtolower($word);
+        // we do ALL in UTF-8
+        if (!UTF8::is_utf8($word)) {
+            throw new \Exception('Word must be in UTF-8');
+        }
+
+        $this->word = UTF8::strtolower($word);
 
         $this->plainVowels = implode('', self::$vowels);
 
@@ -68,7 +73,7 @@ class Romanian extends Stem
         //      delete
         if ( ($position = $this->search(array('ul', 'ului'))) !== false) {
             if ($this->inR1($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = UTF8::substr($this->word, 0, $position);
             }
             return true;
         }
@@ -104,7 +109,7 @@ class Romanian extends Stem
         //      replace with i if not preceded by ab
         if ( ($position = $this->search(array('ile'))) !== false) {
             if ($this->inR1($position)) {
-                $before = StringHelper::substr($this->word, ($position-2), 2);
+                $before = UTF8::substr($this->word, ($position-2), 2);
 
                 if ($before != 'ab') {
                     $this->word = preg_replace('#(ile)$#u', 'i', $this->word);
@@ -221,7 +226,7 @@ class Romanian extends Stem
             'at', 'os', 'iv', 'ut', 'it', 'ic'
         ))) !== false) {
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = UTF8::substr($this->word, 0, $position);
             }
             return true;
         }
@@ -231,9 +236,9 @@ class Romanian extends Stem
         if ( ($position = $this->search(array('iune', 'iuni'))) !== false) {
             if ($this->inR2($position)) {
                 $before = $position - 1;
-                $letter = StringHelper::substr($this->word, $before, 1);
+                $letter = UTF8::substr($this->word, $before, 1);
                 if ($letter == 'ţ') {
-                    $this->word = StringHelper::substr($this->word, 0, $position);
+                    $this->word = UTF8::substr($this->word, 0, $position);
                     $this->word = preg_replace('#(ţ)$#u', 't', $this->word);
                 }
             }
@@ -277,10 +282,10 @@ class Romanian extends Stem
             if ($this->inRv($position)) {
                 $before = $position - 1;
                 if ($this->inRv($before)) {
-                    $letter = StringHelper::substr($this->word, $before, 1);
+                    $letter = UTF8::substr($this->word, $before, 1);
 
                     if ( (!in_array($letter, self::$vowels)) || ($letter == 'u') ) {
-                        $this->word = StringHelper::substr($this->word, 0, $position);
+                        $this->word = UTF8::substr($this->word, 0, $position);
                     }
                 }
             }
@@ -296,7 +301,7 @@ class Romanian extends Stem
             'aţi', 'eţi', 'iţi', 'âţi', 'sei', 'se', 'ăm', 'âm', 'em', 'im'
         ))) !== false) {
             if ($this->inRv($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = UTF8::substr($this->word, 0, $position);
             }
             return true;
         }
@@ -310,7 +315,7 @@ class Romanian extends Stem
         // Search for the longest among the suffixes "a   e   i   ie   ă " and, if it is in RV, delete it.
         if ( ($position = $this->search(array('a', 'ie', 'e', 'i', 'ă'))) !== false) {
             if ($this->inRv($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = UTF8::substr($this->word, 0, $position);
             }
         }
 

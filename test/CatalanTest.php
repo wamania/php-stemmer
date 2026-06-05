@@ -20,6 +20,6 @@ class CatalanTest extends TestCase
 
     public function load()
     {
-        return new CsvFileVerboseIterator('test/files/ca.txt');
+        return new CsvFileIterator('test/files/ca.txt');
     }
 }
