@@ -15,7 +15,7 @@ class Danish extends Stem
     /**
      * All danish vowels
      */
-    protected static $vowels = array('a', 'e', 'i', 'o', 'u', 'y', 'æ', 'å', 'ø');
+    protected static $vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'æ', 'å', 'ø'];
 
     /**
      * {@inheritdoc}
@@ -52,41 +52,41 @@ class Danish extends Stem
      * a   b   c   d   f   g   h   j   k   l   m   n   o   p   r   t   v   y   z   å
      *
      * @param string $ending
-     * @return boolean
      */
-    private function hasValidSEnding($word)
+    private function hasValidSEnding(string $word): bool
     {
         $lastLetter = UTF8::substr($word, -1, 1);
-        return in_array($lastLetter, array('a', 'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 't', 'v', 'y', 'z', 'å'));
+        return in_array($lastLetter, ['a', 'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 't', 'v', 'y', 'z', 'å']);
     }
 
     /**
      * Step 1
      * Search for the longest among the following suffixes in R1, and perform the action indicated.
      */
-    private function step1()
+    private function step1(): ?bool
     {
         // hed   ethed   ered   e   erede   ende   erende   ene   erne   ere   en   heden   eren   er   heder   erer
         // heds   es   endes   erendes   enes   ernes   eres   ens   hedens   erens   ers   ets   erets   et   eret
         //      delete
-        if ( ($position = $this->searchIfInR1(array(
+        if ( ($position = $this->searchIfInR1([
             'erendes', 'erende', 'hedens', 'erede', 'ethed', 'heden', 'endes', 'erets', 'heder', 'ernes',
             'erens', 'ered', 'ende', 'erne', 'eres', 'eren', 'eret', 'erer', 'enes', 'heds',
             'ens', 'ene', 'ere', 'ers', 'ets', 'hed', 'es', 'et', 'er', 'en', 'e'
-        ))) !== false) {
+        ])) !== false) {
             $this->word = UTF8::substr($this->word, 0, $position);
             return true;
         }
 
         // s
         //      delete if preceded by a valid s-ending
-        if ( ($position = $this->searchIfInR1(array('s'))) !== false) {
+        if ( ($position = $this->searchIfInR1(['s'])) !== false) {
             $word = UTF8::substr($this->word, 0, $position);
             if ($this->hasValidSEnding($word)) {
                 $this->word = $word;
             }
             return true;
         }
+        return null;
     }
 
     /**
@@ -94,9 +94,9 @@ class Danish extends Stem
      * Search for one of the following suffixes in R1, and if found delete the last letter.
      *      gd   dt   gt   kt
      */
-    private function step2()
+    private function step2(): void
     {
-        if ($this->searchIfInR1(array('gd', 'dt', 'gt', 'kt')) !== false) {
+        if ($this->searchIfInR1(['gd', 'dt', 'gt', 'kt']) !== false) {
             $this->word = UTF8::substr($this->word, 0, -1);
         }
     }
@@ -104,17 +104,17 @@ class Danish extends Stem
     /**
      * Step 3:
      */
-    private function step3()
+    private function step3(): ?bool
     {
         // If the word ends igst, remove the final st.
-        if ($this->search(array('igst')) !== false) {
+        if ($this->search(['igst']) !== false) {
             $this->word = UTF8::substr($this->word, 0, -2);
         }
 
         // Search for the longest among the following suffixes in R1, and perform the action indicated.
         //  ig   lig   elig   els
         //      delete, and then repeat step 2
-        if ( ($position = $this->searchIfInR1(array('elig', 'lig', 'ig', 'els'))) !== false) {
+        if ( ($position = $this->searchIfInR1(['elig', 'lig', 'ig', 'els'])) !== false) {
             $this->word = UTF8::substr($this->word, 0, $position);
             $this->step2();
             return true;
@@ -122,16 +122,17 @@ class Danish extends Stem
 
         //  løst
         //      replace with løs
-        if ($this->searchIfInR1(array('løst')) !== false) {
+        if ($this->searchIfInR1(['løst']) !== false) {
             $this->word = UTF8::substr($this->word, 0, -1);
         }
+        return null;
     }
 
     /**
      * Step 4: undouble
      * If the word ends with double consonant in R1, remove one of the consonants.
      */
-    private function step4()
+    private function step4(): bool
     {
         $length = UTF8::strlen($this->word);
         if (!$this->inR1(($length-1))) {

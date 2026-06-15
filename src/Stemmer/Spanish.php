@@ -15,12 +15,12 @@ class Spanish extends Stem
     /**
      * All spanish vowels
      */
-    protected static $vowels = array('a', 'e', 'i', 'o', 'u', 'á', 'é', 'í', 'ó', 'ú', 'ü');
+    protected static $vowels = ['a', 'e', 'i', 'o', 'u', 'á', 'é', 'í', 'ó', 'ú', 'ü'];
 
     /**
      * {@inheritdoc}
      */
-    public function stem($word)
+    public function stem($word): string
     {
         // we do ALL in UTF-8
         if (!UTF8::is_utf8($word)) {
@@ -39,11 +39,11 @@ class Spanish extends Stem
         $this->step1();
 
         // Do step 2a if no ending was removed by step 1.
-        if ($this->word == $word) {
+        if ($this->word === $word) {
             $this->step2a();
 
             // Do Step 2b if step 2a was done, but failed to remove a suffix.
-            if ($this->word == $word) {
+            if ($this->word === $word) {
                 $this->step2b();
             }
         }
@@ -68,14 +68,14 @@ class Spanish extends Stem
      *  in RV. In the case of (c), yendo must lie in RV, but the preceding u can be outside it.
      *  In the case of (a), deletion is followed by removing the acute accent (for example, haciéndola -> haciendo).
      */
-    private function step0()
+    private function step0(): bool
     {
-        if ( ($position = $this->searchIfInRv(array('selas', 'selos', 'las', 'los', 'les', 'nos', 'selo', 'sela', 'me', 'se', 'la', 'le', 'lo' ))) != false) {
+        if ( ($position = $this->searchIfInRv(['selas', 'selos', 'las', 'los', 'les', 'nos', 'selo', 'sela', 'me', 'se', 'la', 'le', 'lo' ])) != false) {
             $suffixe = UTF8::substr($this->word, $position);
 
             // a
-            $a = array('iéndo', 'ándo', 'ár', 'ér', 'ír');
-            $a = array_map(function($item) use ($suffixe) {
+            $a = ['iéndo', 'ándo', 'ár', 'ér', 'ír'];
+            $a = array_map(function(string $item) use ($suffixe): string {
                 return $item . $suffixe;
             }, $a);
 
@@ -89,8 +89,8 @@ class Spanish extends Stem
             }
 
             // b
-            $b = array('iendo', 'ando', 'ar', 'er', 'ir');
-            $b = array_map(function($item) use ($suffixe) {
+            $b = ['iendo', 'ando', 'ar', 'er', 'ir'];
+            $b = array_map(function(string $item) use ($suffixe): string {
                 return $item . $suffixe;
             }, $b);
 
@@ -100,7 +100,7 @@ class Spanish extends Stem
             }
 
             // c
-            if ( ($position2 = $this->searchIfInRv(array('yendo' . $suffixe))) != false) {
+            if ( ($position2 = $this->searchIfInRv(['yendo' . $suffixe])) != false) {
                 $before = UTF8::substr($this->word, ($position2-1), 1);
                 if ( (isset($before)) && ($before == 'u') ) {
                     $this->word = UTF8::substr($this->word, 0, $position);
@@ -115,14 +115,14 @@ class Spanish extends Stem
     /**
      * Step 1
      */
-    private function step1()
+    private function step1(): bool
     {
         // anza   anzas   ico   ica   icos   icas   ismo   ismos   able   ables   ible   ibles   ista
         // istas   oso   osa   osos   osas   amiento   amientos   imiento   imientos
         //      delete if in R2
-        if ( ($position = $this->search(array(
+        if ( ($position = $this->search([
             'imientos', 'imiento', 'amientos', 'amiento', 'osas', 'osos', 'osa', 'oso', 'istas', 'ista', 'ibles',
-            'ible', 'ables', 'able', 'ismos', 'ismo', 'icas', 'icos', 'ica', 'ico', 'anzas', 'anza'))) != false) {
+            'ible', 'ables', 'able', 'ismos', 'ismo', 'icas', 'icos', 'ica', 'ico', 'anzas', 'anza'])) != false) {
 
             if ($this->inR2($position)) {
                 $this->word = UTF8::substr($this->word, 0, $position);
@@ -133,14 +133,14 @@ class Spanish extends Stem
         // adora   ador   ación   adoras   adores   aciones   ante   antes   ancia   ancias
         //      delete if in R2
         //      if preceded by ic, delete if in R2
-        if ( ($position = $this->search(array(
-            'adoras', 'adora', 'aciones', 'ación', 'adores', 'ador', 'antes', 'ante', 'ancias', 'ancia'))) != false) {
+        if ( ($position = $this->search([
+            'adoras', 'adora', 'aciones', 'ación', 'adores', 'ador', 'antes', 'ante', 'ancias', 'ancia'])) != false) {
 
             if ($this->inR2($position)) {
                 $this->word = UTF8::substr($this->word, 0, $position);
             }
 
-            if ( ($position2 = $this->searchIfInR2(array('ic')))) {
+            if ( ($position2 = $this->searchIfInR2(['ic']))) {
                 $this->word = UTF8::substr($this->word, 0, $position2);
             }
             return true;
@@ -148,7 +148,7 @@ class Spanish extends Stem
 
         // logía   logías
         //      replace with log if in R2
-        if ( ($position = $this->search(array('logías', 'logía'))) != false) {
+        if ( ($position = $this->search(['logías', 'logía'])) != false) {
             if ($this->inR2($position)) {
                 $this->word = preg_replace('#(logías|logía)$#u', 'log', $this->word);
             }
@@ -157,7 +157,7 @@ class Spanish extends Stem
 
         // ución   uciones
         //      replace with u if in R2
-        if ( ($position = $this->search(array('uciones', 'ución'))) != false) {
+        if ( ($position = $this->search(['uciones', 'ución'])) != false) {
             if ($this->inR2($position)) {
                 $this->word = preg_replace('#(uciones|ución)$#u', 'u', $this->word);
             }
@@ -166,7 +166,7 @@ class Spanish extends Stem
 
         // encia   encias
         //      replace with ente if in R2
-        if ( ($position = $this->search(array('encias', 'encia'))) != false) {
+        if ( ($position = $this->search(['encias', 'encia'])) != false) {
             if ($this->inR2($position)) {
                 $this->word = preg_replace('#(encias|encia)$#u', 'ente', $this->word);
             }
@@ -177,7 +177,7 @@ class Spanish extends Stem
         //      delete if in R1
         //      if preceded by iv, delete if in R2 (and if further preceded by at, delete if in R2), otherwise,
         //      if preceded by os, ic or ad, delete if in R2
-        if ( ($position = $this->search(array('amente'))) != false) {
+        if ( ($position = $this->search(['amente'])) != false) {
 
             // delete if in R1
             if ($this->inR1($position)) {
@@ -185,14 +185,14 @@ class Spanish extends Stem
             }
 
             // if preceded by iv, delete if in R2 (and if further preceded by at, delete if in R2), otherwise,
-            if ( ($position2 = $this->searchIfInR2(array('iv'))) !== false) {
+            if ( ($position2 = $this->searchIfInR2(['iv'])) !== false) {
                 $this->word = UTF8::substr($this->word, 0, $position2);
-                if ( ($position3 = $this->searchIfInR2(array('at'))) !== false) {
+                if ( ($position3 = $this->searchIfInR2(['at'])) !== false) {
                     $this->word = UTF8::substr($this->word, 0, $position3);
                 }
 
             // if preceded by os, ic or ad, delete if in R2
-            } elseif ( ($position4 = $this->searchIfInR2(array('os', 'ic', 'ad'))) != false) {
+            } elseif ( ($position4 = $this->searchIfInR2(['os', 'ic', 'ad'])) != false) {
                 $this->word = UTF8::substr($this->word, 0, $position4);
             }
             return true;
@@ -201,7 +201,7 @@ class Spanish extends Stem
         // mente
         //      delete if in R2
         //      if preceded by ante, able or ible, delete if in R2
-        if ( ($position = $this->search(array('mente'))) != false) {
+        if ( ($position = $this->search(['mente'])) != false) {
 
             // delete if in R2
             if ($this->inR2($position)) {
@@ -209,7 +209,7 @@ class Spanish extends Stem
             }
 
             // if preceded by ante, able or ible, delete if in R2
-            if ( ($position2 = $this->searchIfInR2(array('ante', 'able', 'ible'))) != false) {
+            if ( ($position2 = $this->searchIfInR2(['ante', 'able', 'ible'])) != false) {
                 $this->word = UTF8::substr($this->word, 0, $position2);
             }
             return true;
@@ -218,7 +218,7 @@ class Spanish extends Stem
         // idad   idades
         //      delete if in R2
         //      if preceded by abil, ic or iv, delete if in R2
-        if ( ($position = $this->search(array('idades', 'idad'))) != false) {
+        if ( ($position = $this->search(['idades', 'idad'])) != false) {
 
             // delete if in R2
             if ($this->inR2($position)) {
@@ -226,7 +226,7 @@ class Spanish extends Stem
             }
 
             // if preceded by abil, ic or iv, delete if in R2
-            if ( ($position2 = $this->searchIfInR2(array('abil', 'ic', 'iv'))) != false) {
+            if ( ($position2 = $this->searchIfInR2(['abil', 'ic', 'iv'])) != false) {
                 $this->word = UTF8::substr($this->word, 0, $position2);
             }
             return true;
@@ -235,7 +235,7 @@ class Spanish extends Stem
         // iva   ivo   ivas   ivos
         //      delete if in R2
         //      if preceded by at, delete if in R2
-        if ( ($position = $this->search(array('ivas', 'ivos', 'iva', 'ivo'))) != false) {
+        if ( ($position = $this->search(['ivas', 'ivos', 'iva', 'ivo'])) != false) {
 
             // delete if in R2
             if ($this->inR2($position)) {
@@ -243,7 +243,7 @@ class Spanish extends Stem
             }
 
             // if preceded by at, delete if in R2
-            if ( ($position2 = $this->searchIfInR2(array('at'))) != false) {
+            if ( ($position2 = $this->searchIfInR2(['at'])) != false) {
                 $this->word = UTF8::substr($this->word, 0, $position2);
             }
             return true;
@@ -255,12 +255,12 @@ class Spanish extends Stem
     /**
      * Step 2a: Verb suffixes beginning y
      */
-    private function step2a()
+    private function step2a(): bool
     {
         // if found, delete if preceded by u
         // (Note that the preceding u need not be in RV.)
-        if ( ($position = $this->searchIfInRv(array(
-            'yamos', 'yendo', 'yeron', 'yan', 'yen', 'yais', 'yas', 'yes', 'yo', 'yó', 'ya', 'ye'))) != false) {
+        if ( ($position = $this->searchIfInRv([
+            'yamos', 'yendo', 'yeron', 'yan', 'yen', 'yais', 'yas', 'yes', 'yo', 'yó', 'ya', 'ye'])) != false) {
 
             $before = UTF8::substr($this->word, ($position-1), 1);
             if ( (isset($before)) && ($before == 'u') ) {
@@ -276,10 +276,10 @@ class Spanish extends Stem
      * Step 2b: Other verb suffixes
      *      Search for the longest among the following suffixes in RV, and perform the action indicated.
      */
-    private function step2b()
+    private function step2b(): ?bool
     {
         //      delete
-        if ( ($position = $this->searchIfInRv(array(
+        if ( ($position = $this->searchIfInRv([
             'iésemos', 'iéramos', 'ábamos', 'iríamos', 'eríamos', 'aríamos', 'áramos', 'ásemos', 'eríais',
             'aremos', 'eremos', 'iremos', 'asteis', 'ieseis', 'ierais', 'isteis', 'aríais',
             'irían', 'aréis', 'erían', 'erías', 'eréis', 'iréis', 'irías', 'ieran', 'iesen', 'ieron', 'iendo', 'ieras',
@@ -288,44 +288,45 @@ class Spanish extends Stem
             'iera', 'iese', 'aste', 'iste', 'aban', 'aran', 'asen', 'aron', 'ando', 'abas', 'adas', 'idas', 'ases', 'aras',
             'aré', 'erá', 'eré', 'áis', 'ías', 'irá', 'iré', 'aba', 'ían', 'ada', 'ara', 'ase', 'ida', 'ado', 'ido', 'ará',
             'ad', 'ed', 'id', 'ís', 'ió', 'ar', 'er', 'ir', 'as', 'ía', 'an'
-        ))) != false) {
+        ])) != false) {
             $this->word = UTF8::substr($this->word, 0, $position);
             return true;
         }
 
         // en   es   éis   emos
         //      delete, and if preceded by gu delete the u (the gu need not be in RV)
-        if ( ($position = $this->searchIfInRv(array('éis', 'emos', 'en', 'es'))) != false) {
+        if ( ($position = $this->searchIfInRv(['éis', 'emos', 'en', 'es'])) != false) {
             $this->word = UTF8::substr($this->word, 0, $position);
 
-            if ( ($position2 = $this->search(array('gu'))) != false) {
+            if ( ($position2 = $this->search(['gu'])) != false) {
                 $this->word = UTF8::substr($this->word, 0, ($position2+1));
             }
 
 
             return true;
         }
+        return null;
     }
 
     /**
      * Step 3: residual suffix
      * Search for the longest among the following suffixes in RV, and perform the action indicated.
      */
-    private function step3()
+    private function step3(): bool
     {
         // os   a   o   á   í   ó
         //      delete if in RV
-        if ( ($position = $this->searchIfInRv(array('os', 'a', 'o', 'á', 'í', 'ó'))) != false) {
+        if ( ($position = $this->searchIfInRv(['os', 'a', 'o', 'á', 'í', 'ó'])) != false) {
             $this->word = UTF8::substr($this->word, 0, $position);
             return true;
         }
 
         // e   é
         //      delete if in RV, and if preceded by gu with the u in RV delete the u
-        if ( ($position = $this->searchIfInRv(array('e', 'é'))) != false) {
+        if ( ($position = $this->searchIfInRv(['e', 'é'])) != false) {
             $this->word = UTF8::substr($this->word, 0, $position);
 
-            if ( ($position2 = $this->searchIfInRv(array('u'))) != false) {
+            if ( ($position2 = $this->searchIfInRv(['u'])) != false) {
                 $before = UTF8::substr($this->word, ($position2-1), 1);
                 if ( (isset($before)) && ($before == 'g') ) {
                     $this->word = UTF8::substr($this->word, 0, $position2);
@@ -341,8 +342,8 @@ class Spanish extends Stem
      * And finally:
      * Remove acute accents
      */
-    private function finish()
+    private function finish(): void
     {
-        $this->word = str_replace(array('á', 'í', 'ó', 'é', 'ú'), array('a', 'i', 'o', 'e', 'u'), $this->word);
+        $this->word = str_replace(['á', 'í', 'ó', 'é', 'ú'], ['a', 'i', 'o', 'e', 'u'], $this->word);
     }
 }

@@ -6,7 +6,7 @@ use voku\helper\UTF8;
 
 abstract class Stem implements Stemmer
 {
-    protected static $vowels = array('a', 'e', 'i', 'o', 'u', 'y');
+    protected static $vowels = ['a', 'e', 'i', 'o', 'u', 'y'];
 
     /**
      * helper, contains stringified list of vowels
@@ -112,7 +112,7 @@ abstract class Stem implements Stemmer
      */
     protected function r1()
     {
-        list($this->r1Index, $this->r1) = $this->rx($this->word);
+        [$this->r1Index, $this->r1] = $this->rx($this->word);
     }
 
     /**
@@ -120,7 +120,7 @@ abstract class Stem implements Stemmer
      */
     protected function r2()
     {
-        list($index, $value) = $this->rx($this->r1);
+        [$index, $value] = $this->rx($this->r1);
 
         $this->r2 = $value;
         $this->r2Index = $this->r1Index + $index;
@@ -132,7 +132,7 @@ abstract class Stem implements Stemmer
      * R1 : $in = $this->word
      * R2 : $in = R1
      */
-    protected function rx($in)
+    protected function rx(string $in)
     {
         $length = UTF8::strlen($in);
 
@@ -141,7 +141,7 @@ abstract class Stem implements Stemmer
         $index = $length;
 
         // we search all vowels
-        $vowels = array();
+        $vowels = [];
         for ($i=0; $i<$length; $i++) {
             $letter = UTF8::substr($in, $i, 1);
             if (in_array($letter, static::$vowels)) {
@@ -162,7 +162,7 @@ abstract class Stem implements Stemmer
             }
         }
 
-        return array($index, $value);
+        return [$index, $value];
     }
 
     /**
@@ -217,5 +217,6 @@ abstract class Stem implements Stemmer
             $this->rvIndex = 3;
             return true;
         }
+        return null;
     }
 }

@@ -5,12 +5,7 @@ namespace Wamania\Snowball;
 class StemmerManager
 {
     /** @var array */
-    private $stemmers;
-
-    public function __construct()
-    {
-        $this->stemmers = [];
-    }
+    private $stemmers = [];
 
     /**
      * @throws NotFoundException

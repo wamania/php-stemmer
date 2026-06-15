@@ -9,7 +9,7 @@ class DutchTest extends TestCase
     /**
      * @dataProvider load
      */
-    public function testStem($word, $stem)
+    public function testStem($word, $stem): void
     {
         $o = new Dutch();
 
@@ -18,7 +18,7 @@ class DutchTest extends TestCase
         $this->assertEquals($stem, $snowballStem);
     }
 
-    public function load()
+    public function load(): \Wamania\Snowball\Tests\CsvFileIterator
     {
         return new CsvFileIterator('test/files/nl.txt');
     }

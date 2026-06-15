@@ -15,12 +15,12 @@ class Romanian extends Stem
     /**
      * All Romanian vowels
      */
-    protected static $vowels = array('a', 'ă', 'â', 'e', 'i', 'î', 'o', 'u');
+    protected static $vowels = ['a', 'ă', 'â', 'e', 'i', 'î', 'o', 'u'];
 
     /**
      * {@inheritdoc}
      */
-    public function stem($word)
+    public function stem($word): ?string
     {
         // we do ALL in UTF-8
         if (!UTF8::is_utf8($word)) {
@@ -65,13 +65,12 @@ class Romanian extends Stem
     /**
      * Step 0: Removal of plurals (and other simplifications)
      * Search for the longest among the following suffixes, and, if it is in R1, perform the action indicated.
-     * @return boolean
      */
-    private function step0()
+    private function step0(): bool
     {
         // ul   ului
         //      delete
-        if ( ($position = $this->search(array('ul', 'ului'))) !== false) {
+        if ( ($position = $this->search(['ul', 'ului'])) !== false) {
             if ($this->inR1($position)) {
                 $this->word = UTF8::substr($this->word, 0, $position);
             }
@@ -80,7 +79,7 @@ class Romanian extends Stem
 
         // aua
         //      replace with a
-        if ( ($position = $this->search(array('aua'))) !== false) {
+        if ( ($position = $this->search(['aua'])) !== false) {
             if ($this->inR1($position)) {
                 $this->word = preg_replace('#(aua)$#u', 'a', $this->word);
             }
@@ -89,7 +88,7 @@ class Romanian extends Stem
 
         // ea   ele   elor
         //      replace with e
-        if ( ($position = $this->search(array('ea', 'ele', 'elor'))) !== false) {
+        if ( ($position = $this->search(['ea', 'ele', 'elor'])) !== false) {
             if ($this->inR1($position)) {
                 $this->word = preg_replace('#(ea|ele|elor)$#u', 'e', $this->word);
             }
@@ -98,7 +97,7 @@ class Romanian extends Stem
 
         // ii   iua   iei   iile   iilor   ilor
         //      replace with i
-        if ( ($position = $this->search(array('ii', 'iua', 'iei', 'iile', 'iilor', 'ilor'))) !== false) {
+        if ( ($position = $this->search(['ii', 'iua', 'iei', 'iile', 'iilor', 'ilor'])) !== false) {
             if ($this->inR1($position)) {
                 $this->word = preg_replace('#(ii|iua|iei|iile|iilor|ilor)$#u', 'i', $this->word);
             }
@@ -107,7 +106,7 @@ class Romanian extends Stem
 
         // ile
         //      replace with i if not preceded by ab
-        if ( ($position = $this->search(array('ile'))) !== false) {
+        if ( ($position = $this->search(['ile'])) !== false) {
             if ($this->inR1($position)) {
                 $before = UTF8::substr($this->word, ($position-2), 2);
 
@@ -120,7 +119,7 @@ class Romanian extends Stem
 
         // atei
         //      replace with at
-        if ( ($position = $this->search(array('atei'))) != false) {
+        if ( ($position = $this->search(['atei'])) != false) {
             if ($this->inR1($position)) {
                 $this->word = preg_replace('#(atei)$#u', 'at', $this->word);
             }
@@ -129,7 +128,7 @@ class Romanian extends Stem
 
         // aţie   aţia
         //      replace with aţi
-        if ( ($position = $this->search(array('aţie', 'aţia'))) !== false) {
+        if ( ($position = $this->search(['aţie', 'aţia'])) !== false) {
             if ($this->inR1($position)) {
                 $this->word = preg_replace('#(aţie|aţia)$#u', 'aţi', $this->word);
             }
@@ -143,13 +142,12 @@ class Romanian extends Stem
      * Step 1: Reduction of combining suffixes
      * Search for the longest among the following suffixes, and, if it is in R1, preform the replacement action indicated.
      * Then repeat this step until no replacement occurs.
-     * @return boolean
      */
-    private function step1()
+    private function step1(): bool
     {
         // abilitate   abilitati   abilităi   abilităţi
         //      replace with abil
-        if ( ($position = $this->search(array('abilitate', 'abilitati', 'abilităi', 'abilităţi'))) !== false) {
+        if ( ($position = $this->search(['abilitate', 'abilitati', 'abilităi', 'abilităţi'])) !== false) {
             if ($this->inR1($position)) {
                 $this->word = preg_replace('#(abilitate|abilitati|abilităi|abilităţi)$#u', 'abil', $this->word);
             }
@@ -158,7 +156,7 @@ class Romanian extends Stem
 
         // ibilitate
         //      replace with ibil
-        if ( ($position = $this->search(array('ibilitate'))) !== false) {
+        if ( ($position = $this->search(['ibilitate'])) !== false) {
             if ($this->inR1($position)) {
                 $this->word = preg_replace('#(ibilitate)$#u', 'ibil', $this->word);
             }
@@ -167,7 +165,7 @@ class Romanian extends Stem
 
         // ivitate   ivitati   ivităi   ivităţi
         //      replace with iv
-        if ( ($position = $this->search(array('ivitate', 'ivitati', 'ivităi', 'ivităţi'))) !== false) {
+        if ( ($position = $this->search(['ivitate', 'ivitati', 'ivităi', 'ivităţi'])) !== false) {
             if ($this->inR1($position)) {
                 $this->word = preg_replace('#(ivitate|ivitati|ivităi|ivităţi)$#u', 'iv', $this->word);
             }
@@ -176,9 +174,9 @@ class Romanian extends Stem
 
         // icitate   icitati   icităi   icităţi   icator   icatori   iciv   iciva   icive   icivi   icivă   ical   icala   icale   icali   icală
         //      replace with ic
-        if ( ($position = $this->search(array(
+        if ( ($position = $this->search([
             'icitate', 'icitati', 'icităi', 'icităţi', 'icatori', 'icator', 'iciva',
-            'icive', 'icivi', 'icivă', 'icala', 'icale', 'icali', 'icală', 'iciv', 'ical'))) !== false) {
+            'icive', 'icivi', 'icivă', 'icala', 'icale', 'icali', 'icală', 'iciv', 'ical'])) !== false) {
             if ($this->inR1($position)) {
                 $this->word = preg_replace('#(icitate|icitati|icităi|icităţi|cator|icatori|iciva|icive|icivi|icivă|icala|icale|icali|icală|ical|iciv)$#u', 'ic', $this->word);
             }
@@ -187,7 +185,7 @@ class Romanian extends Stem
 
         // ativ   ativa   ative   ativi   ativă   aţiune   atoare   ator   atori   ătoare   ător   ători
         //      replace with at
-        if ( ($position = $this->search(array('ativa', 'ative', 'ativi', 'ativă', 'ativ', 'aţiune', 'atoare', 'atori', 'ătoare', 'ători', 'ător', 'ator'))) !== false) {
+        if ( ($position = $this->search(['ativa', 'ative', 'ativi', 'ativă', 'ativ', 'aţiune', 'atoare', 'atori', 'ătoare', 'ători', 'ător', 'ator'])) !== false) {
             if ($this->inR1($position)) {
                 $this->word = preg_replace('#(ativa|ative|ativi|ativă|ativ|aţiune|atoare|atori|ătoare|ători|ător|ator)$#u', 'at', $this->word);
             }
@@ -196,7 +194,7 @@ class Romanian extends Stem
 
         // itiv   itiva   itive   itivi   itivă   iţiune   itoare   itor   itori
         //      replace with it
-        if ( ($position = $this->search(array('itiva', 'itive', 'itivi', 'itivă', 'itiv', 'iţiune', 'itoare', 'itori', 'itor'))) !== false) {
+        if ( ($position = $this->search(['itiva', 'itive', 'itivi', 'itivă', 'itiv', 'iţiune', 'itoare', 'itori', 'itor'])) !== false) {
             if ($this->inR1($position)) {
                 $this->word = preg_replace('#(itiva|itive|itivi|itivă|itiv|iţiune|itoare|itori|itor)$#u', 'it', $this->word);
             }
@@ -209,22 +207,21 @@ class Romanian extends Stem
     /**
      * Step 2: Removal of 'standard' suffixes
      * Search for the longest among the following suffixes, and, if it is in R2, perform the action indicated.
-     * @return boolean
      */
-    private function step2()
+    private function step2(): bool
     {
         // atori   itate   itati, ităţi, abila   abile   abili   abilă, ibila   ibile   ibili   ibilă
         // anta, ante, anti, antă, ator, ibil, oasa   oasă   oase, ităi, abil
         // osi   oşi   ant   ici   ică iva   ive   ivi   ivă ata   ată   ati   ate, ata   ată   ati   ate uta   ută   uti   ute, ita   ită   iti   ite  ica   ice
         // at, os, iv, ut, it, ic
         //      delete
-        if ( ($position = $this->search(array(
+        if ( ($position = $this->search([
             'atori', 'itate', 'itati', 'ităţi', 'abila', 'abile', 'abili', 'abilă', 'ibila', 'ibile', 'ibili', 'ibilă',
             'anta', 'ante', 'anti', 'antă', 'ator', 'ibil', 'oasa', 'oasă', 'oase', 'ităi', 'abil',
             'osi', 'oşi', 'ant', 'ici', 'ică', 'iva', 'ive', 'ivi', 'ivă', 'ata', 'ată', 'ati', 'ate', 'ata', 'ată',
             'ati', 'ate', 'uta', 'ută', 'uti', 'ute', 'ita', 'ită', 'iti', 'ite', 'ica', 'ice',
             'at', 'os', 'iv', 'ut', 'it', 'ic'
-        ))) !== false) {
+        ])) !== false) {
             if ($this->inR2($position)) {
                 $this->word = UTF8::substr($this->word, 0, $position);
             }
@@ -233,7 +230,7 @@ class Romanian extends Stem
 
         // iune   iuni
         //      delete if preceded by ţ, and replace the ţ by t.
-        if ( ($position = $this->search(array('iune', 'iuni'))) !== false) {
+        if ( ($position = $this->search(['iune', 'iuni'])) !== false) {
             if ($this->inR2($position)) {
                 $before = $position - 1;
                 $letter = UTF8::substr($this->word, $before, 1);
@@ -247,7 +244,7 @@ class Romanian extends Stem
 
         // ism   isme   ist   ista   iste   isti   istă   işti
         //      replace with ist
-        if ( ($position = $this->search(array('isme', 'ism', 'ista', 'iste', 'isti', 'istă', 'işti', 'ist'))) !== false) {
+        if ( ($position = $this->search(['isme', 'ism', 'ista', 'iste', 'isti', 'istă', 'işti', 'ist'])) !== false) {
             if ($this->inR2($position)) {
                 $this->word = preg_replace('#(isme|ism|ista|iste|isti|istă|işti|ist)$#u', 'ist', $this->word);
             }
@@ -262,7 +259,7 @@ class Romanian extends Stem
      * Do step 3 if no suffix was removed either by step 1 or step 2.
      * @return boolean
      */
-    private function step3()
+    private function step3(): ?bool
     {
         // are   ere   ire   âre   ind   ând   indu   ându   eze   ească   ez   ezi   ează   esc   eşti
         // eşte   ăsc   ăşti   ăşte   am   ai   au   eam   eai   ea   eaţi   eau   iam   iai   ia   iaţi
@@ -270,7 +267,7 @@ class Romanian extends Stem
         // âşi   ârăm   ârăţi   âră   asem   aseşi   ase   aserăm   aserăţi   aseră   isem   iseşi   ise
         // iserăm   iserăţi   iseră   âsem   âseşi   âse   âserăm   âserăţi   âseră   usem   useşi   use   userăm   userăţi   useră
         //      delete if preceded in RV by a consonant or u
-        if ( ($position = $this->searchIfInRv(array(
+        if ( ($position = $this->searchIfInRv([
             'userăţi', 'iserăţi', 'âserăţi', 'aserăţi',
             'userăm', 'iserăm', 'âserăm', 'aserăm',
             'iseră', 'âseşi', 'useră', 'âseră', 'useşi', 'iseşi', 'aseră', 'aseşi', 'ârăţi', 'irăţi', 'urăţi', 'arăţi', 'ească',
@@ -278,7 +275,7 @@ class Romanian extends Stem
             'âse', 'use', 'ise', 'ase', 'âră', 'iră', 'işi', 'ură', 'uşi', 'ară', 'aşi', 'âşi', 'iau', 'iai', 'iam', 'eau', 'eai', 'eam', 'ăsc',
             'are', 'ere', 'ire', 'âre', 'ind', 'ând', 'eze', 'ezi', 'esc',
             'âi', 'ui', 'ia', 'ea', 'au', 'ai', 'am', 'ez'
-        ))) !== false) {
+        ])) !== false) {
             if ($this->inRv($position)) {
                 $before = $position - 1;
                 if ($this->inRv($before)) {
@@ -296,27 +293,26 @@ class Romanian extends Stem
 
         // ăm   aţi   em   eţi   im   iţi   âm   âţi   seşi   serăm   serăţi   seră   sei   se   sesem   seseşi   sese   seserăm   seserăţi   seseră
         //      delete
-        if ( ($position = $this->searchIfInRv(array(
+        if ( ($position = $this->searchIfInRv([
             'seserăm', 'seserăţi', 'seseră', 'seseşi', 'sesem', 'serăţi', 'serăm', 'seşi', 'sese', 'seră',
             'aţi', 'eţi', 'iţi', 'âţi', 'sei', 'se', 'ăm', 'âm', 'em', 'im'
-        ))) !== false) {
+        ])) !== false) {
             if ($this->inRv($position)) {
                 $this->word = UTF8::substr($this->word, 0, $position);
             }
             return true;
         }
+        return null;
     }
 
     /**
      * Step 4: Removal of final vowel
      */
-    private function step4()
+    private function step4(): bool
     {
         // Search for the longest among the suffixes "a   e   i   ie   ă " and, if it is in RV, delete it.
-        if ( ($position = $this->search(array('a', 'ie', 'e', 'i', 'ă'))) !== false) {
-            if ($this->inRv($position)) {
-                $this->word = UTF8::substr($this->word, 0, $position);
-            }
+        if ( $position = $this->search(['a', 'ie', 'e', 'i', 'ă']) !== false && $this->inRv($position)) {
+            $this->word = UTF8::substr($this->word, 0, $position);
         }
 
         return true;
@@ -326,9 +322,9 @@ class Romanian extends Stem
      * Finally
      * Turn I, U back into i, u
      */
-    private function finish()
+    private function finish(): void
     {
         // Turn I, U back into i, u
-        $this->word = str_replace(array('I', 'U'), array('i', 'u'), $this->word);
+        $this->word = str_replace(['I', 'U'], ['i', 'u'], $this->word);
     }
 }

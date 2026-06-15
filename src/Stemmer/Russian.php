@@ -15,46 +15,46 @@ class Russian extends Stem
     /**
      * All russian vowels
      */
-    protected static $vowels = array('а', 'е', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я');
+    protected static $vowels = ['а', 'е', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я'];
 
-    protected static $perfectiveGerund = array(
-        array('вшись', 'вши', 'в'),
-        array('ывшись', 'ившись', 'ывши', 'ивши', 'ив', 'ыв')
-    );
+    protected static $perfectiveGerund = [
+        ['вшись', 'вши', 'в'],
+        ['ывшись', 'ившись', 'ывши', 'ивши', 'ив', 'ыв']
+    ];
 
-    protected static $adjective = array(
+    protected static $adjective = [
         'ыми', 'ими', 'ему', 'ому', 'его', 'ого', 'ее', 'ие', 'ые', 'ое', 'ей', 'ий',
         'ый', 'ой', 'ем', 'им', 'ым','ом','их', 'ых', 'ую', 'юю', 'ая', 'яя', 'ою', 'ею'
-    );
+    ];
 
-    protected static $participle = array(
-        array('ем', 'нн', 'вш', 'ющ', 'щ'),
-        array('ивш', 'ывш', 'ующ')
-    );
+    protected static $participle = [
+        ['ем', 'нн', 'вш', 'ющ', 'щ'],
+        ['ивш', 'ывш', 'ующ']
+    ];
 
-    protected static $reflexive = array('ся', 'сь');
+    protected static $reflexive = ['ся', 'сь'];
 
-    protected static $verb = array(
-        array('ешь', 'нно', 'ете', 'йте', 'ла', 'на', 'ли', 'й', 'л', 'ем', 'н', 'ло', 'но', 'ет', 'ют', 'ны', 'ть'),
-        array(
+    protected static $verb = [
+        ['ешь', 'нно', 'ете', 'йте', 'ла', 'на', 'ли', 'й', 'л', 'ем', 'н', 'ло', 'но', 'ет', 'ют', 'ны', 'ть'],
+        [
             'уйте', 'ило', 'ыло', 'ено','ила', 'ыла', 'ена', 'ейте', 'ены', 'ить', 'ыть', 'ишь', 'ите', 'или', 'ыли',
             'ует', 'уют', 'ей', 'уй', 'ил', 'ыл', 'им', 'ым', 'ен', 'ят', 'ит', 'ыт', 'ую', 'ю'
-        )
-    );
+        ]
+    ];
 
-    protected static $noun = array(
+    protected static $noun = [
         'иями', 'ями', 'ами', 'ией', 'иям', 'ием', 'иях', 'ев', 'ов', 'ие', 'ье', 'еи', 'ии', 'ей', 'ой', 'ий', 'ям',
         'ем', 'ам', 'ом', 'ах', 'ях', 'ию', 'ью', 'ия', 'ья', 'я', 'а', 'е', 'ы', 'ь', 'и', 'о', 'у', 'й', 'ю'
-    );
+    ];
 
-    protected static $superlative = array('ейше', 'ейш');
+    protected static $superlative = ['ейше', 'ейш'];
 
-    protected static $derivational = array('ость', 'ост');
+    protected static $derivational = ['ость', 'ост'];
 
     /**
      * {@inheritdoc}
      */
-    public function stem($word)
+    public function stem($word): string
     {
         // we do ALL in UTF-8
         if (!UTF8::is_utf8($word)) {
@@ -82,75 +82,54 @@ class Russian extends Stem
      * Otherwise try and remove a REFLEXIVE ending, and then search in turn for (1) an ADJECTIVAL, (2) a VERB or (3) a NOUN ending.
      * As soon as one of the endings (1) to (3) is found remove it, and terminate step 1.
      */
-    private function step1()
+    private function step1(): bool
     {
         // Search for a PERFECTIVE GERUND ending.
         // group 1
-        if ( ($position = $this->searchIfInRv(self::$perfectiveGerund[0])) !== false) {
-            if ( ($this->inRv($position)) && ($this->checkGroup1($position)) ) {
-                $this->word = UTF8::substr($this->word, 0, $position);
-                return true;
-            }
+        if ($position = $this->searchIfInRv(self::$perfectiveGerund[0]) !== false && ($this->inRv($position) && $this->checkGroup1($position))) {
+            $this->word = UTF8::substr($this->word, 0, $position);
+            return true;
         }
 
         // group 2
-        if ( ($position = $this->searchIfInRv(self::$perfectiveGerund[1])) !== false) {
-            if ($this->inRv($position)) {
-                $this->word = UTF8::substr($this->word, 0, $position);
-                return true;
-            }
+        if ($position = $this->searchIfInRv(self::$perfectiveGerund[1]) !== false && $this->inRv($position)) {
+            $this->word = UTF8::substr($this->word, 0, $position);
+            return true;
         }
 
         // Otherwise try and remove a REFLEXIVE ending
-        if ( ($position = $this->searchIfInRv(self::$reflexive)) !== false) {
-            if ($this->inRv($position)) {
-                $this->word = UTF8::substr($this->word, 0, $position);
-            }
+        if ( $position = $this->searchIfInRv(self::$reflexive) !== false && $this->inRv($position)) {
+            $this->word = UTF8::substr($this->word, 0, $position);
         }
 
         // then search in turn for (1) an ADJECTIVAL, (2) a VERB or (3) a NOUN ending.
         // As soon as one of the endings (1) to (3) is found remove it, and terminate step 1.
-        if ( ($position = $this->searchIfInRv(self::$adjective)) !== false) {
-            if ($this->inRv($position)) {
-                $this->word = UTF8::substr($this->word, 0, $position);
-
-                if ( ($position2 = $this->search(self::$participle[0])) !== false) {
-                    if ( ($this->inRv($position2)) && ($this->checkGroup1($position2)) ) {
-                        $this->word = UTF8::substr($this->word, 0, $position2);
-                        return true;
-                    }
-                }
-
-                if ( ($position2 = $this->search(self::$participle[1])) !== false) {
-                    if ($this->inRv($position2)) {
-                        $this->word = UTF8::substr($this->word, 0, $position2);
-                        return true;
-                    }
-                }
-
+        if ($position = $this->searchIfInRv(self::$adjective) !== false && $this->inRv($position)) {
+            $this->word = UTF8::substr($this->word, 0, $position);
+            if ($position2 = $this->search(self::$participle[0]) !== false && ($this->inRv($position2) && $this->checkGroup1($position2))) {
+                $this->word = UTF8::substr($this->word, 0, $position2);
                 return true;
             }
+            if ($position2 = $this->search(self::$participle[1]) !== false && $this->inRv($position2)) {
+                $this->word = UTF8::substr($this->word, 0, $position2);
+                return true;
+            }
+            return true;
         }
 
-        if ( ($position = $this->searchIfInRv(self::$verb[0])) !== false) {
-            if ( ($this->inRv($position)) && ($this->checkGroup1($position)) ) {
-                $this->word = UTF8::substr($this->word, 0, $position);
-                return true;
-            }
+        if ($position = $this->searchIfInRv(self::$verb[0]) !== false && ($this->inRv($position) && $this->checkGroup1($position))) {
+            $this->word = UTF8::substr($this->word, 0, $position);
+            return true;
         }
 
-        if ( ($position = $this->searchIfInRv(self::$verb[1])) !== false) {
-            if ($this->inRv($position)) {
-                $this->word = UTF8::substr($this->word, 0, $position);
-                return true;
-            }
+        if ($position = $this->searchIfInRv(self::$verb[1]) !== false && $this->inRv($position)) {
+            $this->word = UTF8::substr($this->word, 0, $position);
+            return true;
         }
 
-        if ( ($position = $this->searchIfInRv(self::$noun)) !== false) {
-            if ($this->inRv($position)) {
-                $this->word = UTF8::substr($this->word, 0, $position);
-                return true;
-            }
+        if ($position = $this->searchIfInRv(self::$noun) !== false && $this->inRv($position)) {
+            $this->word = UTF8::substr($this->word, 0, $position);
+            return true;
         }
 
         return false;
@@ -159,13 +138,11 @@ class Russian extends Stem
     /**
      * Step 2: If the word ends with и (i), remove it.
      */
-    private function step2()
+    private function step2(): bool
     {
-        if ( ($position = $this->searchIfInRv(array('и'))) !== false) {
-            if ($this->inRv($position)) {
-                $this->word = UTF8::substr($this->word, 0, $position);
-                return true;
-            }
+        if ($position = $this->searchIfInRv(['и']) !== false && $this->inRv($position)) {
+            $this->word = UTF8::substr($this->word, 0, $position);
+            return true;
         }
         return false;
     }
@@ -174,21 +151,20 @@ class Russian extends Stem
      * Step 3: Search for a DERIVATIONAL ending in R2 (i.e. the entire ending must lie in R2),
      * and if one is found, remove it.
      */
-    private function step3()
+    private function step3(): ?bool
     {
-        if ( ($position = $this->searchIfInRv(self::$derivational)) !== false) {
-            if ($this->inR2($position)) {
-                $this->word = UTF8::substr($this->word, 0, $position);
-                return true;
-            }
+        if ($position = $this->searchIfInRv(self::$derivational) !== false && $this->inR2($position)) {
+            $this->word = UTF8::substr($this->word, 0, $position);
+            return true;
         }
+        return null;
     }
 
     /**
      *  Step 4: (1) Undouble н (n), or, (2) if the word ends with a SUPERLATIVE ending, remove it
      *  and undouble н (n), or (3) if the word ends ь (') (soft sign) remove it.
      */
-    private function step4()
+    private function step4(): ?bool
     {
         // (2) if the word ends with a SUPERLATIVE ending, remove it
         if ( ($position = $this->searchIfInRv(self::$superlative)) !== false) {
@@ -196,22 +172,23 @@ class Russian extends Stem
         }
 
         // (1) Undouble н (n)
-        if ( ($position = $this->searchIfInRv(array('нн'))) !== false) {
+        if ( ($position = $this->searchIfInRv(['нн'])) !== false) {
             $this->word = UTF8::substr($this->word, 0, ($position+1));
             return true;
         }
 
         // (3) if the word ends ь (') (soft sign) remove it
-        if ( ($position = $this->searchIfInRv(array('ь'))) !== false) {
+        if ( ($position = $this->searchIfInRv(['ь'])) !== false) {
             $this->word = UTF8::substr($this->word, 0, $position);
             return true;
         }
+        return null;
     }
 
     /**
      *  In any word, RV is the region after the first vowel, or the end of the word if it contains no vowel.
      */
-    protected function rv()
+    protected function rv(): bool
     {
         $length = UTF8::strlen($this->word);
 
@@ -243,10 +220,6 @@ class Russian extends Stem
         }
 
         $letter = UTF8::substr($this->word, ($position - 1), 1);
-
-        if ($letter == 'а' || $letter == 'я') {
-            return true;
-        }
-        return false;
+        return $letter == 'а' || $letter == 'я';
     }
 }

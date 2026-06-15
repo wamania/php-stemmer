@@ -15,11 +15,11 @@ class German extends Stem
     /**
      * All German vowels
      */
-    protected static $vowels = array('a', 'e', 'i', 'o', 'u', 'y', 'ä', 'ö', 'ü');
+    protected static $vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'ä', 'ö', 'ü'];
 
-    protected static $sEndings = array('b', 'd', 'f', 'g', 'h', 'k', 'l', 'm', 'n', 'r' ,'t');
+    protected static $sEndings = ['b', 'd', 'f', 'g', 'h', 'k', 'l', 'm', 'n', 'r' ,'t'];
 
-    protected static $stEndings = array('b', 'd', 'f', 'g', 'h', 'k', 'l', 'm', 'n', 't');
+    protected static $stEndings = ['b', 'd', 'f', 'g', 'h', 'k', 'l', 'm', 'n', 't'];
 
     /**
      * {@inheritdoc}
@@ -63,10 +63,10 @@ class German extends Stem
     /**
      * Step 1
      */
-    private function step1()
+    private function step1(): bool
     {
         // delete if in R1
-        if ( ($position = $this->search(array('em', 'ern', 'er'))) !== false) {
+        if ( ($position = $this->search(['em', 'ern', 'er'])) !== false) {
             if ($this->inR1($position)) {
                 $this->word = UTF8::substr($this->word, 0, $position);
             }
@@ -74,12 +74,12 @@ class German extends Stem
         }
 
         // delete if in R1
-        if ( ($position = $this->search(array('es', 'en', 'e'))) !== false) {
+        if ( ($position = $this->search(['es', 'en', 'e'])) !== false) {
             if ($this->inR1($position)) {
                 $this->word = UTF8::substr($this->word, 0, $position);
 
                 //If an ending of group (b) is deleted, and the ending is preceded by niss, delete the final s
-                if ($this->search(array('niss')) !== false) {
+                if ($this->search(['niss']) !== false) {
                     $this->word = UTF8::substr($this->word, 0, -1);
                 }
             }
@@ -87,7 +87,7 @@ class German extends Stem
         }
 
         // s (preceded by a valid s-ending)
-        if ( ($position = $this->search(array('s'))) !== false) {
+        if ( ($position = $this->search(['s'])) !== false) {
             if ($this->inR1($position)) {
                 $before = $position - 1;
                 $letter = UTF8::substr($this->word, $before, 1);
@@ -105,11 +105,11 @@ class German extends Stem
     /**
      * Step 2
      */
-    private function step2()
+    private function step2(): bool
     {
         // en   er   est
         //      delete if in R1
-        if ( ($position = $this->search(array('en', 'er', 'est'))) !== false) {
+        if ( ($position = $this->search(['en', 'er', 'est'])) !== false) {
             if ($this->inR1($position)) {
                 $this->word = UTF8::substr($this->word, 0, $position);
             }
@@ -118,7 +118,7 @@ class German extends Stem
 
         // st (preceded by a valid st-ending, itself preceded by at least 3 letters)
         //      delete if in R1
-        if ( ($position = $this->search(array('st'))) !== false) {
+        if ( ($position = $this->search(['st'])) !== false) {
             if ($this->inR1($position)) {
                 $before = $position - 1;
                 if ($before >= 3) {
@@ -137,17 +137,17 @@ class German extends Stem
     /**
      * Step 3: d-suffixes
      */
-    private function step3()
+    private function step3(): bool
     {
         // end   ung
         //      delete if in R2
         //      if preceded by ig, delete if in R2 and not preceded by e
-        if ( ($position = $this->search(array('end', 'ung'))) !== false) {
+        if ( ($position = $this->search(['end', 'ung'])) !== false) {
             if ($this->inR2($position)) {
                 $this->word = UTF8::substr($this->word, 0, $position);
             }
 
-            if ( ($position2 = $this->search(array('ig'))) !== false) {
+            if ( ($position2 = $this->search(['ig'])) !== false) {
                 $before = $position2 - 1;
                 $letter = UTF8::substr($this->word, $before, 1);
 
@@ -160,7 +160,7 @@ class German extends Stem
 
         // ig   ik   isch
         //      delete if in R2 and not preceded by e
-        if ( ($position = $this->search(array('ig', 'ik', 'isch'))) !== false) {
+        if ( ($position = $this->search(['ig', 'ik', 'isch'])) !== false) {
             $before = $position - 1;
             $letter = UTF8::substr($this->word, $before, 1);
 
@@ -173,15 +173,13 @@ class German extends Stem
         // lich   heit
         //      delete if in R2
         //      if preceded by er or en, delete if in R1
-        if ( ($position = $this->search(array('lich', 'heit'))) != false) {
+        if ( ($position = $this->search(['lich', 'heit'])) != false) {
             if ($this->inR2($position)) {
                 $this->word = UTF8::substr($this->word, 0, $position);
             }
 
-            if ( ($position2 = $this->search(array('er', 'en'))) !== false) {
-                if ($this->inR1($position2)) {
-                    $this->word = UTF8::substr($this->word, 0, $position2);
-                }
+            if ( $position2 = $this->search(['er', 'en']) !== false && $this->inR1($position2)) {
+                $this->word = UTF8::substr($this->word, 0, $position2);
             }
             return true;
         }
@@ -189,15 +187,13 @@ class German extends Stem
         // keit
         //      delete if in R2
         //      if preceded by lich or ig, delete if in R2
-        if ( ($position = $this->search(array('keit'))) != false) {
+        if ( ($position = $this->search(['keit'])) != false) {
             if ($this->inR2($position)) {
                 $this->word = UTF8::substr($this->word, 0, $position);
             }
 
-            if ( ($position2 = $this->search(array('lich', 'ig'))) !== false) {
-                if ($this->inR2($position2)) {
-                    $this->word = UTF8::substr($this->word, 0, $position2);
-                }
+            if ( $position2 = $this->search(['lich', 'ig']) !== false && $this->inR2($position2)) {
+                $this->word = UTF8::substr($this->word, 0, $position2);
             }
             return true;
         }
@@ -208,9 +204,9 @@ class German extends Stem
     /**
      * Finally
      */
-    private function finish()
+    private function finish(): void
     {
         // turn U and Y back into lower case, and remove the umlaut accent from a, o and u.
-        $this->word = str_replace(array('U', 'Y', 'ä', 'ü', 'ö'), array('u', 'y', 'a', 'u', 'o'), $this->word);
+        $this->word = str_replace(['U', 'Y', 'ä', 'ü', 'ö'], ['u', 'y', 'a', 'u', 'o'], $this->word);
     }
 }

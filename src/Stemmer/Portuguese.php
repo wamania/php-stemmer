@@ -15,7 +15,7 @@ class Portuguese extends Stem
     /**
      * All Portuguese vowels
      */
-    protected static $vowels = array('a', 'e', 'i', 'o', 'u', 'á', 'é', 'í', 'ó', 'ú', 'â', 'ê', 'ô');
+    protected static $vowels = ['a', 'e', 'i', 'o', 'u', 'á', 'é', 'í', 'ó', 'ú', 'â', 'ê', 'ô'];
 
     /**
      * {@inheritdoc}
@@ -29,7 +29,7 @@ class Portuguese extends Stem
 
         $this->word = UTF8::strtolower($word);
 
-        $this->word = str_replace(array('ã', 'õ'), array('a~', 'o~'), $this->word);
+        $this->word = str_replace(['ã', 'õ'], ['a~', 'o~'], $this->word);
 
         $this->rv();
         $this->r1();
@@ -57,13 +57,13 @@ class Portuguese extends Stem
     /**
      * Step 1: Standard suffix removal
      */
-    private function step1()
+    private function step1(): bool
     {
         // delete if in R2
-        if ( ($position = $this->search(array(
+        if ( ($position = $this->search([
             'amentos', 'imentos', 'adoras', 'adores', 'amento', 'imento', 'adora', 'istas', 'ismos', 'antes', 'ância',
             'ezas', 'eza', 'icos', 'icas', 'ismo', 'ável', 'ível', 'ista', 'oso',
-            'osos', 'osas', 'osa', 'ico', 'ica', 'ador', 'aça~o', 'aço~es' , 'ante'))) !== false) {
+            'osos', 'osas', 'osa', 'ico', 'ica', 'ador', 'aça~o', 'aço~es' , 'ante'])) !== false) {
 
             if ($this->inR2($position)) {
                 $this->word = UTF8::substr($this->word, 0, $position);
@@ -73,7 +73,7 @@ class Portuguese extends Stem
 
         // logía   logías
         //      replace with log if in R2
-        if ( ($position = $this->search(array('logías', 'logía'))) !== false) {
+        if ( ($position = $this->search(['logías', 'logía'])) !== false) {
             if ($this->inR2($position)) {
                 $this->word = preg_replace('#(logías|logía)$#u', 'log', $this->word);
             }
@@ -82,7 +82,7 @@ class Portuguese extends Stem
 
         // ución   uciones
         //      replace with u if in R2
-        if ( ($position = $this->search(array('uciones', 'ución'))) !== false) {
+        if ( ($position = $this->search(['uciones', 'ución'])) !== false) {
             if ($this->inR2($position)) {
                 $this->word = preg_replace('#(uciones|ución)$#u', 'u', $this->word);
             }
@@ -91,7 +91,7 @@ class Portuguese extends Stem
 
         // ência    ências
         //      replace with ente if in R2
-        if ( ($position = $this->search(array('ências', 'ência'))) !== false) {
+        if ( ($position = $this->search(['ências', 'ência'])) !== false) {
             if ($this->inR2($position)) {
                 $this->word = preg_replace('#(ências|ência)$#u', 'ente', $this->word);
             }
@@ -102,7 +102,7 @@ class Portuguese extends Stem
         //      delete if in R1
         //      if preceded by iv, delete if in R2 (and if further preceded by at, delete if in R2), otherwise,
         //      if preceded by os, ic or ad, delete if in R2
-        if ( ($position = $this->search(array('amente'))) !== false) {
+        if ( ($position = $this->search(['amente'])) !== false) {
 
             // delete if in R1
             if ($this->inR1($position)) {
@@ -110,14 +110,14 @@ class Portuguese extends Stem
             }
 
             // if preceded by iv, delete if in R2 (and if further preceded by at, delete if in R2), otherwise,
-            if ( ($position2 = $this->searchIfInR2(array('iv'))) !== false) {
+            if ( ($position2 = $this->searchIfInR2(['iv'])) !== false) {
                 $this->word = UTF8::substr($this->word, 0, $position2);
-                if ( ($position3 = $this->searchIfInR2(array('at'))) !== false) {
+                if ( ($position3 = $this->searchIfInR2(['at'])) !== false) {
                     $this->word = UTF8::substr($this->word, 0, $position3);
                 }
 
                 // if preceded by os, ic or ad, delete if in R2
-            } elseif ( ($position4 = $this->searchIfInR2(array('os', 'ic', 'ad'))) !== false) {
+            } elseif ( ($position4 = $this->searchIfInR2(['os', 'ic', 'ad'])) !== false) {
                 $this->word = UTF8::substr($this->word, 0, $position4);
             }
             return true;
@@ -126,7 +126,7 @@ class Portuguese extends Stem
         // mente
         //      delete if in R2
         //      if preceded by ante, avel or ível, delete if in R2
-        if ( ($position = $this->search(array('mente'))) !== false) {
+        if ( ($position = $this->search(['mente'])) !== false) {
 
             // delete if in R2
             if ($this->inR2($position)) {
@@ -134,7 +134,7 @@ class Portuguese extends Stem
             }
 
             // if preceded by ante, avel or ível, delete if in R2
-            if ( ($position2 = $this->searchIfInR2(array('ante', 'avel', 'ível'))) != false) {
+            if ( ($position2 = $this->searchIfInR2(['ante', 'avel', 'ível'])) != false) {
                 $this->word = UTF8::substr($this->word, 0, $position2);
             }
             return true;
@@ -143,7 +143,7 @@ class Portuguese extends Stem
         // idade   idades
         //      delete if in R2
         //      if preceded by abil, ic or iv, delete if in R2
-        if ( ($position = $this->search(array('idades', 'idade'))) !== false) {
+        if ( ($position = $this->search(['idades', 'idade'])) !== false) {
 
             // delete if in R2
             if ($this->inR2($position)) {
@@ -151,7 +151,7 @@ class Portuguese extends Stem
             }
 
             // if preceded by abil, ic or iv, delete if in R2
-            if ( ($position2 = $this->searchIfInR2(array('abil', 'ic', 'iv'))) !== false) {
+            if ( ($position2 = $this->searchIfInR2(['abil', 'ic', 'iv'])) !== false) {
                 $this->word = UTF8::substr($this->word, 0, $position2);
             }
             return true;
@@ -160,7 +160,7 @@ class Portuguese extends Stem
         // iva   ivo   ivas   ivos
         //      delete if in R2
         //      if preceded by at, delete if in R2
-        if ( ($position = $this->search(array('ivas', 'ivos', 'iva', 'ivo'))) !== false) {
+        if ( ($position = $this->search(['ivas', 'ivos', 'iva', 'ivo'])) !== false) {
 
             // delete if in R2
             if ($this->inR2($position)) {
@@ -168,7 +168,7 @@ class Portuguese extends Stem
             }
 
             // if preceded by at, delete if in R2
-            if ( ($position2 = $this->searchIfInR2(array('at'))) !== false) {
+            if ( ($position2 = $this->searchIfInR2(['at'])) !== false) {
                 $this->word = UTF8::substr($this->word, 0, $position2);
             }
             return true;
@@ -176,7 +176,7 @@ class Portuguese extends Stem
 
         // ira   iras
         //      replace with ir if in RV and preceded by e
-        if ( ($position = $this->search(array('iras', 'ira'))) !== false) {
+        if ( ($position = $this->search(['iras', 'ira'])) !== false) {
 
             if ($this->inRv($position)) {
                 $before = $position -1;
@@ -196,9 +196,9 @@ class Portuguese extends Stem
      * Step 2: Verb suffixes
      * Search for the longest among the following suffixes in RV, and if found, delete.
      */
-    private function step2()
+    private function step2(): bool
     {
-        if ( ($position = $this->searchIfInRv(array(
+        if ( ($position = $this->searchIfInRv([
             'aríamos', 'eríamos', 'iríamos', 'ássemos', 'êssemos', 'íssemos',
             'aríeis', 'eríeis', 'iríeis', 'ásseis', 'ésseis', 'ísseis', 'áramos', 'éramos', 'íramos', 'ávamos',
             'aremos', 'eremos', 'iremos',
@@ -211,7 +211,7 @@ class Portuguese extends Stem
             'emos', 'imos', 'iras',
             'ada', 'ida', 'ará', 'ara', 'erá', 'era', 'irá', 'ava', 'iam', 'ado', 'ido', 'ias', 'ais', 'eis', 'ira',
             'ia', 'ei', 'am', 'em', 'ar', 'er', 'ir', 'as', 'es', 'is', 'eu', 'iu', 'ou',
-        ))) !== false) {
+        ])) !== false) {
 
             $this->word = UTF8::substr($this->word, 0, $position);
             return true;
@@ -223,10 +223,10 @@ class Portuguese extends Stem
      * Step 3: d-suffixes
      *
      */
-    private function step3()
+    private function step3(): bool
     {
         // Delete suffix i if in RV and preceded by c
-        if ($this->searchIfInRv(array('i')) !== false) {
+        if ($this->searchIfInRv(['i']) !== false) {
             $letter = UTF8::substr($this->word, -2, 1);
 
             if ($letter == 'c') {
@@ -240,10 +240,10 @@ class Portuguese extends Stem
     /**
      * Step 4
      */
-    private function step4()
+    private function step4(): bool
     {
         // If the word ends with one of the suffixes "os   a   i   o   á   í   ó" in RV, delete it
-        if ( ($position = $this->searchIfInRv(array('os', 'a', 'i', 'o','á', 'í', 'ó'))) !== false) {
+        if ( ($position = $this->searchIfInRv(['os', 'a', 'i', 'o','á', 'í', 'ó'])) !== false) {
             $this->word = UTF8::substr($this->word, 0, $position);
             return true;
         }
@@ -253,19 +253,16 @@ class Portuguese extends Stem
     /**
      * Step 5
      */
-    private function step5()
+    private function step5(): bool
     {
         // If the word ends with one of "e   é   ê" in RV, delete it, and if preceded by gu (or ci) with the u (or i) in RV, delete the u (or i).
-        if ($this->searchIfInRv(array('e', 'é', 'ê')) !== false) {
+        if ($this->searchIfInRv(['e', 'é', 'ê']) !== false) {
             $this->word = UTF8::substr($this->word, 0, -1);
-
-            if ( ($position2 = $this->search(array('gu', 'ci'))) !== false) {
-                if ($this->inRv(($position2+1))) {
-                    $this->word = UTF8::substr($this->word, 0, -1);
-                }
+            if ( $position2 = $this->search(['gu', 'ci']) !== false && $this->inRv(($position2+1))) {
+                $this->word = UTF8::substr($this->word, 0, -1);
             }
             return true;
-        } else if ($this->search(array('ç')) !== false) {
+        } elseif ($this->search(['ç']) !== false) {
             $this->word = preg_replace('#(ç)$#u', 'c', $this->word);
             return true;
         }
@@ -275,9 +272,9 @@ class Portuguese extends Stem
     /**
      * Finally
      */
-    private function finish()
+    private function finish(): void
     {
         // turn U and Y back into lower case, and remove the umlaut accent from a, o and u.
-        $this->word = str_replace(array('a~', 'o~'), array('ã', 'õ'), $this->word);
+        $this->word = str_replace(['a~', 'o~'], ['ã', 'õ'], $this->word);
     }
 }
