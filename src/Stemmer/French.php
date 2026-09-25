@@ -2,8 +2,6 @@
 
 namespace Wamania\Snowball\Stemmer;
 
-use Joomla\String\StringHelper;
-
 /**
  *
  * @link http://snowball.tartarus.org/algorithms/french/stemmer.html
@@ -22,7 +20,7 @@ class French extends Stem
      */
     public function stem($word)
     {
-        $this->word = StringHelper::strtolower($word);
+        $this->word = mb_strtolower($word);
 
         $this->plainVowels = implode('', self::$vowels);
 
@@ -59,8 +57,6 @@ class French extends Stem
         return $this->word;
     }
 
-
-
     /**
      *  Assume the word is in lower case.
      *  Then put into upper case u or i preceded and followed by a vowel, and y preceded or followed by a vowel.
@@ -91,7 +87,7 @@ class French extends Stem
         //     delete if in R2
         if ( ($position = $this->search(array('ances', 'iqUes', 'ismes', 'ables', 'istes', 'ance', 'iqUe','isme', 'able', 'iste', 'eux'))) !== false) {
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
             return 3;
         }
@@ -101,10 +97,10 @@ class French extends Stem
         //      if preceded by ic, delete if in R2, else replace by iqU
         if ( ($position = $this->search(array('atrices', 'ateurs', 'ations', 'atrice', 'ateur', 'ation'))) !== false) {
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
 
                 if ( ($position2 = $this->searchIfInR2(array('ic'))) !== false) {
-                    $this->word = StringHelper::substr($this->word, 0, $position2);
+                    $this->word = mb_substr($this->word, 0, $position2);
                 } else {
                     $this->word = preg_replace('#(ic)$#u', 'iqU', $this->word);
                 }
@@ -145,9 +141,9 @@ class French extends Stem
         if ( ($position = $this->search(array('issements', 'issement'))) != false) {
             if ($this->inR1($position)) {
                 $before = $position - 1;
-                $letter = StringHelper::substr($this->word, $before, 1);
+                $letter = mb_substr($this->word, $before, 1);
                 if (! in_array($letter, self::$vowels)) {
-                    $this->word = StringHelper::substr($this->word, 0, $position);
+                    $this->word = mb_substr($this->word, 0, $position);
                 }
             }
             return 3;
@@ -163,20 +159,20 @@ class French extends Stem
 
             // delete if in RV
             if ($this->inRv($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
 
             // if preceded by iv, delete if in R2 (and if further preceded by at, delete if in R2), otherwise,
             if ( ($position = $this->searchIfInR2(array('iv'))) !== false) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
                 if ( ($position2 = $this->searchIfInR2(array('at'))) !== false) {
-                    $this->word = StringHelper::substr($this->word, 0, $position2);
+                    $this->word = mb_substr($this->word, 0, $position2);
                 }
 
             // if preceded by eus, delete if in R2, else replace by eux if in R1, otherwise,
             } elseif ( ($position = $this->search(array('eus'))) !== false) {
                 if ($this->inR2($position)) {
-                    $this->word = StringHelper::substr($this->word, 0, $position);
+                    $this->word = mb_substr($this->word, 0, $position);
 
                 } elseif ($this->inR1($position)) {
                     $this->word = preg_replace('#(eus)$#u', 'eux', $this->word);
@@ -184,7 +180,7 @@ class French extends Stem
 
             // if preceded by abl or iqU, delete if in R2, otherwise,
             } elseif ( ($position = $this->searchIfInR2(array('abl', 'iqU'))) !== false) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
 
             // if preceded by ièr or Ièr, replace by i if in RV
             } elseif ( ($position = $this->searchIfInRv(array('ièr', 'Ièr'))) !== false) {
@@ -202,13 +198,13 @@ class French extends Stem
 
             // delete if in R2
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
 
             // if preceded by abil, delete if in R2, else replace by abl, otherwise,
             if ( ($position = $this->search(array('abil'))) !== false) {
                 if ($this->inR2($position)) {
-                    $this->word = StringHelper::substr($this->word, 0, $position);
+                    $this->word = mb_substr($this->word, 0, $position);
                 } else {
                     $this->word = preg_replace('#(abil)$#u', 'abl', $this->word);
                 }
@@ -216,14 +212,14 @@ class French extends Stem
             // if preceded by ic, delete if in R2, else replace by iqU, otherwise,
             } elseif ( ($position = $this->search(array('ic'))) !== false) {
                 if ($this->inR2($position)) {
-                    $this->word = StringHelper::substr($this->word, 0, $position);
+                    $this->word = mb_substr($this->word, 0, $position);
                 } else {
                     $this->word = preg_replace('#(ic)$#u', 'iqU', $this->word);
                 }
 
             // if preceded by iv, delete if in R2
             } elseif ( ($position = $this->searchIfInR2(array('iv'))) !== false) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
 
             return 3;
@@ -235,15 +231,15 @@ class French extends Stem
         if ( ($position = $this->search(array('ifs', 'ives', 'if', 'ive'))) !== false) {
 
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
 
             if ( ($position = $this->searchIfInR2(array('at'))) !== false) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
 
                 if ( ($position2 = $this->search(array('ic'))) !== false) {
                     if ($this->inR2($position2)) {
-                        $this->word = StringHelper::substr($this->word, 0, $position2);
+                        $this->word = mb_substr($this->word, 0, $position2);
                     } else {
                         $this->word = preg_replace('#(ic)$#u', 'iqU', $this->word);
                     }
@@ -273,7 +269,7 @@ class French extends Stem
         //      delete if in R2, else replace by eux if in R1
         if ( ($position = $this->search(array('euses', 'euse'))) !== false) {
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
 
             } elseif ($this->inR1($position)) {
                 $this->word = preg_replace('#(euses|euse)$#u', 'eux', $this->word);
@@ -304,9 +300,9 @@ class French extends Stem
         //      delete if preceded by a vowel in RV
         if ( ($position = $this->search(array('ments', 'ment'))) != false) {
             $before = $position - 1;
-            $letter = StringHelper::substr($this->word, $before, 1);
+            $letter = mb_substr($this->word, $before, 1);
             if ( $this->inRv($before) && (in_array($letter, self::$vowels)) ) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
 
             return 2;
@@ -332,9 +328,9 @@ class French extends Stem
             'issent', 'isses', 'issez', 'isse', 'issiez', 'issions', 'issons', 'is', 'it', 'i'))) !== false) {
 
             $before = $position - 1;
-            $letter = StringHelper::substr($this->word, $before, 1);
+            $letter = mb_substr($this->word, $before, 1);
             if ( $this->inRv($before) && (!in_array($letter, self::$vowels)) ) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
 
                 return true;
             }
@@ -355,7 +351,7 @@ class French extends Stem
             'ées', 'èrent', 'erais', 'erait', 'erai', 'eraIent', 'eras', 'erez', 'eriez',
             'erions', 'erons', 'eront', 'era', 'er', 'iez', 'ez','és', 'ée', 'é'))) !== false) {
 
-            $this->word = StringHelper::substr($this->word, 0, $position);
+            $this->word = mb_substr($this->word, 0, $position);
 
             return true;
         }
@@ -368,12 +364,12 @@ class French extends Stem
             'assent', 'asses', 'assiez', 'assions', 'asse', 'as', 'ai', 'a'))) !== false) {
 
             $before = $position - 1;
-            $letter = StringHelper::substr($this->word, $before, 1);
+            $letter = mb_substr($this->word, $before, 1);
             if ( $this->inRv($before) && ($letter == 'e') ) {
-                $this->word = StringHelper::substr($this->word, 0, $before);
+                $this->word = mb_substr($this->word, 0, $before);
 
             } else {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
 
             return true;
@@ -383,7 +379,7 @@ class French extends Stem
         //      delete if in R2
         if ( ($position = $this->searchIfInRv(array('ions'))) !== false) {
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
 
             return true;
@@ -408,7 +404,7 @@ class French extends Stem
     {
         //If the word ends s, not preceded by a, i, o, u, è or s, delete it.
         if (preg_match('#[^aiouès]s$#', $this->word)) {
-            $this->word = StringHelper::substr($this->word, 0, -1);
+            $this->word = mb_substr($this->word, 0, -1);
         }
 
         // In the rest of step 4, all tests are confined to the RV region.
@@ -416,9 +412,9 @@ class French extends Stem
         //      delete if in R2 and preceded by s or t
         if ( (($position = $this->searchIfInRv(array('ion'))) !== false) && ($this->inR2($position)) ) {
             $before = $position - 1;
-            $letter = StringHelper::substr($this->word, $before, 1);
+            $letter = mb_substr($this->word, $before, 1);
             if ( $this->inRv($before) && (($letter == 's') || ($letter == 't')) ) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
             return true;
         }
@@ -433,7 +429,7 @@ class French extends Stem
         // e
         //      delete
         if ( ($this->searchIfInRv(array('e'))) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, -1);
+            $this->word = mb_substr($this->word, 0, -1);
             return true;
         }
 
@@ -441,7 +437,7 @@ class French extends Stem
         //      if preceded by gu, delete
         if ( ($position = $this->searchIfInRv(array('guë'))) !== false) {
             if ($this->inRv($position+2)) {
-                $this->word = StringHelper::substr($this->word, 0, -1);
+                $this->word = mb_substr($this->word, 0, -1);
                 return true;
             }
         }
@@ -456,7 +452,7 @@ class French extends Stem
     private function step5()
     {
         if ($this->search(array('enn', 'onn', 'ett', 'ell', 'eill')) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, -1);
+            $this->word = mb_substr($this->word, 0, -1);
         }
     }
 
@@ -486,7 +482,7 @@ class French extends Stem
      */
     protected function rv()
     {
-        $length = StringHelper::strlen($this->word);
+        $length = mb_strlen($this->word);
 
         $this->rv = '';
         $this->rvIndex = $length;
@@ -496,28 +492,28 @@ class French extends Stem
         }
 
         // If the word begins with two vowels, RV is the region after the third letter
-        $first = StringHelper::substr($this->word, 0, 1);
-        $second = StringHelper::substr($this->word, 1, 1);
+        $first = mb_substr($this->word, 0, 1);
+        $second = mb_substr($this->word, 1, 1);
 
         if ( (in_array($first, self::$vowels)) && (in_array($second, self::$vowels)) ) {
-            $this->rv = StringHelper::substr($this->word, 3);
+            $this->rv = mb_substr($this->word, 3);
             $this->rvIndex = 3;
             return true;
         }
 
         // (Exceptionally, par, col or tap, at the begining of a word is also taken to define RV as the region to their right.)
-        $begin3 = StringHelper::substr($this->word, 0, 3);
+        $begin3 = mb_substr($this->word, 0, 3);
         if (in_array($begin3, array('par', 'col', 'tap'))) {
-            $this->rv = StringHelper::substr($this->word, 3);
+            $this->rv = mb_substr($this->word, 3);
             $this->rvIndex = 3;
             return true;
         }
 
         //  otherwise the region after the first vowel not at the beginning of the word,
         for ($i=1; $i<$length; $i++) {
-            $letter = StringHelper::substr($this->word, $i, 1);
+            $letter = mb_substr($this->word, $i, 1);
             if (in_array($letter, self::$vowels)) {
-                $this->rv = StringHelper::substr($this->word, ($i + 1));
+                $this->rv = mb_substr($this->word, ($i + 1));
                 $this->rvIndex = $i + 1;
                 return true;
             }

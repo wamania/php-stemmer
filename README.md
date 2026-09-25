@@ -45,7 +45,14 @@ For PHP^7.3 and PHP^8.0 use 3.x (backward compatible, but phpunit^9 don't work w
 composer require wamania/php-stemmer "^3.0"
 ```
 
-For PHP^8.4 use 4.x (avoid deprecated by switching from voku utf8 to [joomla/string](https://github.com/joomla-framework/string) )
+For PHP^8.4 use 4.x. Earlier versions relied on [voku/portable-utf8](https://github.com/voku/portable-utf8)
+for UTF-8-safe string handling, back when `ext-mbstring` couldn't be assumed present.
+It was briefly replaced by [joomla/string](https://github.com/joomla-framework/string) to avoid
+`voku/portable-utf8`'s deprecation notices on PHP 8.4, but that package is GPL-2.0-or-later
+licensed, which is incompatible with this project's MIT license, and for the handful of
+functions used here it was only ever a thin wrapper around PHP's built-in `mbstring` extension.
+4.x calls `mb_*` functions directly instead and requires `ext-mbstring` (bundled/enabled in
+virtually all PHP installations).
 ```
 composer require wamania/php-stemmer "^4.0"
 ```

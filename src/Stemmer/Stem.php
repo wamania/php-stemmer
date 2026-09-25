@@ -2,8 +2,6 @@
 
 namespace Wamania\Snowball\Stemmer;
 
-use Joomla\String\StringHelper;
-
 abstract class Stem implements Stemmer
 {
     protected static $vowels = array('a', 'e', 'i', 'o', 'u', 'y');
@@ -94,12 +92,12 @@ abstract class Stem implements Stemmer
 
     protected function search($suffixes, $offset = 0)
     {
-        $length = StringHelper::strlen($this->word);
+        $length = mb_strlen($this->word);
         if ($offset > $length) {
             return false;
         }
         foreach ($suffixes as $suffixe) {
-            if ( (($position = StringHelper::strrpos($this->word, $suffixe, $offset)) !== false) && ((StringHelper::strlen($suffixe)+$position) == $length) ) {
+            if ( (($position = mb_strrpos($this->word, $suffixe, $offset)) !== false) && ((mb_strlen($suffixe)+$position) == $length) ) {
                 return $position;
             }
         }
@@ -134,7 +132,7 @@ abstract class Stem implements Stemmer
      */
     protected function rx($in)
     {
-        $length = StringHelper::strlen($in);
+        $length = mb_strlen($in);
 
         // defaults
         $value = '';
@@ -143,7 +141,7 @@ abstract class Stem implements Stemmer
         // we search all vowels
         $vowels = array();
         for ($i=0; $i<$length; $i++) {
-            $letter = StringHelper::substr($in, $i, 1);
+            $letter = mb_substr($in, $i, 1);
             if (in_array($letter, static::$vowels)) {
                 $vowels[] = $i;
             }
@@ -152,11 +150,11 @@ abstract class Stem implements Stemmer
         // search the non-vowel following a vowel
         foreach ($vowels as $position) {
             $after = $position + 1;
-            $letter = StringHelper::substr($in, $after, 1);
+            $letter = mb_substr($in, $after, 1);
 
             if (! in_array($letter, static::$vowels)) {
                 $index = $after + 1;
-                $value = StringHelper::substr($in, ($after+1));
+                $value = mb_substr($in, ($after+1));
 
                 break;
             }
@@ -175,7 +173,7 @@ abstract class Stem implements Stemmer
      */
     protected function rv()
     {
-        $length = StringHelper::strlen($this->word);
+        $length = mb_strlen($this->word);
 
         $this->rv = '';
         $this->rvIndex = $length;
@@ -184,16 +182,16 @@ abstract class Stem implements Stemmer
             return true;
         }
 
-        $first = StringHelper::substr($this->word, 0, 1);
-        $second = StringHelper::substr($this->word, 1, 1);
+        $first = mb_substr($this->word, 0, 1);
+        $second = mb_substr($this->word, 1, 1);
 
         // If the second letter is a consonant, RV is the region after the next following vowel,
         if (!in_array($second, static::$vowels)) {
             for ($i=2; $i<$length; $i++) {
-                $letter = StringHelper::substr($this->word, $i, 1);
+                $letter = mb_substr($this->word, $i, 1);
                 if (in_array($letter, static::$vowels)) {
                     $this->rvIndex = $i + 1;
-                    $this->rv = StringHelper::substr($this->word, ($i+1));
+                    $this->rv = mb_substr($this->word, ($i+1));
                     return true;
                 }
             }
@@ -202,10 +200,10 @@ abstract class Stem implements Stemmer
         // or if the first two letters are vowels, RV is the region after the next consonant,
         if ( (in_array($first, static::$vowels)) && (in_array($second, static::$vowels)) ) {
             for ($i=2; $i<$length; $i++) {
-                $letter = StringHelper::substr($this->word, $i, 1);
+                $letter = mb_substr($this->word, $i, 1);
                 if (! in_array($letter, static::$vowels)) {
                     $this->rvIndex = $i + 1;
-                    $this->rv = StringHelper::substr($this->word, ($i+1));
+                    $this->rv = mb_substr($this->word, ($i+1));
                     return true;
                 }
             }
@@ -213,7 +211,7 @@ abstract class Stem implements Stemmer
 
         // and otherwise (consonant-vowel case) RV is the region after the third letter.
         if ( (! in_array($first, static::$vowels)) && (in_array($second, static::$vowels)) ) {
-            $this->rv = StringHelper::substr($this->word, 3);
+            $this->rv = mb_substr($this->word, 3);
             $this->rvIndex = 3;
             return true;
         }

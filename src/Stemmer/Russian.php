@@ -2,8 +2,6 @@
 
 namespace Wamania\Snowball\Stemmer;
 
-use Joomla\String\StringHelper;
-
 /**
  *
  * @link http://snowball.tartarus.org/algorithms/russian/stemmer.html
@@ -56,7 +54,7 @@ class Russian extends Stem
      */
     public function stem($word)
     {
-        $this->word = StringHelper::strtolower($word);
+        $this->word = mb_strtolower($word);
 
         // R2 is not used: R1 is defined in the same way as in the German stemmer
         $this->r1();
@@ -83,7 +81,7 @@ class Russian extends Stem
         // group 1
         if ( ($position = $this->searchIfInRv(self::$perfectiveGerund[0])) !== false) {
             if ( ($this->inRv($position)) && ($this->checkGroup1($position)) ) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
                 return true;
             }
         }
@@ -91,7 +89,7 @@ class Russian extends Stem
         // group 2
         if ( ($position = $this->searchIfInRv(self::$perfectiveGerund[1])) !== false) {
             if ($this->inRv($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
                 return true;
             }
         }
@@ -99,7 +97,7 @@ class Russian extends Stem
         // Otherwise try and remove a REFLEXIVE ending
         if ( ($position = $this->searchIfInRv(self::$reflexive)) !== false) {
             if ($this->inRv($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
         }
 
@@ -107,18 +105,18 @@ class Russian extends Stem
         // As soon as one of the endings (1) to (3) is found remove it, and terminate step 1.
         if ( ($position = $this->searchIfInRv(self::$adjective)) !== false) {
             if ($this->inRv($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
 
                 if ( ($position2 = $this->search(self::$participle[0])) !== false) {
                     if ( ($this->inRv($position2)) && ($this->checkGroup1($position2)) ) {
-                        $this->word = StringHelper::substr($this->word, 0, $position2);
+                        $this->word = mb_substr($this->word, 0, $position2);
                         return true;
                     }
                 }
 
                 if ( ($position2 = $this->search(self::$participle[1])) !== false) {
                     if ($this->inRv($position2)) {
-                        $this->word = StringHelper::substr($this->word, 0, $position2);
+                        $this->word = mb_substr($this->word, 0, $position2);
                         return true;
                     }
                 }
@@ -129,21 +127,21 @@ class Russian extends Stem
 
         if ( ($position = $this->searchIfInRv(self::$verb[0])) !== false) {
             if ( ($this->inRv($position)) && ($this->checkGroup1($position)) ) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
                 return true;
             }
         }
 
         if ( ($position = $this->searchIfInRv(self::$verb[1])) !== false) {
             if ($this->inRv($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
                 return true;
             }
         }
 
         if ( ($position = $this->searchIfInRv(self::$noun)) !== false) {
             if ($this->inRv($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
                 return true;
             }
         }
@@ -158,7 +156,7 @@ class Russian extends Stem
     {
         if ( ($position = $this->searchIfInRv(array('и'))) !== false) {
             if ($this->inRv($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
                 return true;
             }
         }
@@ -173,7 +171,7 @@ class Russian extends Stem
     {
         if ( ($position = $this->searchIfInRv(self::$derivational)) !== false) {
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
                 return true;
             }
         }
@@ -187,18 +185,18 @@ class Russian extends Stem
     {
         // (2) if the word ends with a SUPERLATIVE ending, remove it
         if ( ($position = $this->searchIfInRv(self::$superlative)) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, $position);
+            $this->word = mb_substr($this->word, 0, $position);
         }
 
         // (1) Undouble н (n)
         if ( ($position = $this->searchIfInRv(array('нн'))) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, ($position+1));
+            $this->word = mb_substr($this->word, 0, ($position+1));
             return true;
         }
 
         // (3) if the word ends ь (') (soft sign) remove it
         if ( ($position = $this->searchIfInRv(array('ь'))) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, $position);
+            $this->word = mb_substr($this->word, 0, $position);
             return true;
         }
     }
@@ -208,15 +206,15 @@ class Russian extends Stem
      */
     protected function rv()
     {
-        $length = StringHelper::strlen($this->word);
+        $length = mb_strlen($this->word);
 
         $this->rv = '';
         $this->rvIndex = $length;
 
         for ($i=0; $i<$length; $i++) {
-            $letter = StringHelper::substr($this->word, $i, 1);
+            $letter = mb_substr($this->word, $i, 1);
             if (in_array($letter, self::$vowels)) {
-                $this->rv = StringHelper::substr($this->word, ($i+1));
+                $this->rv = mb_substr($this->word, ($i+1));
                 $this->rvIndex = $i + 1;
                 return true;
             }
@@ -237,7 +235,7 @@ class Russian extends Stem
             return false;
         }
 
-        $letter = StringHelper::substr($this->word, ($position - 1), 1);
+        $letter = mb_substr($this->word, ($position - 1), 1);
 
         if ($letter == 'а' || $letter == 'я') {
             return true;

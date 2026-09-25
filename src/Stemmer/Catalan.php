@@ -2,8 +2,6 @@
 
 namespace Wamania\Snowball\Stemmer;
 
-use Joomla\String\StringHelper;
-
 /**
  *
  * @link   http://snowball.tartarus.org/algorithms/catalan/stemmer.html
@@ -86,7 +84,7 @@ class Catalan extends Stem
      */
     public function stem($word)
     {
-        $this->word = StringHelper::strtolower($word);
+        $this->word = mb_strtolower($word);
 
         // Catalan stemmer does not use Rv
         $this->r1();
@@ -122,7 +120,7 @@ class Catalan extends Stem
     {
         if (($position = $this->search(static::$attached_pronoun)) !== false) {
             if ($this->inR1($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
                 return true;
             }
         }
@@ -141,7 +139,7 @@ class Catalan extends Stem
         //      delete if in R2
         if (($position = $this->search(['acions', 'ada', 'ades'])) !== false) {
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
             return true;
         }
@@ -161,7 +159,7 @@ class Catalan extends Stem
         //      delete if in R1
         if (($position = $this->search(self::$standard_suffix_1a)) !== false) {
             if ($this->inR1($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
             return true;
         }
@@ -236,7 +234,7 @@ class Catalan extends Stem
         //      delete if in R1
         if (($position = $this->search(static::$verb_suffixes)) !== false) {
             if ($this->inR1($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
             return true;
         }
@@ -246,7 +244,7 @@ class Catalan extends Stem
         //      delete if in R2
         if (($position = $this->search(['ando'])) !== false) {
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
             return true;
         }
@@ -265,7 +263,7 @@ class Catalan extends Stem
         //      delete if in R1
         if (($position = $this->search(static::$residual_suffixes)) !== false) {
             if ($this->inR1($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
             return true;
         }

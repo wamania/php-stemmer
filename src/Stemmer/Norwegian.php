@@ -2,8 +2,6 @@
 
 namespace Wamania\Snowball\Stemmer;
 
-use Joomla\String\StringHelper;
-
 /**
  *
  * @link http://snowball.tartarus.org/algorithms/norwegian/stemmer.html
@@ -22,7 +20,7 @@ class Norwegian extends Stem
      */
     public function stem($word)
     {
-        $this->word = StringHelper::strtolower($word);
+        $this->word = mb_strtolower($word);
 
         // R2 is not used: R1 is defined in the same way as in the German stemmer
         $this->r1();
@@ -30,7 +28,7 @@ class Norwegian extends Stem
         // then R1 is adjusted so that the region before it contains at least 3 letters.
         if ($this->r1Index < 3) {
             $this->r1Index = 3;
-            $this->r1 = StringHelper::substr($this->word, 3);
+            $this->r1 = mb_substr($this->word, 3);
         }
 
         // Do each of steps 1, 2 3 and 4.
@@ -51,12 +49,12 @@ class Norwegian extends Stem
      */
     private function hasValidSEnding($word)
     {
-        $lastLetter = StringHelper::substr($word, -1, 1);
+        $lastLetter = mb_substr($word, -1, 1);
         if (in_array($lastLetter, array('b', 'c', 'd', 'f', 'g', 'h', 'j', 'l', 'm', 'n', 'o', 'p', 'r', 't', 'v', 'y', 'z'))) {
             return true;
         }
         if ($lastLetter == 'k') {
-            $beforeLetter = StringHelper::substr($word, -2, 1);
+            $beforeLetter = mb_substr($word, -2, 1);
             if (!in_array($beforeLetter, self::$vowels)) {
                 return true;
             }
@@ -83,14 +81,14 @@ class Norwegian extends Stem
             'hetenes', 'hetene', 'hetens', 'heten', 'endes', 'heter', 'ande', 'ende', 'enes', 'edes', 'ede', 'ane',
             'ene', 'het', 'ers', 'ets', 'ast', 'ens', 'en', 'ar', 'er', 'as', 'es', 'et', 'a', 'e'
         ))) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, $position);
+            $this->word = mb_substr($this->word, 0, $position);
             return true;
         }
 
         //  s
         //      delete if preceded by a valid s-ending
         if ( ($position = $this->searchIfInR1(array('s'))) !== false) {
-            $word = StringHelper::substr($this->word, 0, $position);
+            $word = mb_substr($this->word, 0, $position);
             if ($this->hasValidSEnding($word)) {
                 $this->word = $word;
             }
@@ -105,7 +103,7 @@ class Norwegian extends Stem
     private function step2()
     {
         if ($this->searchIfInR1(array('dt', 'vt')) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, -1);
+            $this->word = mb_substr($this->word, 0, -1);
         }
     }
 
@@ -119,7 +117,7 @@ class Norwegian extends Stem
         if ( ($position = $this->searchIfInR1(array(
             'hetslov', 'eleg', 'elov', 'slov', 'elig', 'eig', 'lig', 'els', 'lov', 'leg', 'ig'
         ))) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, $position);
+            $this->word = mb_substr($this->word, 0, $position);
         }
     }
 }

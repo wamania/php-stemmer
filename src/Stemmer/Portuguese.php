@@ -2,8 +2,6 @@
 
 namespace Wamania\Snowball\Stemmer;
 
-use Joomla\String\StringHelper;
-
 /**
  *
  * @link http://snowball.tartarus.org/algorithms/portuguese/stemmer.html
@@ -22,7 +20,7 @@ class Portuguese extends Stem
      */
     public function stem($word)
     {
-        $this->word = StringHelper::strtolower($word);
+        $this->word = mb_strtolower($word);
 
         $this->word = str_replace(array('ã', 'õ'), array('a~', 'o~'), $this->word);
 
@@ -61,7 +59,7 @@ class Portuguese extends Stem
             'osos', 'osas', 'osa', 'ico', 'ica', 'ador', 'aça~o', 'aço~es' , 'ante'))) !== false) {
 
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
             return true;
         }
@@ -101,19 +99,19 @@ class Portuguese extends Stem
 
             // delete if in R1
             if ($this->inR1($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
 
             // if preceded by iv, delete if in R2 (and if further preceded by at, delete if in R2), otherwise,
             if ( ($position2 = $this->searchIfInR2(array('iv'))) !== false) {
-                $this->word = StringHelper::substr($this->word, 0, $position2);
+                $this->word = mb_substr($this->word, 0, $position2);
                 if ( ($position3 = $this->searchIfInR2(array('at'))) !== false) {
-                    $this->word = StringHelper::substr($this->word, 0, $position3);
+                    $this->word = mb_substr($this->word, 0, $position3);
                 }
 
                 // if preceded by os, ic or ad, delete if in R2
             } elseif ( ($position4 = $this->searchIfInR2(array('os', 'ic', 'ad'))) !== false) {
-                $this->word = StringHelper::substr($this->word, 0, $position4);
+                $this->word = mb_substr($this->word, 0, $position4);
             }
             return true;
         }
@@ -125,12 +123,12 @@ class Portuguese extends Stem
 
             // delete if in R2
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
 
             // if preceded by ante, avel or ível, delete if in R2
             if ( ($position2 = $this->searchIfInR2(array('ante', 'avel', 'ível'))) != false) {
-                $this->word = StringHelper::substr($this->word, 0, $position2);
+                $this->word = mb_substr($this->word, 0, $position2);
             }
             return true;
         }
@@ -142,12 +140,12 @@ class Portuguese extends Stem
 
             // delete if in R2
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
 
             // if preceded by abil, ic or iv, delete if in R2
             if ( ($position2 = $this->searchIfInR2(array('abil', 'ic', 'iv'))) !== false) {
-                $this->word = StringHelper::substr($this->word, 0, $position2);
+                $this->word = mb_substr($this->word, 0, $position2);
             }
             return true;
         }
@@ -159,12 +157,12 @@ class Portuguese extends Stem
 
             // delete if in R2
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
 
             // if preceded by at, delete if in R2
             if ( ($position2 = $this->searchIfInR2(array('at'))) !== false) {
-                $this->word = StringHelper::substr($this->word, 0, $position2);
+                $this->word = mb_substr($this->word, 0, $position2);
             }
             return true;
         }
@@ -175,7 +173,7 @@ class Portuguese extends Stem
 
             if ($this->inRv($position)) {
                 $before = $position -1;
-                $letter = StringHelper::substr($this->word, $before, 1);
+                $letter = mb_substr($this->word, $before, 1);
 
                 if ($letter == 'e') {
                     $this->word = preg_replace('#(iras|ira)$#u', 'ir', $this->word);
@@ -208,7 +206,7 @@ class Portuguese extends Stem
             'ia', 'ei', 'am', 'em', 'ar', 'er', 'ir', 'as', 'es', 'is', 'eu', 'iu', 'ou',
         ))) !== false) {
 
-            $this->word = StringHelper::substr($this->word, 0, $position);
+            $this->word = mb_substr($this->word, 0, $position);
             return true;
         }
         return false;
@@ -222,10 +220,10 @@ class Portuguese extends Stem
     {
         // Delete suffix i if in RV and preceded by c
         if ($this->searchIfInRv(array('i')) !== false) {
-            $letter = StringHelper::substr($this->word, -2, 1);
+            $letter = mb_substr($this->word, -2, 1);
 
             if ($letter == 'c') {
-                $this->word = StringHelper::substr($this->word, 0, -1);
+                $this->word = mb_substr($this->word, 0, -1);
             }
             return true;
         }
@@ -239,7 +237,7 @@ class Portuguese extends Stem
     {
         // If the word ends with one of the suffixes "os   a   i   o   á   í   ó" in RV, delete it
         if ( ($position = $this->searchIfInRv(array('os', 'a', 'i', 'o','á', 'í', 'ó'))) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, $position);
+            $this->word = mb_substr($this->word, 0, $position);
             return true;
         }
         return false;
@@ -252,11 +250,11 @@ class Portuguese extends Stem
     {
         // If the word ends with one of "e   é   ê" in RV, delete it, and if preceded by gu (or ci) with the u (or i) in RV, delete the u (or i).
         if ($this->searchIfInRv(array('e', 'é', 'ê')) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, -1);
+            $this->word = mb_substr($this->word, 0, -1);
 
             if ( ($position2 = $this->search(array('gu', 'ci'))) !== false) {
                 if ($this->inRv(($position2+1))) {
-                    $this->word = StringHelper::substr($this->word, 0, -1);
+                    $this->word = mb_substr($this->word, 0, -1);
                 }
             }
             return true;

@@ -2,8 +2,6 @@
 
 namespace Wamania\Snowball\Stemmer;
 
-use Joomla\String\StringHelper;
-
 /**
  *
  * @link http://snowball.tartarus.org/algorithms/dutch/stemmer.html
@@ -22,7 +20,7 @@ class Dutch extends Stem
      */
     public function stem($word)
     {
-        $this->word = StringHelper::strtolower($word);
+        $this->word = mb_strtolower($word);
 
         // First, remove all umlaut and acute accents.
         $this->word = str_replace(
@@ -45,7 +43,7 @@ class Dutch extends Stem
         // but then R1 is adjusted so that the region before it contains at least 3 letters.
         if ($this->r1Index < 3) {
             $this->r1Index = 3;
-            $this->r1 = StringHelper::substr($this->word, 3);
+            $this->r1 = mb_substr($this->word, 3);
         }
 
         // Do each of steps 1, 2 3 and 4.
@@ -66,7 +64,7 @@ class Dutch extends Stem
      */
     private function hasValidSEnding($word)
     {
-        $lastLetter = StringHelper::substr($word, -1, 1);
+        $lastLetter = mb_substr($word, -1, 1);
         return !in_array($lastLetter, array_merge(self::$vowels, array('j')));
     }
 
@@ -77,12 +75,12 @@ class Dutch extends Stem
      */
     private function hasValidEnEnding($word)
     {
-        $lastLetter = StringHelper::substr($word, -1, 1);
+        $lastLetter = mb_substr($word, -1, 1);
         if (in_array($lastLetter, self::$vowels)) {
             return false;
         }
 
-        $threeLastLetters = StringHelper::substr($word, -3, 3);
+        $threeLastLetters = mb_substr($word, -3, 3);
         if ($threeLastLetters == 'gem') {
             return false;
         }
@@ -95,7 +93,7 @@ class Dutch extends Stem
     private function unDoubling()
     {
         if ($this->search(array('kk', 'dd', 'tt')) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, -1);
+            $this->word = mb_substr($this->word, 0, -1);
         }
     }
 
@@ -118,7 +116,7 @@ class Dutch extends Stem
         //      delete if in R1 and preceded by a valid en-ending, and then undouble the ending
         if ( ($position = $this->search(array('ene', 'en'))) !== false) {
             if ($this->inR1($position)) {
-                $word = StringHelper::substr($this->word, 0, $position);
+                $word = mb_substr($this->word, 0, $position);
                 if ($this->hasValidEnEnding($word)) {
                     $this->word = $word;
                     $this->unDoubling();
@@ -131,7 +129,7 @@ class Dutch extends Stem
         //      delete if in R1 and preceded by a valid s-ending
         if ( ($position = $this->search(array('se', 's'))) !== false) {
             if ($this->inR1($position)) {
-                $word = StringHelper::substr($this->word, 0, $position);
+                $word = mb_substr($this->word, 0, $position);
                 if ($this->hasValidSEnding($word)) {
                     $this->word = $word;
                 }
@@ -150,9 +148,9 @@ class Dutch extends Stem
     {
         if ( ($position = $this->search(array('e'))) !== false) {
             if ($this->inR1($position)) {
-                $letter = StringHelper::substr($this->word, -2, 1);
+                $letter = mb_substr($this->word, -2, 1);
                 if (!in_array($letter, self::$vowels)) {
-                    $this->word = StringHelper::substr($this->word, 0, $position);
+                    $this->word = mb_substr($this->word, 0, $position);
                     $this->unDoubling();
 
                     return true;
@@ -171,13 +169,13 @@ class Dutch extends Stem
     {
         if ( ($position = $this->search(array('heid'))) !== false) {
             if ($this->inR2($position)) {
-                $letter = StringHelper::substr($this->word, -5, 1);
+                $letter = mb_substr($this->word, -5, 1);
                 if ($letter !== 'c') {
-                    $this->word = StringHelper::substr($this->word, 0, $position);
+                    $this->word = mb_substr($this->word, 0, $position);
 
                     if ( ($position = $this->search(array('en'))) !== false) {
                         if ($this->inR1($position)) {
-                            $word = StringHelper::substr($this->word, 0, $position);
+                            $word = mb_substr($this->word, 0, $position);
                             if ($this->hasValidEnEnding($word)) {
                                 $this->word = $word;
                                 $this->unDoubling();
@@ -201,18 +199,17 @@ class Dutch extends Stem
         //      if preceded by ig, delete if in R2 and not preceded by e, otherwise undouble the ending
         if ( ($position = $this->search(array('end', 'ing'))) !== false) {
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
 
                 if ( ($position2 = $this->searchIfInR2(array('ig'))) !== false) {
-                    $letter = StringHelper::substr($this->word, -3, 1);
+                    $letter = mb_substr($this->word, -3, 1);
                     if ($letter !== 'e') {
-                        $this->word = StringHelper::substr($this->word, 0, $position2);
+                        $this->word = mb_substr($this->word, 0, $position2);
                     }
                 } else {
                     $this->unDoubling();
                 }
             }
-
 
             return true;
         }
@@ -221,9 +218,9 @@ class Dutch extends Stem
         //      delete if in R2 and not preceded by e
         if ( ($position = $this->search(array('ig'))) !== false) {
             if ($this->inR2($position)) {
-                $letter = StringHelper::substr($this->word, -3, 1);
+                $letter = mb_substr($this->word, -3, 1);
                 if ($letter !== 'e') {
-                    $this->word = StringHelper::substr($this->word, 0, $position);
+                    $this->word = mb_substr($this->word, 0, $position);
                 }
             }
             return true;
@@ -233,7 +230,7 @@ class Dutch extends Stem
         //      delete if in R2, and then repeat step 2
         if ( ($position = $this->search(array('lijk'))) !== false) {
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
                 $this->step2();
             }
             return true;
@@ -243,7 +240,7 @@ class Dutch extends Stem
         //      delete if in R2
         if ( ($position = $this->search(array('baar'))) !== false) {
             if ($this->inR2($position)) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
             return true;
         }
@@ -252,7 +249,7 @@ class Dutch extends Stem
         //      delete if in R2 and if step 2 actually removed an e
         if ( ($position = $this->search(array('bar'))) !== false) {
             if ($this->inR2($position) && $removedE) {
-                $this->word = StringHelper::substr($this->word, 0, $position);
+                $this->word = mb_substr($this->word, 0, $position);
             }
             return true;
         }
@@ -268,25 +265,25 @@ class Dutch extends Stem
     private function step4()
     {
         // D is a non-vowel other than I
-        $d = StringHelper::substr($this->word, -1, 1);
+        $d = mb_substr($this->word, -1, 1);
         if (in_array($d, array_merge(self::$vowels, array('I')))) {
             return false;
         }
 
         // V is double a, e, o or u
-        $v = StringHelper::substr($this->word, -3, 2);
+        $v = mb_substr($this->word, -3, 2);
         if (!in_array($v, array('aa', 'ee', 'oo', 'uu'))) {
             return false;
         }
-        $singleV = StringHelper::substr($v, 0, 1);
+        $singleV = mb_substr($v, 0, 1);
 
         // C is a non-vowel
-        $c = StringHelper::substr($this->word, -4, 1);
+        $c = mb_substr($this->word, -4, 1);
         if (in_array($c, self::$vowels)) {
             return false;
         }
 
-        $this->word = StringHelper::substr($this->word, 0, -4);
+        $this->word = mb_substr($this->word, 0, -4);
         $this->word .= $c . $singleV  .$d;
     }
 

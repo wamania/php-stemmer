@@ -11,7 +11,7 @@
 	],
 	"require": {
 		"php": ">=7.3",
-		"joomla/string": ">=2.0.1"
+		"ext-mbstring": "*"
 	},
 	"require-dev":{
 		"phpunit/phpunit": "^9.0"

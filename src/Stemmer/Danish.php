@@ -2,8 +2,6 @@
 
 namespace Wamania\Snowball\Stemmer;
 
-use Joomla\String\StringHelper;
-
 /**
  *
  * @link http://snowball.tartarus.org/algorithms/danish/stemmer.html
@@ -22,7 +20,7 @@ class Danish extends Stem
      */
     public function stem($word): string
     {
-        $this->word = StringHelper::strtolower($word);
+        $this->word = mb_strtolower($word);
 
         // R2 is not used: R1 is defined in the same way as in the German stemmer
         $this->r1();
@@ -30,7 +28,7 @@ class Danish extends Stem
         // then R1 is adjusted so that the region before it contains at least 3 letters.
         if ($this->r1Index < 3) {
             $this->r1Index = 3;
-            $this->r1 = StringHelper::substr($this->word, 3);
+            $this->r1 = mb_substr($this->word, 3);
         }
 
         // Do each of steps 1, 2 3 and 4.
@@ -51,7 +49,7 @@ class Danish extends Stem
      */
     private function hasValidSEnding($word)
     {
-        $lastLetter = StringHelper::substr($word, -1, 1);
+        $lastLetter = mb_substr($word, -1, 1);
         return in_array($lastLetter, array('a', 'b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'r', 't', 'v', 'y', 'z', 'å'));
     }
 
@@ -69,14 +67,14 @@ class Danish extends Stem
             'erens', 'ered', 'ende', 'erne', 'eres', 'eren', 'eret', 'erer', 'enes', 'heds',
             'ens', 'ene', 'ere', 'ers', 'ets', 'hed', 'es', 'et', 'er', 'en', 'e'
         ))) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, $position);
+            $this->word = mb_substr($this->word, 0, $position);
             return true;
         }
 
         // s
         //      delete if preceded by a valid s-ending
         if ( ($position = $this->searchIfInR1(array('s'))) !== false) {
-            $word = StringHelper::substr($this->word, 0, $position);
+            $word = mb_substr($this->word, 0, $position);
             if ($this->hasValidSEnding($word)) {
                 $this->word = $word;
             }
@@ -92,7 +90,7 @@ class Danish extends Stem
     private function step2()
     {
         if ($this->searchIfInR1(array('gd', 'dt', 'gt', 'kt')) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, -1);
+            $this->word = mb_substr($this->word, 0, -1);
         }
     }
 
@@ -103,14 +101,14 @@ class Danish extends Stem
     {
         // If the word ends igst, remove the final st.
         if ($this->search(array('igst')) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, -2);
+            $this->word = mb_substr($this->word, 0, -2);
         }
 
         // Search for the longest among the following suffixes in R1, and perform the action indicated.
         //  ig   lig   elig   els
         //      delete, and then repeat step 2
         if ( ($position = $this->searchIfInR1(array('elig', 'lig', 'ig', 'els'))) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, $position);
+            $this->word = mb_substr($this->word, 0, $position);
             $this->step2();
             return true;
         }
@@ -118,7 +116,7 @@ class Danish extends Stem
         //  løst
         //      replace with løs
         if ($this->searchIfInR1(array('løst')) !== false) {
-            $this->word = StringHelper::substr($this->word, 0, -1);
+            $this->word = mb_substr($this->word, 0, -1);
         }
     }
 
@@ -128,19 +126,19 @@ class Danish extends Stem
      */
     private function step4()
     {
-        $length = StringHelper::strlen($this->word);
+        $length = mb_strlen($this->word);
         if (!$this->inR1(($length-1))) {
             return false;
         }
 
-        $lastLetter = StringHelper::substr($this->word, -1, 1);
+        $lastLetter = mb_substr($this->word, -1, 1);
         if (in_array($lastLetter, self::$vowels)) {
             return false;
         }
-        $beforeLastLetter = StringHelper::substr($this->word, -2, 1);
+        $beforeLastLetter = mb_substr($this->word, -2, 1);
 
         if ($lastLetter == $beforeLastLetter) {
-            $this->word = StringHelper::substr($this->word, 0, -1);
+            $this->word = mb_substr($this->word, 0, -1);
         }
         return true;
     }
