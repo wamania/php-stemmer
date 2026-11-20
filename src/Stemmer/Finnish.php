@@ -39,6 +39,7 @@ class Finnish extends Stem
     public function stem($word)
     {
         $this->word = StringHelper::strtolower($word);
+        $this->_removedInStep3 = false;
 
         // R1 and R2 are then defined in the usual way
         $this->r1();
