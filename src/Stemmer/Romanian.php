@@ -175,7 +175,7 @@ class Romanian extends Stem
             'icitate', 'icitati', 'icităi', 'icităţi', 'icatori', 'icator', 'iciva',
             'icive', 'icivi', 'icivă', 'icala', 'icale', 'icali', 'icală', 'iciv', 'ical'))) !== false) {
             if ($this->inR1($position)) {
-                $this->word = preg_replace('#(icitate|icitati|icităi|icităţi|cator|icatori|iciva|icive|icivi|icivă|icala|icale|icali|icală|ical|iciv)$#u', 'ic', $this->word);
+                $this->word = preg_replace('#(icitate|icitati|icităi|icităţi|icator|icatori|iciva|icive|icivi|icivă|icala|icale|icali|icală|ical|iciv)$#u', 'ic', $this->word);
             }
             return true;
         }
