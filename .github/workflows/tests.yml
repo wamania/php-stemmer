@@ -28,6 +28,10 @@ jobs:
           tools: composer:v2
           coverage: none
 
+      - name: Remove phpstan (requires PHP >= 7.4)
+        if: matrix.php == '7.3'
+        run: composer remove --dev phpstan/phpstan phpstan/phpstan-deprecation-rules --no-update --no-interaction
+
       - name: Install dependencies
         uses: nick-fields/retry@v2
         with:
@@ -36,6 +40,7 @@ jobs:
           command: composer update --${{ matrix.stability }} --prefer-dist --no-interaction --no-progress
 
       - name: Execute phpstan
+        if: matrix.php != '7.3'
         run: vendor/bin/phpstan
 
       - name: Execute tests
