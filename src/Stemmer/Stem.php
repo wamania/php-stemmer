@@ -40,7 +40,7 @@ abstract class Stem implements Stemmer
 
     /**
      * R1 value
-     * @var integer
+     * @var string
      */
     protected $r1;
 

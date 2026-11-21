@@ -4,22 +4,8 @@ namespace Wamania\Snowball\Tests;
 use PHPUnit\Framework\TestCase;
 use Wamania\Snowball\Stemmer\Norwegian;
 
-class NorwegianTest extends TestCase
+class NorwegianTest extends StemmingTest
 {
-    /**
-     * @dataProvider load
-     */
-    public function testStem($word, $stem)
-    {
-        $o = new Norwegian();
-
-        $snowballStem = $o->stem($word);
-
-        $this->assertEquals($stem, $snowballStem);
-    }
-
-    public function load()
-    {
-        return new CsvFileIterator('test/files/no.txt');
-    }
+    protected $class = Norwegian::class;
+    protected $file = 'no';
 }

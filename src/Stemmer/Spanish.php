@@ -98,7 +98,7 @@ class Spanish extends Stem
             // c
             if ( ($position2 = $this->searchIfInRv(array('yendo' . $suffixe))) != false) {
                 $before = StringHelper::substr($this->word, ($position2-1), 1);
-                if ( (isset($before)) && ($before == 'u') ) {
+                if ($before == 'u') {
                     $this->word = StringHelper::substr($this->word, 0, $position);
                     return true;
                 }
@@ -259,7 +259,7 @@ class Spanish extends Stem
             'yamos', 'yendo', 'yeron', 'yan', 'yen', 'yais', 'yas', 'yes', 'yo', 'yó', 'ya', 'ye'))) != false) {
 
             $before = StringHelper::substr($this->word, ($position-1), 1);
-            if ( (isset($before)) && ($before == 'u') ) {
+            if ($before == 'u') {
                 $this->word = StringHelper::substr($this->word, 0, $position);
                 return true;
             }
@@ -301,6 +301,8 @@ class Spanish extends Stem
 
             return true;
         }
+
+        return false;
     }
 
     /**
@@ -323,7 +325,7 @@ class Spanish extends Stem
 
             if ( ($position2 = $this->searchIfInRv(array('u'))) != false) {
                 $before = StringHelper::substr($this->word, ($position2-1), 1);
-                if ( (isset($before)) && ($before == 'g') ) {
+                if ($before == 'g') {
                     $this->word = StringHelper::substr($this->word, 0, $position2);
                     return true;
                 }
