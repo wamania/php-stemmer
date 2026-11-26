@@ -8,4 +8,23 @@ class RomanianTest extends StemmingTest
 {
     protected $class = Romanian::class;
     protected $file = 'ro';
+
+    /**
+     * @dataProvider icatorProvider
+     */
+    public function testIcatorSuffix($word, $stem)
+    {
+        $o = new Romanian();
+
+        $this->assertEquals($stem, $o->stem($word));
+    }
+
+    public function icatorProvider()
+    {
+        return [
+            ['duplicator', 'duplic'],
+            ['indicator', 'indic'],
+            ['indicatorul', 'indic'],
+        ];
+    }
 }
